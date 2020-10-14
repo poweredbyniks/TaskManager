@@ -6,23 +6,18 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) throws IOException {
         Map<String, Project> projectMap = new HashMap<>();
         Map<String, Task> taskMap = new HashMap<>();
         Map<String, String> commandMap = new HashMap<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
-        try {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
             while (reader != null) {
                 String input = reader.readLine();
-                if (input.equals("exit"))
-                    break;
-                else {
                     switch (input) {
+                        case "exit":
+                            break;
                         case "project-create":
                             System.out.println("[Enter project name]");
                             String projectName = reader.readLine();
@@ -80,11 +75,9 @@ public class App {
                             }
                     }
                 }
-            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        reader.close();
     }
 }

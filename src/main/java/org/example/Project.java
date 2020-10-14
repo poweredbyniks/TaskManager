@@ -1,15 +1,8 @@
 package org.example;
 
-public class Project {
+import lombok.Value;
 
-
+@Value public class Project {
     private String projectName;
 
-    public Project(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
 }
