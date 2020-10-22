@@ -3,6 +3,8 @@ package org.example;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +15,8 @@ public class App {
         Map<String, String> commandMap = new HashMap<>();
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            while (reader != null) {
-                String input = reader.readLine();
+            String input = reader.readLine();
+            while (input != null) {
                 switch (input) {
                     case "exit":
                         break;
@@ -33,7 +35,7 @@ public class App {
                     case "project-remove":
                         String projectToRemove = reader.readLine();
                         projectMap.remove(projectToRemove);
-                        System.out.println("[Project " + projectToRemove + "removed]");
+                        System.out.println("[Project " + projectToRemove + " removed]");
                         break;
                     case "project-clear":
                         projectMap.clear();
@@ -73,6 +75,7 @@ public class App {
                             System.out.println(commands.getKey() + " : " + commands.getValue());
                         }
                 }
+                input = reader.readLine();
             }
 
         } catch (IOException e) {
