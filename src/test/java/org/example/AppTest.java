@@ -23,6 +23,7 @@ class AppTest {
 
     public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions\n" +
             "project-create : Creation of a project\n" +
+            "help : Help command\n" +
             "task-list : List of the existing tasks\n" +
             "task-clear : Removes all tasks\n" +
             "task-create : Creation of a task\n" +
