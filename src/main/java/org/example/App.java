@@ -118,12 +118,6 @@ public class App {
         }
     }
 
-//    private static String commandChoice(String command) {
-//        for (Map.Entry<String, String> commandsMap : commandMap.entrySet()) {
-//            if (commandsMap.getKey().equals(command))
-//            return command;
-//        }
-//        return command;
-    }
+}
 
 
