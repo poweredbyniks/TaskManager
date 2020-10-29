@@ -5,5 +5,6 @@ import lombok.Value;
 @Value
 public class Task {
     private String taskName;
+    private String projectName;
 
 }
