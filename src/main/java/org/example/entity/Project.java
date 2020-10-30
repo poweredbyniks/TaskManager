@@ -1,18 +1,17 @@
-package org.example;
+package org.example.entity;
 
 import lombok.Value;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
 
 @Value
 public class Project {
-    private UUID projectID;
+    private long projectID;
     private String projectName;
     private String projectDescription;
     private Date startDate;
     private Date finishDate;
-    public ArrayList<Task> taskArray;
+    private List<Task> taskArray;
 
 }

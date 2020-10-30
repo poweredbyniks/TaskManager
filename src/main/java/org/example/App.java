@@ -1,20 +1,22 @@
 package org.example;
 
+import org.example.entity.Project;
+import org.example.entity.Task;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class App {
     static Map<String, Project> projectMap = new HashMap<>();
     static Map<String, Task> taskMap = new HashMap<>();
     static Map<String, String> commandMap = new HashMap<>();
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+
     public static void main(String[] args) throws IOException {
         commandMap.put("project-create", "Creation of a project");
         commandMap.put("project-list", "List of the existing projects");
@@ -26,6 +28,7 @@ public class App {
         commandMap.put("task-clear", "Removes all tasks");
         commandMap.put("help", "Help command");
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
             while (input != null) {
@@ -47,8 +50,9 @@ public class App {
                         projectClear();
                         break;
                     case "task-create":
-                        System.out.println("[Enter task name]");
-                        taskCreate(reader.readLine(), reader.readLine());
+                        System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
+                                "\n[Enter starting date dd.MM.yyyy]\n[Enter ending finishing date dd.MM.yyyy ]");
+                        taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "task-list":
                         taskList();
@@ -70,17 +74,19 @@ public class App {
     }
 
     private static void projectCreate(String projectName, String projectDescription, Date startDate, Date finishDate) {
-        Project project = new Project(UUID.randomUUID(), projectName, projectDescription, startDate, finishDate, null);
+        Project project = new Project(randomNumber(), projectName, projectDescription, startDate, finishDate, new ArrayList<>());
         System.out.println("[Project " + projectName + " created]");
         projectMap.put(projectName, project);
     }
 
     private static void projectList() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             System.out.println("Project Name: " + projectEntry.getValue().getProjectName()
                     + "\nDescription: " + projectEntry.getValue().getProjectDescription()
                     + "\nStart date: " + dateFormat.format(projectEntry.getValue().getStartDate())
-                    + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate()));
+                    + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate())
+                    + "\nTasks: " + projectEntry.getValue().getTaskArray());
         }
     }
 
@@ -94,24 +100,20 @@ public class App {
         System.out.println("[Project list is plain empty]");
     }
 
-    private static void taskCreate(String taskName, String projectName) {
-        Task task = new Task(taskName, projectName);
-        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getKey().equals(projectName)) {
-                projectEntry.getValue().getTaskArray().add(task); //NPE
-            } else System.out.println("No such existing projects");
-        }
+    private static void taskCreate(String projectName, String taskName, String taskDescription, Date startDate, Date finishDate) {
+        Task task = new Task(randomNumber(), taskName, projectName, taskDescription, startDate, finishDate);
+        if (projectMap.containsKey(projectName)) {
+            projectMap.get(projectName).getTaskArray().add(task);
+
+        } else System.out.println("No such existing projects");
+
         System.out.println("[Task " + taskName + " created and added to project " + projectName + " ]");
         taskMap.put(taskName, task);
     }
 
     private static void taskList() {
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            System.out.println("[ " + taskEntry.getKey() + " in the project " + taskEntry.getValue());
-        }
-
-        for (String key : taskMap.keySet()) {
-            System.out.println("[ " + key + " ]");
+            System.out.println("[ Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + " ]");
         }
     }
 
@@ -129,6 +131,11 @@ public class App {
         for (Map.Entry<String, String> commandsMap : commandMap.entrySet()) {
             System.out.println(commandsMap.getKey() + " : " + commandsMap.getValue());
         }
+    }
+
+    public static long randomNumber() {
+        SecureRandom random = new SecureRandom();
+        return random.nextInt() + 1000;
     }
 
 }
