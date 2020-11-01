@@ -37,7 +37,7 @@ public class App {
                         break;
                     case "project-create":
                         System.out.println("[Enter project name]\n[Enter project description]" +
-                                "\n[Enter starting date dd.MM.yyyy]\n[Enter ending finishing date dd.MM.yyyy]");
+                                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
                         projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "project-list":
@@ -51,7 +51,7 @@ public class App {
                         break;
                     case "task-create":
                         System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
-                                "\n[Enter starting date dd.MM.yyyy]\n[Enter ending finishing date dd.MM.yyyy ]");
+                                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
                         taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "task-list":
@@ -86,7 +86,7 @@ public class App {
                     + "\nDescription: " + projectEntry.getValue().getProjectDescription()
                     + "\nStart date: " + dateFormat.format(projectEntry.getValue().getStartDate())
                     + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate())
-                    + "\nTasks: " + projectEntry.getValue().getTaskArray());
+                    + "\nTasks: " + projectEntry.getValue().getTaskList());
         }
     }
 
@@ -103,17 +103,17 @@ public class App {
     private static void taskCreate(String projectName, String taskName, String taskDescription, Date startDate, Date finishDate) {
         Task task = new Task(randomNumber(), taskName, projectName, taskDescription, startDate, finishDate);
         if (projectMap.containsKey(projectName)) {
-            projectMap.get(projectName).getTaskArray().add(task);
+            projectMap.get(projectName).getTaskList().add(task);
 
         } else System.out.println("No such existing projects");
 
-        System.out.println("[Task " + taskName + " created and added to project " + projectName + " ]");
+        System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
         taskMap.put(taskName, task);
     }
 
     private static void taskList() {
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            System.out.println("[ Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + " ]");
+            System.out.println("[Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + "]");
         }
     }
 

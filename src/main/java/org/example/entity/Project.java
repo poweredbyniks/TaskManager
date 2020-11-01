@@ -12,6 +12,6 @@ public class Project {
     private String projectDescription;
     private Date startDate;
     private Date finishDate;
-    private List<Task> taskArray;
+    private List<Task> taskList;
 
 }
