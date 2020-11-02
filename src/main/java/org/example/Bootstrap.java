@@ -38,33 +38,42 @@ public class Bootstrap {
                     case "project-create":
                         System.out.println("[Enter project name]\n[Enter project description]" +
                                 "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        ProjectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                        ProjectService projectService = new ProjectService(projectRepo);
+                        projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "project-list":
-                        ProjectService.projectList();
+                        ProjectService projectService1 = new ProjectService(projectRepo);
+                        projectService1.projectList();
                         break;
                     case "project-remove":
-                        ProjectService.projectRemove(reader.readLine());
+                        ProjectService projectService2 = new ProjectService(projectRepo);
+                        projectService2.projectRemove(reader.readLine());
                         break;
                     case "project-clear":
-                        ProjectService.projectClear();
+                        ProjectService projectService3 = new ProjectService(projectRepo);
+                        projectService3.projectClear();
                         break;
                     case "task-create":
                         System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
                                 "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        TaskService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                        TaskService taskService = new TaskService(taskRepo);
+                        taskService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "task-list":
-                        TaskService.taskList();
+                        TaskService taskService1 = new TaskService(taskRepo);
+                        taskService1.taskList();
                         break;
                     case "task-remove":
-                        TaskService.taskRemove(reader.readLine());
+                        TaskService taskService2 = new TaskService(taskRepo);
+                        taskService2.taskRemove(reader.readLine());
                         break;
                     case "task-clear":
-                        TaskService.taskClear();
+                        TaskService taskService3 = new TaskService(taskRepo);
+                        taskService3.taskClear();
                         break;
                     case "help":
-                        TaskService.helpCommand();
+                        TaskService taskService4 = new TaskService(taskRepo); //temporary implementation
+                        taskService4.helpCommand();
                 }
                 input = reader.readLine();
             }
