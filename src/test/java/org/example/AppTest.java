@@ -1,7 +1,7 @@
 package org.example;
 
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -16,7 +16,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assert.assertEquals("Incorrect help output", HELP_OUTPUT, os.toString());
+        Assertions.assertEquals(HELP_OUTPUT, os.toString(), "Incorrect help output");
     }
 
     public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions\n" +
@@ -38,7 +38,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assert.assertEquals("Incorrect project-create output", PROJECT_CREATE_OUTPUT, os.toString());
+        Assertions.assertEquals(PROJECT_CREATE_OUTPUT, os.toString(), "Incorrect project-create output");
     }
 
     public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
@@ -54,7 +54,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assert.assertEquals("Incorrect project-list output", PROJECT_LIST_OUTPUT, os.toString());
+        Assertions.assertEquals(PROJECT_LIST_OUTPUT, os.toString(), "Incorrect project-list output");
     }
 
     public static final String PROJECT_LIST_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
@@ -71,7 +71,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assert.assertEquals("Incorrect task-create output", TASK_CREATE_OUTPUT, os.toString());
+        Assertions.assertEquals(TASK_CREATE_OUTPUT, os.toString(), "Incorrect task-create output");
     }
 
     public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
@@ -86,12 +86,12 @@ class AppTest {
     public void testTaskList() throws IOException {
         String projectListCommand = "project-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
-                "\n30.11.2020\n31.11.2020\ntask-list\n exit\n\u001a";
+                "\n30.11.2020\n01.12.2020\ntask-list\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assert.assertEquals("Incorrect task-list output", TASK_LIST_OUTPUT, os.toString());
+        Assertions.assertEquals(TASK_LIST_OUTPUT, os.toString(), "Incorrect task-create output");
     }
 
     public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
@@ -99,7 +99,8 @@ class AppTest {
             "\n[Enter finishing date dd.MM.yyyy]\n[Project newProject created]\n" +
             "[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
             "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]" +
-            "\n[Task newTask created and added to the project newProject]\n[Task newTask in the project newProject]\n";
+            "\n[Task newTask created and added to the project newProject]\n[Task newTask in the project newProject]" +
+            "\nStart date: 30.11.2020\nFinish date: 01.12.2020\n";
 
 }
 

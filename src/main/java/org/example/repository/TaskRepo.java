@@ -37,7 +37,7 @@ public class TaskRepo {
         return true;
     }
 
-    public void merge() {
+    public void update() {
 
     }
 

@@ -6,6 +6,7 @@ import org.example.repository.ProjectRepo;
 import org.example.repository.TaskRepo;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -33,9 +34,12 @@ public class TaskService {
     }
 
     public void taskList() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         TaskRepo taskRepo = new TaskRepo();
         for (Map.Entry<String, Task> taskEntry : taskRepo.showAll().entrySet()) {
-            System.out.println("[Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + "]");
+            System.out.println("[Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + "]" +
+                    "\nStart date: " + dateFormat.format(taskEntry.getValue().getStartDate()) +
+                    "\nFinish date: " + dateFormat.format(taskEntry.getValue().getFinishDate()));
         }
     }
 
@@ -49,11 +53,6 @@ public class TaskService {
         System.out.println("[Task list is empty]");
     }
 
-    public void helpCommand() {
-        for (Map.Entry<String, String> commandsMap : Bootstrap.commandMap.entrySet()) {
-            System.out.println(commandsMap.getKey() + " : " + commandsMap.getValue());
-        }
-    }
 
     public static long randomNumber() {
         SecureRandom random = new SecureRandom();

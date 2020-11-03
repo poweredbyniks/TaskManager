@@ -14,9 +14,10 @@ import java.util.Map;
 public class ProjectRepo {
     private static Map<String, Project> projectMap = new HashMap<>();
 
-    public Map<String, Project> showAll(){
+    public Map<String, Project> showAll() {
         return projectMap;
     }
+
     public List<Project> findAll(List<String> names) {
         List<Project> projectList = new ArrayList<>();
         for (String name : names) {
@@ -37,7 +38,7 @@ public class ProjectRepo {
         return true;
     }
 
-    public void merge() {
+    public void update() {
 
     }
 
