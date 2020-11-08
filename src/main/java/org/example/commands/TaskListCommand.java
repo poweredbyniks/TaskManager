@@ -1,14 +1,14 @@
 package org.example.commands;
 
-public class TaskListCommand implements Command{
+public class TaskListCommand extends Command{
     @Override
     public String getName() {
-        return null;
+        return "task-list";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "List of the existing tasks";
     }
 
     @Override

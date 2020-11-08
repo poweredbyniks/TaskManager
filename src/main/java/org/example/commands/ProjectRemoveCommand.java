@@ -1,18 +1,30 @@
 package org.example.commands;
 
-public class ProjectRemoveCommand implements Command{
+import org.example.service.ProjectService;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class ProjectRemoveCommand extends Command {
+    private ProjectService projectService;
+
     @Override
     public String getName() {
-        return null;
+        return "project-remove";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "Removes a project";
     }
 
     @Override
     public void execute() {
-
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            projectService.projectRemove(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

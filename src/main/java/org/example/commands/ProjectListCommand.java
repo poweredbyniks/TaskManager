@@ -1,18 +1,22 @@
 package org.example.commands;
 
-public class ProjectListCommand implements Command{
+import org.example.service.ProjectService;
+
+public class ProjectListCommand extends Command {
+    private ProjectService projectService;
+
     @Override
     public String getName() {
-        return null;
+        return "project-list";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "List of the existing projects";
     }
 
     @Override
     public void execute() {
-
+        projectService.projectList();
     }
 }

@@ -1,18 +1,25 @@
 package org.example.commands;
 
-public class HelpCommand implements Command{
-    @Override
+import lombok.Value;
+import org.example.Bootstrap;
+
+import java.util.Map;
+
+
+@Value
+public class HelpCommand extends Command{
+
     public String getName() {
-        return null;
+        return "help";
     }
 
-    @Override
     public String getDescription() {
-        return null;
+        return "Help command";
     }
 
-    @Override
     public void execute() {
-
+        for (Map.Entry<String, Command> commandMap : Bootstrap.commandMap.entrySet()) {
+            System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
+        }
     }
 }

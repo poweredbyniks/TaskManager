@@ -1,14 +1,14 @@
 package org.example.commands;
 
-public class TaskRemoveCommand implements Command{
+public class TaskRemoveCommand extends Command{
     @Override
     public String getName() {
-        return null;
+        return "task-remove";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "Removes a task";
     }
 
     @Override

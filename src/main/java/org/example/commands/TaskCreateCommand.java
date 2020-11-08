@@ -1,14 +1,14 @@
 package org.example.commands;
 
-public class TaskCreateCommand implements Command{
+public class TaskCreateCommand extends Command{
     @Override
     public String getName() {
-        return null;
+        return "task-create";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "Creation of a task";
     }
 
     @Override

@@ -20,15 +20,17 @@ class AppTest {
     }
 
     public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions\n" +
-            "project-create : Creation of a project\n" +
             "help : Help command\n" +
-            "task-list : List of the existing tasks\n" +
-            "task-clear : Removes all tasks\n" +
-            "task-create : Creation of a task\n" +
+            "project-create : Creation of a project\n" +
             "project-list : List of the existing projects\n" +
             "project-remove : Removes a project\n" +
             "project-clear : Removes all projects\n" +
-            "task-remove : Removes a task\n";
+            "task-create : Creation of a task\n" +
+            "task-list : List of the existing tasks\n" +
+            "task-remove : Removes a task\n" +
+            "task-clear : Removes all tasks\n";
+
+
 
     @Test
     public void testProjectCreate() throws IOException {

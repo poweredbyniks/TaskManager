@@ -1,9 +1,8 @@
 package org.example;
 
-import org.example.repository.HelpRepo;
+import org.example.commands.*;
 import org.example.repository.ProjectRepo;
 import org.example.repository.TaskRepo;
-import org.example.service.HelpService;
 import org.example.service.ProjectService;
 import org.example.service.TaskService;
 
@@ -12,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Bootstrap {
 
@@ -19,10 +20,30 @@ public class Bootstrap {
     TaskRepo taskRepo = new TaskRepo();
     ProjectService projectService = new ProjectService(projectRepo);
     TaskService taskService = new TaskService(taskRepo, projectRepo);
-    HelpRepo helpRepo = new HelpRepo();
-    HelpService helpService = new HelpService(helpRepo);
+    public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
+    HelpCommand helpCommand = new HelpCommand();
+    ProjectClearCommand projectClearCommand = new ProjectClearCommand();
+    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand();
+    ProjectListCommand projectListCommand = new ProjectListCommand();
+    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand();
+    TaskClearCommand taskClearCommand = new TaskClearCommand();
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand();
+    TaskListCommand taskListCommand = new TaskListCommand();
+    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand();
     public void init() {
+
+        commandMap.put(helpCommand.getName(), helpCommand);
+        commandMap.put(projectCreateCommand.getName(), projectCreateCommand);
+        commandMap.put(projectListCommand.getName(), projectListCommand);
+        commandMap.put(projectRemoveCommand.getName(), projectRemoveCommand);
+        commandMap.put(projectClearCommand.getName(), projectClearCommand);
+        commandMap.put(taskCreateCommand.getName(), taskCreateCommand);
+        commandMap.put(taskListCommand.getName(), taskListCommand);
+        commandMap.put(taskRemoveCommand.getName(), taskRemoveCommand);
+        commandMap.put(taskClearCommand.getName(), taskClearCommand);
+
+
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -32,18 +53,16 @@ public class Bootstrap {
                     case "exit":
                         break;
                     case "project-create":
-                        System.out.println("[Enter project name]\n[Enter project description]" +
-                                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                        projectCreateCommand.execute();
                         break;
                     case "project-list":
-                        projectService.projectList();
+                        projectListCommand.execute();
                         break;
                     case "project-remove":
-                        projectService.projectRemove(reader.readLine());
+                        projectRemoveCommand.execute();
                         break;
                     case "project-clear":
-                        projectService.projectClear();
+                        projectClearCommand.execute();
                         break;
                     case "task-create":
                         System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
@@ -60,7 +79,7 @@ public class Bootstrap {
                         taskService.taskClear();
                         break;
                     case "help":
-                        helpService.getCommands();
+                        helpCommand.execute();
                 }
                 input = reader.readLine();
             }

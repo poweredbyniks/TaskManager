@@ -1,10 +1,14 @@
 package org.example.commands;
 
-public interface Command {
-    public String getName();
 
-    public String getDescription();
 
-    public void execute();
+public abstract class Command {
+
+
+    public abstract String getName();
+
+    public abstract String getDescription();
+
+    public abstract void execute();
 }
 
