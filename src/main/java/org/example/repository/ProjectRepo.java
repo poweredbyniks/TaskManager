@@ -12,7 +12,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class ProjectRepo {
-    private static Map<String, Project> projectMap = new HashMap<>();
+    private Map<String, Project> projectMap = new HashMap<>();
 
     public Map<String, Project> showAll() {
         return projectMap;
@@ -32,14 +32,12 @@ public class ProjectRepo {
     }
 
     public boolean save(Project project) {
-        projectMap.put(project.getProjectName(), new Project(project.getProjectID(),
-                project.getProjectName(), project.getProjectDescription(),
-                project.getStartDate(), project.getFinishDate(), project.getTaskList()));
+        projectMap.put(project.getProjectName(), project);
         return true;
     }
 
-    public void update() {
-
+    public boolean update(Project project) {
+        return false;
     }
 
     public void remove(String name) {

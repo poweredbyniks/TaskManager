@@ -17,7 +17,10 @@ public class Bootstrap {
 
     ProjectRepo projectRepo = new ProjectRepo();
     TaskRepo taskRepo = new TaskRepo();
+    ProjectService projectService = new ProjectService(projectRepo);
+    TaskService taskService = new TaskService(taskRepo, projectRepo);
     HelpRepo helpRepo = new HelpRepo();
+    HelpService helpService = new HelpService(helpRepo);
 
     public void init() {
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
@@ -31,41 +34,32 @@ public class Bootstrap {
                     case "project-create":
                         System.out.println("[Enter project name]\n[Enter project description]" +
                                 "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        ProjectService projectCreateService = new ProjectService(projectRepo);
-                        projectCreateService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                        projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
                         break;
                     case "project-list":
-                        ProjectService projectListService = new ProjectService(projectRepo);
-                        projectListService.projectList();
+                        projectService.projectList();
                         break;
                     case "project-remove":
-                        ProjectService projectRemoveService = new ProjectService(projectRepo);
-                        projectRemoveService.projectRemove(reader.readLine());
+                        projectService.projectRemove(reader.readLine());
                         break;
                     case "project-clear":
-                        ProjectService projectClearService = new ProjectService(projectRepo);
-                        projectClearService.projectClear();
+                        projectService.projectClear();
                         break;
                     case "task-create":
                         System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
                                 "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        TaskService taskCreateService = new TaskService(taskRepo);
-                        taskCreateService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                        taskService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()), projectRepo);
                         break;
                     case "task-list":
-                        TaskService taskListService = new TaskService(taskRepo);
-                        taskListService.taskList();
+                        taskService.taskList();
                         break;
                     case "task-remove":
-                        TaskService taskRemoveService = new TaskService(taskRepo);
-                        taskRemoveService.taskRemove(reader.readLine());
+                        taskService.taskRemove(reader.readLine());
                         break;
                     case "task-clear":
-                        TaskService taskClearService = new TaskService(taskRepo);
-                        taskClearService.taskClear();
+                        taskService.taskClear();
                         break;
                     case "help":
-                        HelpService helpService = new HelpService(helpRepo);
                         helpService.getCommands();
                 }
                 input = reader.readLine();

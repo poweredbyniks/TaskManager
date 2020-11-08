@@ -2,6 +2,7 @@ package org.example.repository;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.entity.Project;
 import org.example.entity.Task;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class TaskRepo {
-    private static Map<String, Task> taskMap = new HashMap<>();
+    private Map<String, Task> taskMap = new HashMap<>();
 
     public Map<String, Task> showAll() {
         return taskMap;
@@ -32,13 +33,12 @@ public class TaskRepo {
     }
 
     public boolean save(Task task) {
-        taskMap.put(task.getTaskName(), new Task(task.getTaskID(), task.getTaskName(),
-                task.getProjectName(), task.getTaskDescription(), task.getStartDate(), task.getFinishDate()));
+        taskMap.put(task.getTaskName(), task);
         return true;
     }
 
-    public void update() {
-
+    public boolean update(Task task) {
+        return false;
     }
 
     public void remove(String name) {

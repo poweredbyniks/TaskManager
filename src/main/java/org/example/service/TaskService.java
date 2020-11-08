@@ -12,30 +12,27 @@ import java.util.Map;
 
 public class TaskService {
     private TaskRepo taskRepo;
+    private ProjectRepo projectRepo;
 
-    public TaskService(TaskRepo taskRepo) {
+    public TaskService(TaskRepo taskRepo, ProjectRepo projectRepo) {
         this.taskRepo = taskRepo;
+        this.projectRepo = projectRepo;
     }
 
-    public void taskCreate(String projectName, String taskName, String taskDescription, Date startDate, Date finishDate) {
+    public void taskCreate(String projectName, String taskName, String taskDescription, Date startDate, Date finishDate, ProjectRepo projectRepo) {
         Task task = new Task(randomNumber(), taskName, projectName, taskDescription, startDate, finishDate);
 
-        ProjectRepo projectRepo = new ProjectRepo();
         if (projectRepo.showAll().containsKey(projectName)) {
             projectRepo.showAll().get(projectName).getTaskList().add(task);
-
+            System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
+            taskRepo.save(task);
         } else {
             System.out.println("No such existing projects");
         }
-
-        System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
-
-        taskRepo.save(task);
     }
 
     public void taskList() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        TaskRepo taskRepo = new TaskRepo();
         for (Map.Entry<String, Task> taskEntry : taskRepo.showAll().entrySet()) {
             System.out.println("[Task " + taskEntry.getKey() + " in the project " + taskEntry.getValue().getProjectName() + "]" +
                     "\nStart date: " + dateFormat.format(taskEntry.getValue().getStartDate()) +
