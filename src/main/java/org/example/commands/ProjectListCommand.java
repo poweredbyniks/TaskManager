@@ -5,6 +5,10 @@ import org.example.service.ProjectService;
 public class ProjectListCommand extends Command {
     private ProjectService projectService;
 
+    public ProjectListCommand(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
     @Override
     public String getName() {
         return "project-list";

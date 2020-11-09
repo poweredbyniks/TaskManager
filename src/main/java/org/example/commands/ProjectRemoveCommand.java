@@ -9,6 +9,10 @@ import java.io.InputStreamReader;
 public class ProjectRemoveCommand extends Command {
     private ProjectService projectService;
 
+    public ProjectRemoveCommand(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
     @Override
     public String getName() {
         return "project-remove";

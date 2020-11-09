@@ -23,14 +23,15 @@ public class Bootstrap {
     public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
     HelpCommand helpCommand = new HelpCommand();
-    ProjectClearCommand projectClearCommand = new ProjectClearCommand();
-    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand();
-    ProjectListCommand projectListCommand = new ProjectListCommand();
-    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand();
-    TaskClearCommand taskClearCommand = new TaskClearCommand();
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand();
-    TaskListCommand taskListCommand = new TaskListCommand();
-    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand();
+    ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService);
+    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService);
+    ProjectListCommand projectListCommand = new ProjectListCommand(projectService);
+    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService);
+    TaskClearCommand taskClearCommand = new TaskClearCommand(taskService);
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, projectRepo);
+    TaskListCommand taskListCommand = new TaskListCommand(taskService);
+    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService);
+
     public void init() {
 
         commandMap.put(helpCommand.getName(), helpCommand);
@@ -45,7 +46,6 @@ public class Bootstrap {
 
 
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
             while (input != null) {
@@ -65,25 +65,23 @@ public class Bootstrap {
                         projectClearCommand.execute();
                         break;
                     case "task-create":
-                        System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
-                                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-                        taskService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()), projectRepo);
+                        taskCreateCommand.execute();
                         break;
                     case "task-list":
-                        taskService.taskList();
+                        taskListCommand.execute();
                         break;
                     case "task-remove":
-                        taskService.taskRemove(reader.readLine());
+                        taskRemoveCommand.execute();
                         break;
                     case "task-clear":
-                        taskService.taskClear();
+                        taskClearCommand.execute();
                         break;
                     case "help":
                         helpCommand.execute();
                 }
                 input = reader.readLine();
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

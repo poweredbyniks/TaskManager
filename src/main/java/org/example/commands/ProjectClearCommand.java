@@ -5,6 +5,10 @@ import org.example.service.ProjectService;
 public class ProjectClearCommand extends Command {
     private ProjectService projectService;
 
+    public ProjectClearCommand(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
     @Override
     public String getName() {
         return "project-clear";

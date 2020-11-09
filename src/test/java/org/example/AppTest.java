@@ -1,6 +1,9 @@
 package org.example;
 
 
+import org.example.commands.ProjectCreateCommand;
+import org.example.repository.ProjectRepo;
+import org.example.service.ProjectService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
