@@ -44,42 +44,17 @@ public class Bootstrap {
         commandMap.put(taskRemoveCommand.getName(), taskRemoveCommand);
         commandMap.put(taskClearCommand.getName(), taskClearCommand);
 
-
         System.out.println("Welcome to the Task Manager.\nType help to get instructions");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
             while (input != null) {
-                switch (input) {
-                    case "exit":
-                        break;
-                    case "project-create":
-                        projectCreateCommand.execute();
-                        break;
-                    case "project-list":
-                        projectListCommand.execute();
-                        break;
-                    case "project-remove":
-                        projectRemoveCommand.execute();
-                        break;
-                    case "project-clear":
-                        projectClearCommand.execute();
-                        break;
-                    case "task-create":
-                        taskCreateCommand.execute();
-                        break;
-                    case "task-list":
-                        taskListCommand.execute();
-                        break;
-                    case "task-remove":
-                        taskRemoveCommand.execute();
-                        break;
-                    case "task-clear":
-                        taskClearCommand.execute();
-                        break;
-                    case "help":
-                        helpCommand.execute();
+                if (commandMap.containsKey(input)) {
+                    commandMap.get(input).execute();
+                    break;
+                } else {
+                    System.out.println("Wrong command");
+
                 }
-                input = reader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
