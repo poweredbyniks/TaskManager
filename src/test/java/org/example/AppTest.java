@@ -1,9 +1,6 @@
 package org.example;
 
 
-import org.example.commands.ProjectCreateCommand;
-import org.example.repository.ProjectRepo;
-import org.example.service.ProjectService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +29,6 @@ class AppTest {
             "task-list : List of the existing tasks\n" +
             "task-remove : Removes a task\n" +
             "task-clear : Removes all tasks\n";
-
 
 
     @Test

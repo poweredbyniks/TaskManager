@@ -6,13 +6,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 
+
 public class ProjectCreateCommand extends Command {
     private ProjectService projectService;
 
     public ProjectCreateCommand(ProjectService projectService) {
         this.projectService = projectService;
     }
-
 
     @Override
     public String getName() {
@@ -27,10 +27,14 @@ public class ProjectCreateCommand extends Command {
     @Override
     public void execute() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        System.out.println("[Enter project name]\n[Enter project description]" +
+                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            System.out.println("[Enter project name]\n[Enter project description]" +
-                    "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-            projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+            //String input;
+            while (reader.readLine() != null) {
+                projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
+                //input = reader.readLine();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

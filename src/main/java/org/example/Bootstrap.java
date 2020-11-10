@@ -9,8 +9,6 @@ import org.example.service.TaskService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,13 +46,11 @@ public class Bootstrap {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
             while (input != null) {
+
                 if (commandMap.containsKey(input)) {
                     commandMap.get(input).execute();
-                    break;
-                } else {
-                    System.out.println("Wrong command");
-
                 }
+                input = reader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();

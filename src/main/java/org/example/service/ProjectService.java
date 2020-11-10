@@ -19,8 +19,9 @@ public class ProjectService {
 
     public void projectCreate(String projectName, String projectDescription, Date startDate, Date finishDate) {
         Project project = new Project(randomNumber(), projectName, projectDescription, startDate, finishDate, new ArrayList<>());
-        System.out.println("[Project " + projectName + " created]");
-        projectRepo.save(project);
+        if (projectRepo.save(project)) {
+            System.out.println("[Project " + projectName + " created]");
+        }
     }
 
     public void projectList() {
