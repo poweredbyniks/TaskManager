@@ -34,7 +34,7 @@ class AppTest {
     @Test
     public void testProjectCreate() throws IOException {
         String projectCreateCommand = "project-create\nnewProject\nProject description" +
-                "\n30.10.2020\n31.10.2020 exit\n\u001a";
+                "\n30.10.2020\n31.10.2020\nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectCreateCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -67,7 +67,7 @@ class AppTest {
     public void testTaskCreate() throws IOException {
         String projectListCommand = "project-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
-                "\n30.11.2020\n31.11.2020 exit\n\u001a";
+                "\n30.11.2020\n31.11.2020 \nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));

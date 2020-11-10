@@ -48,7 +48,9 @@ public class Bootstrap {
             while (input != null) {
 
                 if (commandMap.containsKey(input)) {
-                    commandMap.get(input).execute();
+                    commandMap.get(input).execute(reader);
+                } else if (input.equals("exit")) {
+                    break;
                 }
                 input = reader.readLine();
             }

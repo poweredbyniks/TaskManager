@@ -24,8 +24,9 @@ public class ProjectRemoveCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+    public void execute(BufferedReader reader) {
+        try {
+            System.out.println("Enter project name to remove");
             projectService.projectRemove(reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();

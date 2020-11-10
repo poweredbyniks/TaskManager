@@ -3,7 +3,10 @@ package org.example.commands;
 import org.example.service.ProjectService;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
@@ -25,17 +28,19 @@ public class ProjectCreateCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(BufferedReader reader) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println("[Enter project name]\n[Enter project description]" +
-                "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            //String input;
-            while (reader.readLine() != null) {
-                projectService.projectCreate(reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()));
-                //input = reader.readLine();
-            }
-        } catch (Exception e) {
+        System.out.println("[Enter project name]");
+        String projectName = reader.readLine();
+        System.out.println("[Enter project description]");
+        String projectDescription = reader.readLine();
+        System.out.println("[Enter starting date dd.MM.yyyy]");
+        String startingDate = reader.readLine();
+        System.out.println("[Enter finishing date dd.MM.yyyy]");
+        String finishingDate = reader.readLine();
+        try {
+            projectService.projectCreate(projectName, projectDescription, dateFormat.parse(startingDate), dateFormat.parse(finishingDate));
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

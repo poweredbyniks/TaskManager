@@ -24,7 +24,10 @@ public class TaskService {
 
         if (projectRepo.showAll().containsKey(projectName)) {
             projectRepo.showAll().get(projectName).getTaskList().add(task);
-            System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
+            taskRepo.save(task);
+            if (taskRepo.save(task)) {
+                System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
+            }
             taskRepo.save(task);
         } else {
             System.out.println("No such existing projects");

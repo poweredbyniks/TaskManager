@@ -2,6 +2,8 @@ package org.example.commands;
 
 import org.example.service.ProjectService;
 
+import java.io.BufferedReader;
+
 public class ProjectClearCommand extends Command {
     private ProjectService projectService;
 
@@ -20,7 +22,7 @@ public class ProjectClearCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(BufferedReader reader) {
         projectService.projectClear();
     }
 }

@@ -32,12 +32,21 @@ public class TaskCreateCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(BufferedReader reader) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            System.out.println("[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
-                    "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]");
-            taskService.taskCreate(reader.readLine(), reader.readLine(), reader.readLine(), dateFormat.parse(reader.readLine()), dateFormat.parse(reader.readLine()), projectRepo);
+        try {
+            System.out.println("[Enter project to include to]");
+            String projectName = reader.readLine();
+            System.out.println("[Enter task name]");
+            String taskName = reader.readLine();
+            System.out.println("[Enter task description]");
+            String taskDescription = reader.readLine();
+            System.out.println("[Enter starting date dd.MM.yyyy]");
+            String startingDate = reader.readLine();
+            System.out.println("[Enter finishing date dd.MM.yyyy]");
+            String finishingDate = reader.readLine();
+            taskService.taskCreate(projectName, taskName, taskDescription, dateFormat.parse(startingDate),
+                    dateFormat.parse(finishingDate), projectRepo);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

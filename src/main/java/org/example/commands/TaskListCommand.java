@@ -2,6 +2,8 @@ package org.example.commands;
 
 import org.example.service.TaskService;
 
+import java.io.BufferedReader;
+
 public class TaskListCommand extends Command{
     private TaskService taskService;
 
@@ -20,7 +22,7 @@ public class TaskListCommand extends Command{
     }
 
     @Override
-    public void execute() {
+    public void execute(BufferedReader reader) {
     taskService.taskList();
     }
 }

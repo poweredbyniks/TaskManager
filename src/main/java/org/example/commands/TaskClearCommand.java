@@ -2,6 +2,8 @@ package org.example.commands;
 
 import org.example.service.TaskService;
 
+import java.io.BufferedReader;
+
 public class TaskClearCommand extends Command {
     private TaskService taskService;
 
@@ -21,7 +23,7 @@ public class TaskClearCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(BufferedReader reader) {
         taskService.taskClear();
     }
 }
