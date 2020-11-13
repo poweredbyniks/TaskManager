@@ -4,7 +4,7 @@ import org.example.service.TaskService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+
 
 public class TaskRemoveCommand extends Command {
     private TaskService taskService;
@@ -28,7 +28,7 @@ public class TaskRemoveCommand extends Command {
         try {
             System.out.println("Enter task name to remove");
             taskService.taskRemove(reader.readLine());
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

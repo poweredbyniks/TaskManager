@@ -4,7 +4,6 @@ import org.example.service.ProjectService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class ProjectRemoveCommand extends Command {
     private ProjectService projectService;

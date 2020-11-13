@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 @Value
-public class HelpCommand extends Command{
+public class HelpCommand extends Command {
 
     public String getName() {
         return "help";

@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.Bootstrap;
 import org.example.entity.Task;
 import org.example.repository.ProjectRepo;
 import org.example.repository.TaskRepo;

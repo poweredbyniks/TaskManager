@@ -7,7 +7,6 @@ import java.io.Reader;
 
 public abstract class Command {
 
-
     public abstract String getName();
 
     public abstract String getDescription();
