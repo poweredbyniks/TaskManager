@@ -1,5 +1,6 @@
 package org.example.commands;
 
+import org.example.entity.User;
 import org.example.service.UserService;
 
 import java.io.BufferedReader;
@@ -23,7 +24,7 @@ public class UserEndSessionCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(BufferedReader reader, User user) throws IOException {
 
     }
 }

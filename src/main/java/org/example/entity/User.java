@@ -10,7 +10,4 @@ public class User {
     private String userName;
     private String md5Password;
 
-    public AccessRoles getAccessRoles() {
-        return accessRoles.USER;
-    }
 }

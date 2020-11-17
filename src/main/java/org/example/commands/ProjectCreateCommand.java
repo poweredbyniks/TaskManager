@@ -1,5 +1,6 @@
 package org.example.commands;
 
+import org.example.entity.User;
 import org.example.service.ProjectService;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class ProjectCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(BufferedReader reader, User user) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         System.out.println("[Enter project name]");
         String projectName = reader.readLine();

@@ -1,5 +1,6 @@
 package org.example.commands;
 
+import org.example.entity.User;
 import org.example.repository.ProjectRepo;
 import org.example.service.TaskService;
 
@@ -30,7 +31,7 @@ public class TaskCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(BufferedReader reader, User user) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try {
             System.out.println("[Enter project to include to]");

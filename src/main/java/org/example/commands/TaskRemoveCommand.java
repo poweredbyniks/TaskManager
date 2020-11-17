@@ -1,5 +1,6 @@
 package org.example.commands;
 
+import org.example.entity.User;
 import org.example.service.TaskService;
 
 import java.io.BufferedReader;
@@ -24,7 +25,7 @@ public class TaskRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(BufferedReader reader, User user) {
         try {
             System.out.println("Enter task name to remove");
             taskService.taskRemove(reader.readLine());

@@ -1,5 +1,6 @@
 package org.example.commands;
 
+import org.example.entity.User;
 import org.example.service.ProjectService;
 
 import java.io.BufferedReader;
@@ -23,7 +24,7 @@ public class ProjectRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(BufferedReader reader, User user) {
         try {
             System.out.println("Enter project name to remove");
             projectService.projectRemove(reader.readLine());

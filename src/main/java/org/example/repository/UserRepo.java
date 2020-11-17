@@ -16,16 +16,26 @@ public class UserRepo {
     }
 
     public List<User> findAll(List<String> names) {
-        List<User> projectList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         for (String name : names) {
             if (names.contains(name))
-                projectList.add(userMap.get(name));
+                userList.add(userMap.get(name));
         }
-        return projectList;
+        return userList;
     }
 
     public User findOne(String name) {
         return userMap.get(name);
+    }
+
+    public User verifyUser(String userName, String password) {
+        if (userMap.containsKey(userName) &&
+                password.equals(userMap.get(userName).getMd5Password())) {
+            System.out.println("Welcome " + userName);
+            return userMap.get(userName);
+
+        } else System.out.println("User not found");
+        return null;
     }
 
     public boolean save(User user) {

@@ -23,6 +23,7 @@ public class Bootstrap {
     ProjectService projectService = new ProjectService(projectRepo);
     TaskService taskService = new TaskService(taskRepo, projectRepo);
     UserService userService = new UserService(userRepo);
+    User user;
     public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
     HelpCommand helpCommand = new HelpCommand();
@@ -60,15 +61,16 @@ public class Bootstrap {
         commandMap.put(userInfoCommand.getName(), userInfoCommand);
         commandMap.put(userPasswordUpdateCommand.getName(), userPasswordUpdateCommand);
         commandMap.put(userRegistrationCommand.getName(), userRegistrationCommand);
-        User user1 = new User(AccessRoles.USER, 21, "1", "123");
 
-        System.out.println("Welcome to the Task Manager.\nType help to get instructions");
+        System.out.println("Welcome to the Task Manager.\nSign up, please");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            userRegistrationCommand.execute(reader, null);
+            userAuthorizationCommand.execute(reader, null);
             String input = reader.readLine();
-            while (input != null) {
 
+            while (input != null) {
                 if (commandMap.containsKey(input)) {
-                    commandMap.get(input).execute(reader);
+                    commandMap.get(input).execute(reader, currentUser(input));
                 } else if (input.equals("exit")) {
                     break;
                 }
@@ -77,5 +79,9 @@ public class Bootstrap {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private User currentUser(String userName) {
+        return userRepo.findOne(userName);
     }
 }
