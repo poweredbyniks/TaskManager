@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class UserAuthorizationCommand extends Command {
     private UserService userService;
-
+    private User verifiedUser;
     public UserAuthorizationCommand(UserService userService) {
         this.userService = userService;
     }
@@ -29,6 +29,10 @@ public class UserAuthorizationCommand extends Command {
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
-        userService.userVerify(userName, password);
+        verifiedUser = userService.userVerify(userName, password);
+        currentUser(verifiedUser);
+    }
+    public User currentUser(User user){
+        return verifiedUser;
     }
 }

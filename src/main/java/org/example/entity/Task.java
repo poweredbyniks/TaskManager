@@ -12,5 +12,5 @@ public class Task {
     private String taskDescription;
     private Date startDate;
     private Date finishDate;
-
+    private long userID;
 }

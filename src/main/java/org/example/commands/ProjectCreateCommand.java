@@ -5,8 +5,6 @@ import org.example.service.ProjectService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -40,7 +38,8 @@ public class ProjectCreateCommand extends Command {
         System.out.println("[Enter finishing date dd.MM.yyyy]");
         String finishingDate = reader.readLine();
         try {
-            projectService.projectCreate(projectName, projectDescription, dateFormat.parse(startingDate), dateFormat.parse(finishingDate));
+            projectService.projectCreate(projectName, projectDescription,
+                    dateFormat.parse(startingDate), dateFormat.parse(finishingDate),user.getUserID());
         } catch (ParseException e) {
             e.printStackTrace();
         }

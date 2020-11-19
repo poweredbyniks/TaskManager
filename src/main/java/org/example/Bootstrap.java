@@ -70,7 +70,8 @@ public class Bootstrap {
 
             while (input != null) {
                 if (commandMap.containsKey(input)) {
-                    commandMap.get(input).execute(reader, currentUser(input));
+                    User currentUser = userAuthorizationCommand.currentUser(null);
+                    commandMap.get(input).execute(reader, currentUser);
                 } else if (input.equals("exit")) {
                     break;
                 }
@@ -81,7 +82,4 @@ public class Bootstrap {
         }
     }
 
-    private User currentUser(String userName) {
-        return userRepo.findOne(userName);
-    }
 }

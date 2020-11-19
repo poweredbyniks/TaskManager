@@ -13,5 +13,6 @@ public class Project {
     private Date startDate;
     private Date finishDate;
     private List<Task> taskList;
+    private long userID;
 
 }

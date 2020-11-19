@@ -3,6 +3,7 @@ package org.example.repository;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.entity.Project;
+import org.example.entity.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +15,14 @@ import java.util.Map;
 public class ProjectRepo {
     private Map<String, Project> projectMap = new HashMap<>();
 
-    public Map<String, Project> showAll() {
-        return projectMap;
+    public Map<String, Project> showAll(User user) {
+        Map<String, Project> userProjectMap = new HashMap<>();
+        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
+            if (projectEntry.getValue().getUserID() == user.getUserID()) {
+                projectMap.put(projectEntry.getKey(), projectEntry.getValue());
+            }
+        }
+        return userProjectMap;
     }
 
     public List<Project> findAll(List<String> names) {

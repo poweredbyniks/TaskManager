@@ -24,6 +24,6 @@ public class ProjectListCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        projectService.projectList();
+        projectService.projectList(user);
     }
 }
