@@ -30,6 +30,17 @@ public class UserService {
                 + "User name is: " + userRepo.findOne(userName).getUserName());
     }
 
+    public void userNameEdit(String newUserName, User user) {
+        if (userRepo.userNameUpdate(newUserName, user)) {
+            System.out.println("Your new user name is " + newUserName);
+        }
+    }
+
+    public void passwordEdit(String newPassword, User user) {
+        String md5Password = md5Password(newPassword);
+        userRepo.passwordUpdate(md5Password, user);
+    }
+
     public long randomNumber() {
         SecureRandom random = new SecureRandom();
         return random.nextInt();

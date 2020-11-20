@@ -37,13 +37,13 @@ public class ProjectService {
         }
     }
 
-    public void projectRemove(String projectToRemove) {
-        projectRepo.remove(projectToRemove);
+    public void projectRemove(String projectToRemove, User user) {
+        projectRepo.remove(projectToRemove, user);
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
-    public void projectClear() {
-        projectRepo.removeAll();
+    public void projectClear(User user) {
+        projectRepo.removeAll(user);
         System.out.println("[Project list is plain empty]");
     }
 

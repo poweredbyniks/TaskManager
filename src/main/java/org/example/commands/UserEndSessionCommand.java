@@ -26,5 +26,6 @@ public class UserEndSessionCommand extends Command {
     @Override
     public void execute(BufferedReader reader, User user) throws IOException {
 
+
     }
 }

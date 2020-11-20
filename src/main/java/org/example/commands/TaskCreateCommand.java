@@ -45,7 +45,7 @@ public class TaskCreateCommand extends Command {
             System.out.println("[Enter finishing date dd.MM.yyyy]");
             String finishingDate = reader.readLine();
             taskService.taskCreate(projectName, taskName, taskDescription, dateFormat.parse(startingDate),
-                    dateFormat.parse(finishingDate), projectRepo);
+                    dateFormat.parse(finishingDate), projectRepo, user);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

@@ -25,6 +25,6 @@ public class TaskClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        taskService.taskClear();
+        taskService.taskClear(user);
     }
 }

@@ -23,7 +23,6 @@ public class Bootstrap {
     ProjectService projectService = new ProjectService(projectRepo);
     TaskService taskService = new TaskService(taskRepo, projectRepo);
     UserService userService = new UserService(userRepo);
-    User user;
     public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
     HelpCommand helpCommand = new HelpCommand();

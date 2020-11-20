@@ -43,8 +43,20 @@ public class UserRepo {
         return true;
     }
 
-    public boolean update(Project project) {
-        return false;
+    public boolean userNameUpdate(String newUserName, User user) {
+        if (userMap.containsValue(user)) {
+            userMap.remove(user.getUserName());
+            userMap.put(newUserName, user);
+        }
+        return true;
+    }
+
+    public boolean passwordUpdate(String password, User user){
+        if(user.getMd5Password().equals(password)){
+            userMap.remove(user);
+            userMap.put(user.getUserName(), user);
+            return true;
+        } else return false;
     }
 
     public void remove(String name) {

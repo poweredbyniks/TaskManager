@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.entity.Project;
 import org.example.entity.Task;
+import org.example.entity.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,14 @@ import java.util.Map;
 public class TaskRepo {
     private Map<String, Task> taskMap = new HashMap<>();
 
-    public Map<String, Task> showAll() {
-        return taskMap;
+    public Map<String, Task> showAll(User user) {
+        Map<String, Task> userTaskMap = new HashMap<>();
+        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
+            if (taskEntry.getValue().getUserID() == user.getUserID()) {
+                userTaskMap.put(taskEntry.getKey(), taskEntry.getValue());
+            }
+        }
+        return userTaskMap;
     }
 
     public List<Task> findAll(List<String> names) {
@@ -41,11 +48,19 @@ public class TaskRepo {
         return false;
     }
 
-    public void remove(String name) {
-        taskMap.remove(name);
+    public void remove(String name, User user) {
+        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
+            if (taskEntry.getValue().getUserID() == user.getUserID()) {
+                taskMap.remove(name);
+            }
+        }
     }
 
-    public void removeAll() {
-        taskMap.clear();
+    public void removeAll(User user) {
+        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
+            if (taskEntry.getValue().getUserID() == user.getUserID()) {
+                taskMap.remove(taskEntry.getKey());
+            }
+        }
     }
 }

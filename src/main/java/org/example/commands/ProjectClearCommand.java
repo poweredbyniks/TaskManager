@@ -24,6 +24,6 @@ public class ProjectClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        projectService.projectClear();
+        projectService.projectClear(user);
     }
 }

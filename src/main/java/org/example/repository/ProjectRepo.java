@@ -19,7 +19,7 @@ public class ProjectRepo {
         Map<String, Project> userProjectMap = new HashMap<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == user.getUserID()) {
-                projectMap.put(projectEntry.getKey(), projectEntry.getValue());
+                userProjectMap.put(projectEntry.getKey(), projectEntry.getValue());
             }
         }
         return userProjectMap;
@@ -47,11 +47,19 @@ public class ProjectRepo {
         return false;
     }
 
-    public void remove(String name) {
-        projectMap.remove(name);
+    public void remove(String name, User user) {
+        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
+            if (projectEntry.getValue().getUserID() == user.getUserID()) {
+                projectMap.remove(name);
+            }
+        }
     }
 
-    public void removeAll() {
-        projectMap.clear();
+    public void removeAll(User user) {
+        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
+            if (projectEntry.getValue().getUserID() == user.getUserID()) {
+                projectMap.remove(projectEntry.getKey());
+            }
+        }
     }
 }

@@ -24,6 +24,6 @@ public class TaskListCommand extends Command{
 
     @Override
     public void execute(BufferedReader reader, User user) {
-    taskService.taskList();
+        taskService.taskList(user);
     }
 }
