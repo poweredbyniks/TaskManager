@@ -11,7 +11,7 @@ class AppTest {
 
     @Test
     public void testHelp() throws IOException {
-        String helpCommand = "help\n exit\n\u001a";
+        String helpCommand = "newUser\n123\nnewUser\n123\nhelp\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(helpCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -19,7 +19,13 @@ class AppTest {
         Assertions.assertEquals(HELP_OUTPUT, os.toString(), "Incorrect help output");
     }
 
-    public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions\n" +
+    public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
             "help : Help command\n" +
             "project-create : Creation of a project\n" +
             "project-list : List of the existing projects\n" +
@@ -28,7 +34,13 @@ class AppTest {
             "task-create : Creation of a task\n" +
             "task-list : List of the existing tasks\n" +
             "task-remove : Removes a task\n" +
-            "task-clear : Removes all tasks\n";
+            "task-clear : Removes all tasks\n" +
+            "user-login : User authorization\n" +
+            "user-edit : Edit user name\n" +
+            "user-exit : Log out\n" +
+            "user-info : User info: user ID, user name\n" +
+            "password-update : Current password update\n" +
+            "user-reg : Registration of a new user\n";
 
 
     @Test
