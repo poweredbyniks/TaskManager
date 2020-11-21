@@ -53,7 +53,7 @@ public class TestOutputs {
             "Description: Project description\n" +
             "Start date: 30.10.2020\n" +
             "Finish date: 31.10.2020\n" +
-            "Tasks: []\n";
+            "Task list is empty\n";
 
     public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
             "Enter user name\n" +
@@ -123,5 +123,5 @@ public class TestOutputs {
             "Description: Project description\n" +
             "Start date: 29.12.2020\n" +
             "Finish date: 30.12.2020\n" +
-            "Tasks: []\n";
+            "Task list is empty\n";
 }

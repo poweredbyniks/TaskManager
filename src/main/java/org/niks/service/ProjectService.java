@@ -26,9 +26,9 @@ public class ProjectService {
         }
     }
 
-    public void projectList(User user) {
+    public void projectList(UserService userService) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        for (Map.Entry<String, Project> projectEntry : projectRepo.showAll(user).entrySet()) {
+        for (Map.Entry<String, Project> projectEntry : projectRepo.showAll(userService.getCurrentUser()).entrySet()) {
             System.out.println("Project Name: " + projectEntry.getValue().getProjectName()
                     + "\nDescription: " + projectEntry.getValue().getProjectDescription()
                     + "\nStart date: " + dateFormat.format(projectEntry.getValue().getStartDate())

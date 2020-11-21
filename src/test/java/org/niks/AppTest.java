@@ -32,7 +32,7 @@ class AppTest {
     @Test
     public void testProjectList() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
-                "\n31.10.2020\nproject-list \n\u001a";
+                "\n31.10.2020\nproject-list\nproject-list \n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));

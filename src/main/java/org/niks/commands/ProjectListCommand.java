@@ -26,7 +26,7 @@ public class ProjectListCommand extends Command {
     @Override
     public void execute(BufferedReader reader, UserService userService) {
         if (userService.getCurrentUser() != null) {
-            projectService.projectList(userService.getCurrentUser());
+            projectService.projectList(userService);
         } else {
             System.out.println("Log in before working");
         }
