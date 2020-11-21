@@ -9,10 +9,20 @@ import java.security.SecureRandom;
 
 public class UserService {
     private UserRepo userRepo;
+    private User currentUser;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
 
     public void userCreate(String userName, String password) {
         User user = new User(AccessRoles.USER, randomNumber(), userName, md5Password(password));

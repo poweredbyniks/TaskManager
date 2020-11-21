@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-
     ProjectRepo projectRepo = new ProjectRepo();
     TaskRepo taskRepo = new TaskRepo();
     UserRepo userRepo = new UserRepo();
@@ -44,7 +43,6 @@ public class Bootstrap {
     UserPasswordUpdateCommand userPasswordUpdateCommand = new UserPasswordUpdateCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
-
     public void init() {
         commandMap.put(helpCommand.getName(), helpCommand);
         commandMap.put(projectCreateCommand.getName(), projectCreateCommand);
@@ -63,7 +61,8 @@ public class Bootstrap {
         commandMap.put(userRegistrationCommand.getName(), userRegistrationCommand);
         commandExecution();
     }
-    public void commandExecution(){
+
+    public void commandExecution() {
         System.out.println("Welcome to the Task Manager.\nSign up, please");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             User admin = new User(AccessRoles.ADMIN, 1, "niks", md5Password("123"));
@@ -83,6 +82,7 @@ public class Bootstrap {
             e.printStackTrace();
         }
     }
+
     private String md5Password(String password) {
         String md5Password = DigestUtils.md5Hex(password);
         return md5Password;
