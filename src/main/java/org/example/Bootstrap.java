@@ -1,5 +1,6 @@
 package org.example;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.example.commands.*;
 import org.example.entity.User;
 import org.example.repository.ProjectRepo;
@@ -43,8 +44,8 @@ public class Bootstrap {
     UserPasswordUpdateCommand userPasswordUpdateCommand = new UserPasswordUpdateCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
-    public void init() {
 
+    public void init() {
         commandMap.put(helpCommand.getName(), helpCommand);
         commandMap.put(projectCreateCommand.getName(), projectCreateCommand);
         commandMap.put(projectListCommand.getName(), projectListCommand);
@@ -63,8 +64,8 @@ public class Bootstrap {
 
         System.out.println("Welcome to the Task Manager.\nSign up, please");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            userRegistrationCommand.execute(reader, null);
-            userAuthorizationCommand.execute(reader, null);
+            User admin = new User(AccessRoles.ADMIN, 1, "niks", md5Password("123"));
+            userRegistrationCommand.adminReg(admin);
             String input = reader.readLine();
 
             while (input != null) {
@@ -80,5 +81,8 @@ public class Bootstrap {
             e.printStackTrace();
         }
     }
-
+    private String md5Password(String password) {
+        String md5Password = DigestUtils.md5Hex(password);
+        return md5Password;
+    }
 }

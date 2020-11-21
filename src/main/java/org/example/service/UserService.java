@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.example.AccessRoles;
 import org.example.entity.User;
 import org.example.repository.UserRepo;
+
 import java.security.SecureRandom;
 
 public class UserService {
@@ -41,12 +42,16 @@ public class UserService {
         userRepo.passwordUpdate(md5Password, user);
     }
 
+    public void adminReg(User admin){
+        userRepo.save(admin);
+    }
+
     public long randomNumber() {
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }
 
-    private String md5Password(String password){
+    private String md5Password(String password) {
         String md5Password = DigestUtils.md5Hex(password);
         return md5Password;
     }

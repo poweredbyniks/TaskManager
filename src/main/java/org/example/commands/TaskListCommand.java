@@ -5,7 +5,7 @@ import org.example.service.TaskService;
 
 import java.io.BufferedReader;
 
-public class TaskListCommand extends Command{
+public class TaskListCommand extends Command {
     private TaskService taskService;
 
     public TaskListCommand(TaskService taskService) {
@@ -24,6 +24,10 @@ public class TaskListCommand extends Command{
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        taskService.taskList(user);
+        if (user != null) {
+            taskService.taskList(user);
+        } else {
+            System.out.println("Log in before working");
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 public class UserAuthorizationCommand extends Command {
     private UserService userService;
     private User verifiedUser;
+
     public UserAuthorizationCommand(UserService userService) {
         this.userService = userService;
     }
@@ -32,7 +33,8 @@ public class UserAuthorizationCommand extends Command {
         verifiedUser = userService.userVerify(userName, password);
         currentUser(verifiedUser);
     }
-    public User currentUser(User user){
+
+    public User currentUser(User user) {
         return verifiedUser;
     }
 }

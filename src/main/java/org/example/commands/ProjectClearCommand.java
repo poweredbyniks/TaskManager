@@ -24,6 +24,10 @@ public class ProjectClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        projectService.projectClear(user);
+        if (user != null) {
+            projectService.projectClear(user);
+        } else {
+            System.out.println("Log in before working");
+        }
     }
 }

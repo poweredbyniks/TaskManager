@@ -28,20 +28,24 @@ public class ProjectCreateCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) throws IOException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println("[Enter project name]");
-        String projectName = reader.readLine();
-        System.out.println("[Enter project description]");
-        String projectDescription = reader.readLine();
-        System.out.println("[Enter starting date dd.MM.yyyy]");
-        String startingDate = reader.readLine();
-        System.out.println("[Enter finishing date dd.MM.yyyy]");
-        String finishingDate = reader.readLine();
-        try {
-            projectService.projectCreate(projectName, projectDescription,
-                    dateFormat.parse(startingDate), dateFormat.parse(finishingDate),user.getUserID());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(user != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            System.out.println("[Enter project name]");
+            String projectName = reader.readLine();
+            System.out.println("[Enter project description]");
+            String projectDescription = reader.readLine();
+            System.out.println("[Enter starting date dd.MM.yyyy]");
+            String startingDate = reader.readLine();
+            System.out.println("[Enter finishing date dd.MM.yyyy]");
+            String finishingDate = reader.readLine();
+            try {
+                projectService.projectCreate(projectName, projectDescription,
+                        dateFormat.parse(startingDate), dateFormat.parse(finishingDate), user.getUserID());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Log in before working");
         }
     }
 }

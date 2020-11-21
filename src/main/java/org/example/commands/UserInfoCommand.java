@@ -25,6 +25,10 @@ public class UserInfoCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) throws IOException {
-        userService.userInfo(user.getUserName());
+        if (user != null) {
+            userService.userInfo(user.getUserName());
+        } else {
+            System.out.println("Log in before working");
+        }
     }
 }

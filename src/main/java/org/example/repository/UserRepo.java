@@ -1,6 +1,7 @@
 package org.example.repository;
 
-import org.example.entity.Project;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.example.AccessRoles;
 import org.example.entity.User;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class UserRepo {
     }
 
     public boolean save(User user) {
-        if(!userMap.containsKey(user.getUserName())) {
+        if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
         } else {
             System.out.println("User already exists");
@@ -55,8 +56,8 @@ public class UserRepo {
         return true;
     }
 
-    public boolean passwordUpdate(String password, User user){
-        if(user.getMd5Password().equals(password)){
+    public boolean passwordUpdate(String password, User user) {
+        if (user.getMd5Password().equals(password)) {
             userMap.remove(user);
             userMap.put(user.getUserName(), user);
             return true;

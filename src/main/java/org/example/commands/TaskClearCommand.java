@@ -12,7 +12,6 @@ public class TaskClearCommand extends Command {
         this.taskService = taskService;
     }
 
-
     @Override
     public String getName() {
         return "task-clear";
@@ -25,6 +24,10 @@ public class TaskClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        taskService.taskClear(user);
+        if (user != null) {
+            taskService.taskClear(user);
+        } else {
+            System.out.println("Log in before working");
+        }
     }
 }

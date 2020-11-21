@@ -26,7 +26,7 @@ public class HelpCommand extends Command {
                 System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
             }
         } else {
-            System.out.println("Access denied");
+            System.out.println("Log in before working");
         }
     }
 }

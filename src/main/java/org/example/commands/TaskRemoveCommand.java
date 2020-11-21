@@ -26,11 +26,15 @@ public class TaskRemoveCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) {
-        try {
-            System.out.println("Enter task name to remove");
-            taskService.taskRemove(reader.readLine(), user);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (user != null) {
+            try {
+                System.out.println("Enter task name to remove");
+                taskService.taskRemove(reader.readLine(), user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Log in before working");
         }
     }
 }

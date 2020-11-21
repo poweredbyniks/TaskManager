@@ -31,4 +31,7 @@ public class UserRegistrationCommand extends Command {
         String password = reader.readLine();
         userService.userCreate(userName, password);
     }
+    public void adminReg(User admin){
+        userService.adminReg(admin);
+    }
 }

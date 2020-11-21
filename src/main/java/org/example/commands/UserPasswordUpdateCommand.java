@@ -25,8 +25,12 @@ public class UserPasswordUpdateCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader, User user) throws IOException {
-        System.out.println("Enter new password");
-        String newPassword = reader.readLine();
-        userService.passwordEdit(newPassword, user);
+        if (user != null) {
+            System.out.println("Enter new password");
+            String newPassword = reader.readLine();
+            userService.passwordEdit(newPassword, user);
+        } else {
+            System.out.println("Log in before working");
+        }
     }
 }
