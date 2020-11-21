@@ -71,8 +71,7 @@ public class Bootstrap {
 
             while (input != null) {
                 if (commandMap.containsKey(input)) {
-                    User currentUser = userAuthorizationCommand.currentUser(null);
-                    commandMap.get(input).execute(reader, currentUser);
+                    commandMap.get(input).execute(reader, userService);
                 } else if (input.equals("exit")) {
                     break;
                 }

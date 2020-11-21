@@ -1,7 +1,7 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.ProjectService;
+import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
@@ -23,9 +23,9 @@ public class ProjectClearCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) {
-        if (user != null) {
-            projectService.projectClear(user);
+    public void execute(BufferedReader reader, UserService userService) {
+        if (userService.getCurrentUser() != null) {
+            projectService.projectClear(userService.getCurrentUser());
         } else {
             System.out.println("Log in before working");
         }

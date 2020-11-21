@@ -2,6 +2,7 @@ package org.niks.commands;
 
 import org.niks.entity.User;
 import org.niks.service.TaskService;
+import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,11 +26,11 @@ public class TaskRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) {
-        if (user != null) {
+    public void execute(BufferedReader reader, UserService userService) {
+        if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
-                taskService.taskRemove(reader.readLine(), user);
+                taskService.taskRemove(reader.readLine(), userService.getCurrentUser());
             } catch (IOException e) {
                 e.printStackTrace();
             }

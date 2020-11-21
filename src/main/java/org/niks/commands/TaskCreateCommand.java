@@ -3,6 +3,7 @@ package org.niks.commands;
 import org.niks.entity.User;
 import org.niks.repository.ProjectRepo;
 import org.niks.service.TaskService;
+import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,8 +32,8 @@ public class TaskCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) {
-        if (user != null) {
+    public void execute(BufferedReader reader, UserService userService) {
+        if (userService.getCurrentUser() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 System.out.println("[Enter project to include to]");
@@ -46,7 +47,7 @@ public class TaskCreateCommand extends Command {
                 System.out.println("[Enter finishing date dd.MM.yyyy]");
                 String finishingDate = reader.readLine();
                 taskService.taskCreate(projectName, taskName, taskDescription, dateFormat.parse(startingDate),
-                        dateFormat.parse(finishingDate), projectRepo, user);
+                        dateFormat.parse(finishingDate), projectRepo, userService.getCurrentUser());
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }

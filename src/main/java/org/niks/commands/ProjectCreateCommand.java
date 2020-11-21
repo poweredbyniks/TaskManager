@@ -2,6 +2,7 @@ package org.niks.commands;
 
 import org.niks.entity.User;
 import org.niks.service.ProjectService;
+import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +28,8 @@ public class ProjectCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) throws IOException {
-        if(user != null) {
+    public void execute(BufferedReader reader, UserService userService) throws IOException {
+        if (userService.getCurrentUser() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("[Enter project name]");
             String projectName = reader.readLine();
@@ -40,7 +41,7 @@ public class ProjectCreateCommand extends Command {
             String finishingDate = reader.readLine();
             try {
                 projectService.projectCreate(projectName, projectDescription,
-                        dateFormat.parse(startingDate), dateFormat.parse(finishingDate), user.getUserID());
+                        dateFormat.parse(startingDate), dateFormat.parse(finishingDate), userService.getCurrentUser().getUserID());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -49,3 +50,4 @@ public class ProjectCreateCommand extends Command {
         }
     }
 }
+

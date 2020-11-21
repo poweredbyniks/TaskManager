@@ -24,11 +24,11 @@ public class UserEditCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) throws IOException {
-        if (user != null) {
+    public void execute(BufferedReader reader, UserService userService) throws IOException {
+        if (userService != null) {
             System.out.println("Enter new userName");
             String newUserName = reader.readLine();
-            userService.userNameEdit(newUserName, user);
+            userService.userNameEdit(newUserName, userService.getCurrentUser());
         } else {
             System.out.println("Log in before working");
         }

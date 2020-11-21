@@ -3,6 +3,7 @@ package org.niks.commands;
 import lombok.Value;
 import org.niks.Bootstrap;
 import org.niks.entity.User;
+import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.util.Map;
@@ -19,9 +20,9 @@ public class HelpCommand extends Command {
         return "Help command";
     }
 
-    public void execute(BufferedReader reader, User user) {
+    public void execute(BufferedReader reader, UserService userService) {
 
-        if (user != null) {
+        if (userService.getCurrentUser() != null) {
             for (Map.Entry<String, Command> commandMap : Bootstrap.commandMap.entrySet()) {
                 System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
             }

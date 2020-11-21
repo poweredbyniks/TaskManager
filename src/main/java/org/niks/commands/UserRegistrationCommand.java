@@ -24,7 +24,7 @@ public class UserRegistrationCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, User user) throws IOException {
+    public void execute(BufferedReader reader, UserService userService) throws IOException {
         System.out.println("Enter user name");
         String userName = reader.readLine();
         System.out.println("Enter password");

@@ -32,8 +32,18 @@ public class ProjectService {
             System.out.println("Project Name: " + projectEntry.getValue().getProjectName()
                     + "\nDescription: " + projectEntry.getValue().getProjectDescription()
                     + "\nStart date: " + dateFormat.format(projectEntry.getValue().getStartDate())
-                    + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate())
-                    + "\nTasks: " + projectEntry.getValue().getTaskList());
+                    + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate()));
+            if (projectEntry.getValue().getTaskList().size() != 0) {
+                for (int i = 0; i < projectEntry.getValue().getTaskList().size(); i++) {
+                    System.out.println("\nTasks: \n" + "taskID: " + projectEntry.getValue().getTaskList().get(i).getTaskID()
+                            + "\nTask name: " + projectEntry.getValue().getTaskList().get(i).getTaskName()
+                            + "\nTask description: " + projectEntry.getValue().getTaskList().get(i).getTaskDescription()
+                            + "\nStart date: " + dateFormat.format(projectEntry.getValue().getTaskList().get(i).getStartDate())
+                            + "\nFinish date " + dateFormat.format(projectEntry.getValue().getTaskList().get(i).getFinishDate()));
+                }
+            } else {
+                System.out.println("Task list is empty");
+            }
         }
     }
 
