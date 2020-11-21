@@ -45,8 +45,8 @@ class AppTest {
 
     @Test
     public void testProjectCreate() throws IOException {
-        String projectCreateCommand = "project-create\nnewProject\nProject description" +
-                "\n30.10.2020\n31.10.2020\nexit\n\u001a";
+        String projectCreateCommand = "newUser\n123\nnewUser\n123\nproject-create\nnewProject\n" +
+                "Project description\n30.10.2020\n31.10.2020\nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectCreateCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -54,14 +54,23 @@ class AppTest {
         Assertions.assertEquals(PROJECT_CREATE_OUTPUT, os.toString(), "Incorrect project-create output");
     }
 
-    public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
-            "\n[Enter project name]\n[Enter project description]\n[Enter starting date dd.MM.yyyy]" +
-            "\n[Enter finishing date dd.MM.yyyy]\n[Project newProject created]\n";
+    public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n";
 
 
     @Test
     public void testProjectList() throws IOException {
-        String projectListCommand = "project-create\nnewProject\nProject description\n30.10.2020" +
+        String projectListCommand = "newUser\n123\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\nproject-list";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -70,14 +79,27 @@ class AppTest {
         Assertions.assertEquals(PROJECT_LIST_OUTPUT, os.toString(), "Incorrect project-list output");
     }
 
-    public static final String PROJECT_LIST_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
-            "\n[Enter project name]\n[Enter project description]\n[Enter starting date dd.MM.yyyy]" +
-            "\n[Enter finishing date dd.MM.yyyy]\n[Project newProject created]\nProject Name: newProject\n" +
-            "Description: Project description\nStart date: 30.10.2020\nFinish date: 31.10.2020\nTasks: []\n";
+    public static final String PROJECT_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n" +
+            "Project Name: newProject\n" +
+            "Description: Project description\n" +
+            "Start date: 30.10.2020\n" +
+            "Finish date: 31.10.2020\n" +
+            "Tasks: []\n";
 
     @Test
     public void testTaskCreate() throws IOException {
-        String projectListCommand = "project-create\nnewProject\nProject description\n30.10.2020" +
+        String projectListCommand = "newUser\n123\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
                 "\n30.11.2020\n31.11.2020 \nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
@@ -87,17 +109,29 @@ class AppTest {
         Assertions.assertEquals(TASK_CREATE_OUTPUT, os.toString(), "Incorrect task-create output");
     }
 
-    public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
-            "\n[Enter project name]\n[Enter project description]" +
-            "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]" +
-            "\n[Project newProject created]\n[Enter project to include to]\n[Enter task name]" +
-            "\n[Enter task description]\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]" +
-            "\n[Task newTask created and added to the project newProject]\n";
+    public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n[" +
+            "Enter project to include to]\n" +
+            "[Enter task name]\n" +
+            "[Enter task description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Task newTask created and added to the project newProject]\n";
 
 
     @Test
     public void testTaskList() throws IOException {
-        String projectListCommand = "project-create\nnewProject\nProject description\n30.10.2020" +
+        String projectListCommand = "newUser\n123\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
                 "\n30.11.2020\n01.12.2020\ntask-list\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
@@ -107,14 +141,69 @@ class AppTest {
         Assertions.assertEquals(TASK_LIST_OUTPUT, os.toString(), "Incorrect task-create output");
     }
 
-    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nType help to get instructions" +
-            "\n[Enter project name]\n[Enter project description]\n[Enter starting date dd.MM.yyyy]" +
-            "\n[Enter finishing date dd.MM.yyyy]\n[Project newProject created]\n" +
-            "[Enter project to include to]\n[Enter task name]\n[Enter task description]" +
-            "\n[Enter starting date dd.MM.yyyy]\n[Enter finishing date dd.MM.yyyy]" +
-            "\n[Task newTask created and added to the project newProject]\n[Task newTask in the project newProject]" +
-            "\nStart date: 30.11.2020\nFinish date: 01.12.2020\n";
+    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n" +
+            "[Enter project to include to]\n" +
+            "[Enter task name]\n" +
+            "[Enter task description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Task newTask created and added to the project newProject]\n" +
+            "[Task newTask in the project newProject]\n" +
+            "Start date: 30.11.2020\n" +
+            "Finish date: 01.12.2020\n";
 
+    @Test
+
+    public void testProjectIsolation() throws IOException {
+        String projectListCommand = "newUser\n123\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\nuser-reg\nsecondUser\n321\nuser-login\nsecondUser\n321\nproject-create\nsecondProject\nProject description\n" +
+                "29.12.2020\n30.12.2020\nproject-list";
+        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(PROJECT_ISOLATION_OUTPUT, os.toString(), "Incorrect project-list output");
+    }
+
+    public static final String PROJECT_ISOLATION_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User secondUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome secondUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project secondProject created]\n" +
+            "Project Name: secondProject\n" +
+            "Description: Project description\n" +
+            "Start date: 29.12.2020\n" +
+            "Finish date: 30.12.2020\n" +
+            "Tasks: []\n";
 }
 
 
