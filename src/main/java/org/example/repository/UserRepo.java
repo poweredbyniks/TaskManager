@@ -34,12 +34,16 @@ public class UserRepo {
             System.out.println("Welcome " + userName);
             return userMap.get(userName);
 
-        } else System.out.println("User not found");
+        } else System.out.println("Wrong user name or password");
         return null;
     }
 
     public boolean save(User user) {
-        userMap.put(user.getUserName(), user);
+        if(!userMap.containsKey(user.getUserName())) {
+            userMap.put(user.getUserName(), user);
+        } else {
+            System.out.println("User already exists");
+        }
         return true;
     }
 

@@ -27,7 +27,7 @@ public class UserService {
 
     public void userInfo(String userName) {
         System.out.println("User ID is: " + userRepo.findOne(userName).getUserID()
-                + "User name is: " + userRepo.findOne(userName).getUserName());
+                + "\nUser name is: " + userRepo.findOne(userName).getUserName());
     }
 
     public void userNameEdit(String newUserName, User user) {
