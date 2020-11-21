@@ -31,7 +31,7 @@ public class TaskService {
             }
             taskRepo.save(task);
         } else {
-            System.out.println("No such existing projects");
+            System.out.println("No such existing project");
         }
     }
 

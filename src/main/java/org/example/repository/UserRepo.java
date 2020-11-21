@@ -1,7 +1,5 @@
 package org.example.repository;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.example.AccessRoles;
 import org.example.entity.User;
 
 import java.util.ArrayList;
@@ -10,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserRepo {
-    private static Map<String, User> userMap = new HashMap<>();
+    private Map<String, User> userMap = new HashMap<>();
 
     public Map<String, User> showAll() {
         return userMap;

@@ -131,9 +131,9 @@ class AppTest {
 
     @Test
     public void testTaskList() throws IOException {
-        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nnewProject\nProject description\n30.10.2020" +
-                "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
-                "\n30.11.2020\n01.12.2020\ntask-list\n exit\n\u001a";
+        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+        "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
+                "\n30.11.2020\n31.11.2020\ntask-list\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -164,7 +164,6 @@ class AppTest {
             "Finish date: 01.12.2020\n";
 
     @Test
-
     public void testProjectIsolation() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\nuser-reg\nsecondUser\n321\nuser-login\nsecondUser\n321\nproject-create\nsecondProject\nProject description\n" +
