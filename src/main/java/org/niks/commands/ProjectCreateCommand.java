@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
@@ -12,9 +11,11 @@ import java.text.SimpleDateFormat;
 
 public class ProjectCreateCommand extends Command {
     private ProjectService projectService;
+    private UserService userService;
 
-    public ProjectCreateCommand(ProjectService projectService) {
+    public ProjectCreateCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ProjectCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) throws IOException {
         if (userService.getCurrentUser() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("[Enter project name]");

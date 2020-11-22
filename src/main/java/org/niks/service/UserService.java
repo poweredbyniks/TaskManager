@@ -1,15 +1,18 @@
 package org.niks.service;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.UserRepo;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class UserService {
     private UserRepo userRepo;
     private User currentUser;
+    public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -25,15 +28,21 @@ public class UserService {
 
 
     public void userCreate(String userName, String password) {
-        User user = new User(AccessRoles.USER, randomNumber(), userName, md5Password(password));
+        User user = new User(AccessRoles.USER, randomNumber(), userName, passwordGenerate(password));
         if (userRepo.save(user)) {
             System.out.println("[User " + userName + " created]");
         } else System.out.println("Something went wrong");
     }
 
     public User userVerify(String userName, String password) {
-        return userRepo.verifyUser(userName, md5Password(password));
-
+        if (userRepo.showAll().containsKey(userName) &&
+                passwordGenerate(password).equals(userRepo.showAll().get(userName).getHashPassword())) {
+            System.out.println("Welcome " + userName);
+            return userRepo.showAll().get(userName);
+        } else {
+            System.out.println("Wrong user name or password");
+            return null;
+        }
     }
 
     public void userInfo(String userName) {
@@ -48,12 +57,8 @@ public class UserService {
     }
 
     public void passwordEdit(String newPassword, User user) {
-        String md5Password = md5Password(newPassword);
-        userRepo.passwordUpdate(md5Password, user);
-    }
-
-    public void adminReg(User admin){
-        userRepo.save(admin);
+        String generatedPassword = passwordGenerate(newPassword);
+        userRepo.passwordUpdate(generatedPassword, user);
     }
 
     public long randomNumber() {
@@ -61,8 +66,21 @@ public class UserService {
         return random.nextInt();
     }
 
-    private String md5Password(String password) {
-        String md5Password = DigestUtils.md5Hex(password);
-        return md5Password;
+    private String passwordGenerate(String passwordToHash) {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
 }
+

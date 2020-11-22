@@ -8,9 +8,11 @@ import java.io.BufferedReader;
 
 public class TaskListCommand extends Command {
     private TaskService taskService;
+    private UserService userService;
 
-    public TaskListCommand(TaskService taskService) {
+    public TaskListCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class TaskListCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             taskService.taskList(userService.getCurrentUser());
         } else {

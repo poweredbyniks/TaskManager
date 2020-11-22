@@ -1,10 +1,8 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 
 public class UserInfoCommand extends Command {
     private UserService userService;
@@ -24,7 +22,7 @@ public class UserInfoCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             userService.userInfo(userService.getCurrentUser().getUserName());
         } else {

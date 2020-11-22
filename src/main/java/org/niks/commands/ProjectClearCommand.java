@@ -7,9 +7,11 @@ import java.io.BufferedReader;
 
 public class ProjectClearCommand extends Command {
     private ProjectService projectService;
+    private UserService userService;
 
-    public ProjectClearCommand(ProjectService projectService) {
+    public ProjectClearCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ProjectClearCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             projectService.projectClear(userService.getCurrentUser());
         } else {

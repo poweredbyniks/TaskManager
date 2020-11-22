@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
@@ -24,7 +23,7 @@ public class UserEditCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) throws IOException {
         if (userService != null) {
             System.out.println("Enter new userName");
             String newUserName = reader.readLine();

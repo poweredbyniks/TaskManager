@@ -4,7 +4,6 @@ package org.niks.commands;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 
 public class UserEndSessionCommand extends Command {
     private UserService userService;
@@ -24,8 +23,7 @@ public class UserEndSessionCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) {
         userService.setCurrentUser(null);
-
     }
 }

@@ -24,14 +24,11 @@ public class UserRegistrationCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
         userService.userCreate(userName, password);
-    }
-    public void adminReg(User admin){
-        userService.adminReg(admin);
     }
 }

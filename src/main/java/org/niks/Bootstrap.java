@@ -1,8 +1,6 @@
 package org.niks;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.niks.commands.*;
-import org.niks.entity.User;
 import org.niks.repository.ProjectRepo;
 import org.niks.repository.TaskRepo;
 import org.niks.repository.UserRepo;
@@ -21,20 +19,20 @@ public class Bootstrap {
     TaskRepo taskRepo = new TaskRepo();
     UserRepo userRepo = new UserRepo();
     ProjectService projectService = new ProjectService(projectRepo);
-    TaskService taskService = new TaskService(taskRepo, projectRepo);
+    TaskService taskService = new TaskService(taskRepo);
     UserService userService = new UserService(userRepo);
     public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
-    HelpCommand helpCommand = new HelpCommand();
-    ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService);
-    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService);
-    ProjectListCommand projectListCommand = new ProjectListCommand(projectService);
-    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService);
+    HelpCommand helpCommand = new HelpCommand(userService);
+    ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService, userService);
+    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
+    ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
+    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
 
-    TaskClearCommand taskClearCommand = new TaskClearCommand(taskService);
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, projectRepo);
-    TaskListCommand taskListCommand = new TaskListCommand(taskService);
-    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService);
+    TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, projectRepo, userService);
+    TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
+    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
 
     UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);
     UserEditCommand userEditCommand = new UserEditCommand(userService);
@@ -65,13 +63,10 @@ public class Bootstrap {
     public void commandExecution() {
         System.out.println("Welcome to the Task Manager.\nSign up, please");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            User admin = new User(AccessRoles.ADMIN, 1, "niks", md5Password("123"));
-            userRegistrationCommand.adminReg(admin);
             String input = reader.readLine();
-
             while (input != null) {
                 if (commandMap.containsKey(input)) {
-                    commandMap.get(input).execute(reader, userService);
+                    commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
                     break;
                 }
@@ -80,10 +75,5 @@ public class Bootstrap {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private String md5Password(String password) {
-        String md5Password = DigestUtils.md5Hex(password);
-        return md5Password;
     }
 }

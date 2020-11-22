@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
@@ -9,9 +8,10 @@ import java.io.IOException;
 
 public class ProjectRemoveCommand extends Command {
     private ProjectService projectService;
-
-    public ProjectRemoveCommand(ProjectService projectService) {
+    private UserService userService;
+    public ProjectRemoveCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ProjectRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");

@@ -8,9 +8,11 @@ import java.io.BufferedReader;
 
 public class TaskClearCommand extends Command {
     private TaskService taskService;
+    private UserService userService;
 
-    public TaskClearCommand(TaskService taskService) {
+    public TaskClearCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class TaskClearCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             taskService.taskClear(userService.getCurrentUser());
         } else {

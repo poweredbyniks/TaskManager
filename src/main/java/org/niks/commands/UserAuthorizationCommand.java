@@ -25,7 +25,7 @@ public class UserAuthorizationCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) throws IOException {
+    public void execute(BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
         String userName = reader.readLine();
         System.out.println("Enter password");

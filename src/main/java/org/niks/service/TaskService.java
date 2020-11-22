@@ -12,11 +12,9 @@ import java.util.Map;
 
 public class TaskService {
     private TaskRepo taskRepo;
-    private ProjectRepo projectRepo;
 
-    public TaskService(TaskRepo taskRepo, ProjectRepo projectRepo) {
+    public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
-        this.projectRepo = projectRepo;
     }
 
     public void taskCreate(String projectName, String taskName, String taskDescription, Date startDate,
@@ -53,7 +51,6 @@ public class TaskService {
         taskRepo.removeAll(user);
         System.out.println("[Task list is empty]");
     }
-
 
     public static long randomNumber() {
         SecureRandom random = new SecureRandom();

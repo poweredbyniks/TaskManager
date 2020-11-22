@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.repository.ProjectRepo;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
@@ -12,13 +11,14 @@ import java.text.SimpleDateFormat;
 
 public class TaskCreateCommand extends Command {
     private TaskService taskService;
+    private ProjectRepo projectRepo;
+    private UserService userService;
 
-    public TaskCreateCommand(TaskService taskService, ProjectRepo projectRepo) {
+    public TaskCreateCommand(TaskService taskService, ProjectRepo projectRepo, UserService userService) {
         this.taskService = taskService;
         this.projectRepo = projectRepo;
+        this.userService = userService;
     }
-
-    private ProjectRepo projectRepo;
 
 
     @Override
@@ -32,7 +32,7 @@ public class TaskCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {

@@ -10,9 +10,11 @@ import java.io.IOException;
 
 public class TaskRemoveCommand extends Command {
     private TaskService taskService;
+    private UserService userService;
 
-    public TaskRemoveCommand(TaskService taskService) {
+    public TaskRemoveCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class TaskRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader, UserService userService) {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
