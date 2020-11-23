@@ -29,7 +29,7 @@ public class ProjectRemoveCommand extends Command {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");
-                projectService.projectRemove(reader.readLine(), userService.getCurrentUser());
+                projectService.projectRemove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -8,5 +8,5 @@ public class User {
     private AccessRoles accessRoles;
     private long userID;
     private String userName;
-    private String hashPassword;
+    private String passwordHash;
 }

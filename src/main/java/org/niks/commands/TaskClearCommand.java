@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -28,7 +27,7 @@ public class TaskClearCommand extends Command {
     @Override
     public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
-            taskService.taskClear(userService.getCurrentUser());
+            taskService.taskClear();
         } else {
             System.out.println("Log in before working");
         }

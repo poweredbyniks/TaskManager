@@ -4,10 +4,6 @@ import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,21 +13,12 @@ public class UserRepo {
     private Map<String, User> userMap = new HashMap<>();
 
     public UserRepo() {
-        User admin = new User(AccessRoles.ADMIN, 1, "niks", passwordGenerate("123"));
+        User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
     }
 
-    public Map<String, User> showAll() {
-        return userMap;
-    }
-
     public List<User> findAll(List<String> names) {
-        List<User> userList = new ArrayList<>();
-        for (String name : names) {
-            if (names.contains(name)) {
-                userList.add(userMap.get(name));
-            }
-        }
+        List<User> userList = new ArrayList<>(userMap.values());
         return userList;
     }
 
@@ -58,7 +45,7 @@ public class UserRepo {
     }
 
     public boolean passwordUpdate(String password, User user) {
-        if (user.getHashPassword().equals(password)) {
+        if (user.getPasswordHash().equals(password)) {
             userMap.remove(user);
             userMap.put(user.getUserName(), user);
             return true;
@@ -75,20 +62,4 @@ public class UserRepo {
         userMap.clear();
     }
 
-    private String passwordGenerate(String passwordToHash) {
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(UserService.USER_SALT.getBytes(StandardCharsets.UTF_8));
-            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return generatedPassword;
-    }
 }

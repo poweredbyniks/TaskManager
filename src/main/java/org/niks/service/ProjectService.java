@@ -9,13 +9,14 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class ProjectService {
     private ProjectRepo projectRepo;
+    private UserService userService;
 
-    public ProjectService(ProjectRepo projectRepo) {
+    public ProjectService(ProjectRepo projectRepo, UserService userService) {
         this.projectRepo = projectRepo;
+        this.userService = userService;
     }
 
     public void projectCreate(String projectName, String projectDescription, Date startDate, Date finishDate, long userID) {
@@ -26,20 +27,20 @@ public class ProjectService {
         }
     }
 
-    public void projectList(UserService userService) {
+    public void projectList() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        for (Map.Entry<String, Project> projectEntry : projectRepo.showAll(userService.getCurrentUser()).entrySet()) {
-            System.out.println("Project Name: " + projectEntry.getValue().getProjectName()
-                    + "\nDescription: " + projectEntry.getValue().getProjectDescription()
-                    + "\nStart date: " + dateFormat.format(projectEntry.getValue().getStartDate())
-                    + "\nFinish date: " + dateFormat.format(projectEntry.getValue().getFinishDate()));
-            if (projectEntry.getValue().getTaskList().size() != 0) {
-                for (int i = 0; i < projectEntry.getValue().getTaskList().size(); i++) {
-                    System.out.println("\nTasks: \n" + "taskID: " + projectEntry.getValue().getTaskList().get(i).getTaskID()
-                            + "\nTask name: " + projectEntry.getValue().getTaskList().get(i).getTaskName()
-                            + "\nTask description: " + projectEntry.getValue().getTaskList().get(i).getTaskDescription()
-                            + "\nStart date: " + dateFormat.format(projectEntry.getValue().getTaskList().get(i).getStartDate())
-                            + "\nFinish date " + dateFormat.format(projectEntry.getValue().getTaskList().get(i).getFinishDate()));
+            for(Project project : projectRepo.findAll()){
+            System.out.println("Project Name: " + project.getProjectName()
+                    + "\nDescription: " + project.getProjectDescription()
+                    + "\nStart date: " + dateFormat.format(project.getStartDate())
+                    + "\nFinish date: " + dateFormat.format(project.getFinishDate()));
+            if (project.getTaskList().size() != 0) {
+                for (int i = 0; i < projectRepo.findAll().size(); i++) {
+                    System.out.println("\nTasks: \n" + "taskID: " + project.getTaskList().get(i).getTaskID()
+                            + "\nTask name: " + project.getTaskList().get(i).getTaskName()
+                            + "\nTask description: " + project.getTaskList().get(i).getTaskDescription()
+                            + "\nStart date: " + dateFormat.format(project.getTaskList().get(i).getStartDate())
+                            + "\nFinish date " + dateFormat.format(project.getTaskList().get(i).getFinishDate()));
                 }
             } else {
                 System.out.println("Task list is empty");
@@ -47,13 +48,13 @@ public class ProjectService {
         }
     }
 
-    public void projectRemove(String projectToRemove, User user) {
-        projectRepo.remove(projectToRemove, user);
+    public void projectRemove(String projectToRemove) {
+        projectRepo.remove(projectToRemove, userService.getCurrentUser());
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
-    public void projectClear(User user) {
-        projectRepo.removeAll(user);
+    public void projectClear() {
+        projectRepo.removeAll(userService.getCurrentUser());
         System.out.println("[Project list is plain empty]");
     }
 

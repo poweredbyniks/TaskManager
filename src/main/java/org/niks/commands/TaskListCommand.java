@@ -1,6 +1,6 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
+
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -28,7 +28,7 @@ public class TaskListCommand extends Command {
     @Override
     public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
-            taskService.taskList(userService.getCurrentUser());
+            taskService.taskList();
         } else {
             System.out.println("Log in before working");
         }

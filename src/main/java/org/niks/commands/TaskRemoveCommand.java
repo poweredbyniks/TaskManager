@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -32,7 +31,7 @@ public class TaskRemoveCommand extends Command {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
-                taskService.taskRemove(reader.readLine(), userService.getCurrentUser());
+                taskService.taskRemove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

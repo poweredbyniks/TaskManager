@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import org.niks.entity.User;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
@@ -28,7 +27,7 @@ public class ProjectListCommand extends Command {
     @Override
     public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
-            projectService.projectList(userService);
+            projectService.projectList();
         } else {
             System.out.println("Log in before working");
         }

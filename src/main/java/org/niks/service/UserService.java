@@ -25,20 +25,18 @@ public class UserService {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
-
-
+    
     public void userCreate(String userName, String password) {
-        User user = new User(AccessRoles.USER, randomNumber(), userName, passwordGenerate(password));
+        User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
         if (userRepo.save(user)) {
             System.out.println("[User " + userName + " created]");
         } else System.out.println("Something went wrong");
     }
 
     public User userVerify(String userName, String password) {
-        if (userRepo.showAll().containsKey(userName) &&
-                passwordGenerate(password).equals(userRepo.showAll().get(userName).getHashPassword())) {
+        if(hash(password).equals(userRepo.findOne(userName).getPasswordHash())) {
             System.out.println("Welcome " + userName);
-            return userRepo.showAll().get(userName);
+            return userRepo.findOne(userName);
         } else {
             System.out.println("Wrong user name or password");
             return null;
@@ -57,7 +55,7 @@ public class UserService {
     }
 
     public void passwordEdit(String newPassword, User user) {
-        String generatedPassword = passwordGenerate(newPassword);
+        String generatedPassword = hash(newPassword);
         userRepo.passwordUpdate(generatedPassword, user);
     }
 
@@ -66,12 +64,12 @@ public class UserService {
         return random.nextInt();
     }
 
-    private String passwordGenerate(String passwordToHash) {
+    public static String hash(String password) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
-            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));

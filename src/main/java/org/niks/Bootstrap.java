@@ -15,12 +15,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-    ProjectRepo projectRepo = new ProjectRepo();
-    TaskRepo taskRepo = new TaskRepo();
     UserRepo userRepo = new UserRepo();
-    ProjectService projectService = new ProjectService(projectRepo);
-    TaskService taskService = new TaskService(taskRepo);
     UserService userService = new UserService(userRepo);
+    ProjectRepo projectRepo = new ProjectRepo(userService);
+    TaskRepo taskRepo = new TaskRepo(userService);
+    ProjectService projectService = new ProjectService(projectRepo, userService);
+    TaskService taskService = new TaskService(taskRepo, userService);
+
     public static Map<String, Command> commandMap = new LinkedHashMap<>();
 
     HelpCommand helpCommand = new HelpCommand(userService);

@@ -1,41 +1,38 @@
 package org.niks.repository;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.niks.entity.Project;
 import org.niks.entity.User;
+import org.niks.service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+
 public class ProjectRepo {
     private Map<String, Project> projectMap = new HashMap<>();
-
-    public Map<String, Project> showAll(User user) {
-        Map<String, Project> userProjectMap = new HashMap<>();
-        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == user.getUserID()) {
-                userProjectMap.put(projectEntry.getKey(), projectEntry.getValue());
-            }
-        }
-        return userProjectMap;
+    private UserService userService;
+    public ProjectRepo(UserService userService) {
+        this.userService = userService;
     }
 
-    public List<Project> findAll(List<String> names) {
+    public List<Project> findAll() {
         List<Project> projectList = new ArrayList<>();
-        for (String name : names) {
-            if (names.contains(name))
-                projectList.add(projectMap.get(name));
+        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
+            if (projectEntry.getValue().getUserID() == userService.getCurrentUser().getUserID()) {
+                projectList.add(projectEntry.getValue());
+            }
         }
         return projectList;
     }
 
     public Project findOne(String name) {
-        return projectMap.get(name);
+        Project project = null;
+        if (projectMap.get(name).getUserID() == userService.getCurrentUser().getUserID()) {
+            project = projectMap.get(name);
+        }
+        return project;
     }
 
     public boolean save(Project project) {

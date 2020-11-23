@@ -1,35 +1,28 @@
 package org.niks.repository;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.niks.entity.Task;
-import org.niks.entity.User;
+import org.niks.service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
 public class TaskRepo {
     private Map<String, Task> taskMap = new HashMap<>();
+    private UserService userService;
 
-    public Map<String, Task> showAll(User user) {
-        Map<String, Task> userTaskMap = new HashMap<>();
-        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == user.getUserID()) {
-                userTaskMap.put(taskEntry.getKey(), taskEntry.getValue());
-            }
-        }
-        return userTaskMap;
+    public TaskRepo(UserService userService) {
+        this.userService = userService;
     }
 
-    public List<Task> findAll(List<String> names) {
+
+    public List<Task> findAll() {
         List<Task> taskList = new ArrayList<>();
-        for (String name : names) {
-            if (names.contains(name))
-                taskList.add(taskMap.get(name));
+        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
+            if (taskEntry.getValue().getUserID() == userService.getCurrentUser().getUserID()) {
+                taskList.add(taskEntry.getValue());
+            }
         }
         return taskList;
     }
@@ -43,21 +36,21 @@ public class TaskRepo {
         return true;
     }
 
-    public boolean update(Task task) {
+    public boolean update() {
         return false;
     }
 
-    public void remove(String name, User user) {
+    public void remove(String name) {
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == user.getUserID()) {
+            if (taskEntry.getValue().getUserID() == userService.getCurrentUser().getUserID()) {
                 taskMap.remove(name);
             }
         }
     }
 
-    public void removeAll(User user) {
+    public void removeAll() {
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == user.getUserID()) {
+            if (taskEntry.getValue().getUserID() == userService.getCurrentUser().getUserID()) {
                 taskMap.remove(taskEntry.getKey());
             }
         }
