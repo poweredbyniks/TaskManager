@@ -18,20 +18,20 @@ public class Bootstrap {
     UserRepo userRepo = new UserRepo();
     UserService userService = new UserService(userRepo);
     ProjectRepo projectRepo = new ProjectRepo(userService);
-    TaskRepo taskRepo = new TaskRepo(userService);
-    ProjectService projectService = new ProjectService(projectRepo, userService);
-    TaskService taskService = new TaskService(taskRepo, userService);
+    TaskRepo taskRepo = new TaskRepo(userService, projectRepo);
+    ProjectService projectService = new ProjectService(projectRepo);
+    TaskService taskService = new TaskService(taskRepo);
 
-    public static Map<String, Command> commandMap = new LinkedHashMap<>();
+    public Map<String, Command> commandMap = new LinkedHashMap<>();
 
-    HelpCommand helpCommand = new HelpCommand(userService);
+    HelpCommand helpCommand = new HelpCommand(commandMap, userService);
     ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService, userService);
     ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
     ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
     ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
 
     TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, projectRepo, userService);
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, userService);
     TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
     TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
 

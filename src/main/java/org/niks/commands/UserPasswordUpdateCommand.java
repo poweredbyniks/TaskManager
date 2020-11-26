@@ -27,7 +27,7 @@ public class UserPasswordUpdateCommand extends Command {
         if (userService != null) {
             System.out.println("Enter new password");
             String newPassword = reader.readLine();
-            userService.passwordEdit(newPassword, userService.getCurrentUser());
+            userService.passwordEdit(newPassword);
         } else {
             System.out.println("Log in before working");
         }

@@ -27,7 +27,7 @@ public class UserEditCommand extends Command {
         if (userService != null) {
             System.out.println("Enter new userName");
             String newUserName = reader.readLine();
-            userService.userNameEdit(newUserName, userService.getCurrentUser());
+            userService.userNameEdit(newUserName);
         } else {
             System.out.println("Log in before working");
         }

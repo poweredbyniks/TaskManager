@@ -4,10 +4,7 @@ import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserRepo {
     private Map<String, User> userMap = new HashMap<>();
@@ -22,8 +19,8 @@ public class UserRepo {
         return userList;
     }
 
-    public User findOne(String name) {
-        return userMap.get(name);
+    public Optional<User> findOne(String name) {
+        return Optional.ofNullable(userMap.get(name));
     }
 
     public boolean save(User user) {
@@ -37,21 +34,17 @@ public class UserRepo {
     }
 
     public boolean userNameUpdate(String newUserName, User user) {
-        if (userMap.containsValue(user)) {
-            userMap.remove(user.getUserName());
-            userMap.put(newUserName, user);
-        }
+        User userNameUpdateUser = new User(AccessRoles.USER, user.getUserID(), newUserName, user.getPasswordHash());
+        userMap.remove(user.getUserName());
+        userMap.put(userNameUpdateUser.getUserName(), userNameUpdateUser);
         return true;
     }
 
     public boolean passwordUpdate(String password, User user) {
-        if (user.getPasswordHash().equals(password)) {
-            userMap.remove(user);
-            userMap.put(user.getUserName(), user);
-            return true;
-        } else {
-            return false;
-        }
+        User passwordUpdateUser = new User(AccessRoles.USER, user.getUserID(), user.getUserName(), password);
+        userMap.remove(user.getUserName());
+        userMap.put(passwordUpdateUser.getUserName(), passwordUpdateUser);
+        return true;
     }
 
     public void remove(String name) {

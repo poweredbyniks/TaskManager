@@ -41,6 +41,17 @@ class AppTest {
     }
 
     @Test
+    public void testProjectListWithTask() throws IOException {
+        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\ntask-create\nnewProject\nnewTask\nfeed a cat\n25.11.2020\n26.11.2020\nproject-list\nproject-list \n\u001a";
+        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(), "Incorrect project-list output");
+    }
+
+    @Test
     public void testTaskCreate() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +

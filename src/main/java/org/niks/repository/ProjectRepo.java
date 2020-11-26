@@ -4,35 +4,37 @@ import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ProjectRepo {
     private Map<String, Project> projectMap = new HashMap<>();
     private UserService userService;
+
     public ProjectRepo(UserService userService) {
         this.userService = userService;
+    }
+
+    private User currentUser() {
+        return userService.getCurrentUser();
     }
 
     public List<Project> findAll() {
         List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == userService.getCurrentUser().getUserID()) {
+            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
                 projectList.add(projectEntry.getValue());
             }
         }
         return projectList;
     }
 
-    public Project findOne(String name) {
+    public Optional<Project> findOne(String name) {
         Project project = null;
-        if (projectMap.get(name).getUserID() == userService.getCurrentUser().getUserID()) {
-            project = projectMap.get(name);
+        if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
+            project =  projectMap.get(name);
         }
-        return project;
+        return Optional.ofNullable(project);
     }
 
     public boolean save(Project project) {
@@ -44,17 +46,17 @@ public class ProjectRepo {
         return false;
     }
 
-    public void remove(String name, User user) {
+    public void remove(String name) {
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == user.getUserID()) {
+            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
                 projectMap.remove(name);
             }
         }
     }
 
-    public void removeAll(User user) {
+    public void removeAll() {
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == user.getUserID()) {
+            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
                 projectMap.remove(projectEntry.getKey());
             }
         }

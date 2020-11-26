@@ -55,6 +55,35 @@ public class TestOutputs {
             "Finish date: 31.10.2020\n" +
             "Task list is empty\n";
 
+    public static final String PROJECT_LIST_WITH_TASK_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "[Enter project name]\n" +
+            "[Enter project description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Project newProject created]\n" +
+            "[Enter project to include to]\n" +
+            "[Enter task name]\n" +
+            "[Enter task description]\n" +
+            "[Enter starting date dd.MM.yyyy]\n" +
+            "[Enter finishing date dd.MM.yyyy]\n" +
+            "[Task newTask created and added to the project newProject]\n" +
+            "Project Name: newProject\n" +
+            "Description: Project description\n" +
+            "Start date: 30.10.2020\n" +
+            "Finish date: 31.10.2020\n" +
+            "Tasks:\n" +
+            "Task name: newTask\n" +
+            "Task description: feed a cat\n" +
+            "Start date: 25.11.2020\n" +
+            "Finish date: 26.11.2020\n";
+
+
     public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
             "Enter user name\n" +
             "Enter password\n" +

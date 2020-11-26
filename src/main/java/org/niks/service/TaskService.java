@@ -1,37 +1,22 @@
 package org.niks.service;
 
-import org.niks.entity.Project;
 import org.niks.entity.Task;
-import org.niks.repository.ProjectRepo;
 import org.niks.repository.TaskRepo;
 
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TaskService {
     private TaskRepo taskRepo;
-    private UserService userService;
 
-    public TaskService(TaskRepo taskRepo, UserService userService) {
+    public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
-        this.userService = userService;
     }
 
-    public void taskCreate(String projectName, String taskName, String taskDescription, Date startDate,
-                           Date finishDate, ProjectRepo projectRepo) {
-        Task task = new Task(randomNumber(), taskName, projectName, taskDescription, startDate, finishDate, userService.getCurrentUser().getUserID());
-        for (Project project : projectRepo.findAll()) {
-            if (project.getProjectName().equals(projectName)) {
-                projectRepo.findOne(projectName).getTaskList().add(task);
-                taskRepo.save(task);
-                if (taskRepo.save(task)) {
-                    System.out.println("[Task " + taskName + " created and added to the project " + projectName + "]");
-                }
-                taskRepo.save(task);
-            } else {
-                System.out.println("No such existing project");
-            }
+    public void taskCreate(Task task) {
+        if (taskRepo.save(task)) {
+            System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
+        } else {
+            System.out.println("No such existing project");
         }
     }
 
@@ -54,8 +39,5 @@ public class TaskService {
         System.out.println("[Task list is empty]");
     }
 
-    public static long randomNumber() {
-        SecureRandom random = new SecureRandom();
-        return random.nextInt();
-    }
+
 }

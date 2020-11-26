@@ -34,9 +34,9 @@ public class UserService {
     }
 
     public User userVerify(String userName, String password) {
-        if(hash(password).equals(userRepo.findOne(userName).getPasswordHash())) {
+        if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
             System.out.println("Welcome " + userName);
-            return userRepo.findOne(userName);
+            return userRepo.findOne(userName).get();
         } else {
             System.out.println("Wrong user name or password");
             return null;
@@ -44,19 +44,21 @@ public class UserService {
     }
 
     public void userInfo(String userName) {
-        System.out.println("User ID is: " + userRepo.findOne(userName).getUserID()
-                + "\nUser name is: " + userRepo.findOne(userName).getUserName());
+        System.out.println("User ID is: " + userRepo.findOne(userName).get().getUserID()
+                + "\nUser name is: " + userRepo.findOne(userName).get().getUserName());
     }
 
-    public void userNameEdit(String newUserName, User user) {
-        if (userRepo.userNameUpdate(newUserName, user)) {
+    public void userNameEdit(String newUserName) {
+        if (userRepo.userNameUpdate(newUserName, currentUser)) {
             System.out.println("Your new user name is " + newUserName);
         }
     }
 
-    public void passwordEdit(String newPassword, User user) {
-        String generatedPassword = hash(newPassword);
-        userRepo.passwordUpdate(generatedPassword, user);
+    public void passwordEdit(String newPassword) {
+        String hashPassword = hash(newPassword);
+        if(userRepo.passwordUpdate(hashPassword, currentUser)){
+            System.out.println("Password updated");
+        }
     }
 
     public long randomNumber() {
@@ -65,7 +67,7 @@ public class UserService {
     }
 
     public static String hash(String password) {
-        String generatedPassword = null;
+        String hashPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
@@ -74,11 +76,11 @@ public class UserService {
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
-            generatedPassword = sb.toString();
+            hashPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return generatedPassword;
+        return hashPassword;
     }
 }
 
