@@ -25,7 +25,7 @@ public class UserEditCommand extends Command {
     @Override
     public void execute(BufferedReader reader) throws IOException {
         if (userService != null) {
-            System.out.println("Enter new userName");
+            System.out.println("Enter new user name");
             String newUserName = reader.readLine();
             userService.userNameEdit(newUserName);
         } else {

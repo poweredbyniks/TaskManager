@@ -39,7 +39,7 @@ public class Bootstrap {
     UserEditCommand userEditCommand = new UserEditCommand(userService);
     UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
     UserInfoCommand userInfoCommand = new UserInfoCommand(userService);
-    UserPasswordUpdateCommand userPasswordUpdateCommand = new UserPasswordUpdateCommand(userService);
+    UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
     public void init() {

@@ -5,21 +5,21 @@ import org.niks.service.UserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class UserPasswordUpdateCommand extends Command {
+public class UserPasswordEditCommand extends Command {
     private UserService userService;
 
-    public UserPasswordUpdateCommand(UserService userService) {
+    public UserPasswordEditCommand(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public String getName() {
-        return "password-update";
+        return "password-edit";
     }
 
     @Override
     public String getDescription() {
-        return "Current password update";
+        return "Edit current password";
     }
 
     @Override

@@ -21,7 +21,7 @@ public class TestOutputs {
             "user-edit : Edit user name\n" +
             "user-exit : Log out\n" +
             "user-info : User info: user ID, user name\n" +
-            "password-update : Current password update\n" +
+            "password-edit : Edit current password\n" +
             "user-reg : Registration of a new user\n";
 
     public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
@@ -153,4 +153,24 @@ public class TestOutputs {
             "Start date: 29.12.2020\n" +
             "Finish date: 30.12.2020\n" +
             "Task list is empty\n";
+
+    public static final String USER_NAME_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter new user name\n" +
+            "Your new user name is Larry Page\n";
+
+    public static final String USER_PASSWORD_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "[User newUser created]\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter new password\n" +
+            "Password updated\n";
 }

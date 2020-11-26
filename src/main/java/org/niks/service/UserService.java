@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.NoSuchElementException;
 
 public class UserService {
     private UserRepo userRepo;
@@ -34,13 +35,18 @@ public class UserService {
     }
 
     public User userVerify(String userName, String password) {
-        if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
-            System.out.println("Welcome " + userName);
-            return userRepo.findOne(userName).get();
-        } else {
-            System.out.println("Wrong user name or password");
-            return null;
+        try {
+            if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
+                System.out.println("Welcome " + userName);
+                return userRepo.findOne(userName).get();
+            } else {
+                System.out.println("Wrong user name or password");
+                return null;
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("User not found");
         }
+        return null;
     }
 
     public void userInfo(String userName) {

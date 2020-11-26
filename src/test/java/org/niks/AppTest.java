@@ -48,7 +48,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(), "Incorrect project-list output");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(), "Incorrect project-list with task output");
     }
 
     @Test
@@ -72,7 +72,7 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.TASK_LIST_OUTPUT, os.toString(), "Incorrect task-create output");
+        Assertions.assertEquals(TestOutputs.TASK_LIST_OUTPUT, os.toString(), "Incorrect task-list output");
     }
 
     @Test
@@ -84,7 +84,27 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_ISOLATION_OUTPUT, os.toString(), "Incorrect project-list output");
+        Assertions.assertEquals(TestOutputs.PROJECT_ISOLATION_OUTPUT, os.toString(), "Incorrect project user isolation output");
+    }
+
+    @Test
+    public void testUserEditCommand() throws IOException {
+        String testUserEditCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nuser-edit\nLarry Page\n";
+        System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.USER_NAME_EDIT_COMMAND, os.toString(), "Incorrect user-edit output");
+    }
+
+    @Test
+    public void testUserPasswordEditCommand() throws IOException {
+        String testUserEditCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\npassword-edit\n321\n";
+        System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.USER_PASSWORD_EDIT_COMMAND, os.toString(), "Incorrect password-edit output");
     }
 }
 
