@@ -25,7 +25,7 @@ public class UserService {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
-    
+
     public void userCreate(String userName, String password) {
         User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
         if (userRepo.save(user)) {
@@ -56,7 +56,7 @@ public class UserService {
 
     public void passwordEdit(String newPassword) {
         String hashPassword = hash(newPassword);
-        if(userRepo.passwordUpdate(hashPassword, currentUser)){
+        if (userRepo.passwordUpdate(hashPassword, currentUser)) {
             System.out.println("Password updated");
         }
     }

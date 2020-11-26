@@ -32,7 +32,7 @@ public class ProjectRepo {
     public Optional<Project> findOne(String name) {
         Project project = null;
         if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
-            project =  projectMap.get(name);
+            project = projectMap.get(name);
         }
         return Optional.ofNullable(project);
     }

@@ -35,8 +35,13 @@ public class TaskRepo {
     }
 
     public boolean save(Task task) {
-        taskMap.put(task.getTaskName(), task);
-        projectRepo.findOne(task.getProjectName()).get().getTaskList().add(task);
+        try {
+            taskMap.put(task.getTaskName(), task);
+            projectRepo.findOne(task.getProjectName()).get().getTaskList().add(task);
+
+        } catch (NoSuchElementException e) {
+            System.out.println("Project not found");
+        }
         return true;
     }
 
