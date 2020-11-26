@@ -1,15 +1,17 @@
 package org.niks.repository;
 
+import lombok.Value;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.util.*;
 
-public class TaskRepo {
-    private Map<String, Task> taskMap = new HashMap<>();
-    private UserService userService;
-    private ProjectRepo projectRepo;
+@Value
+public class TaskRepo extends Repository<Task> {
+    Map<String, Task> taskMap = new HashMap<>();
+    UserService userService;
+    ProjectRepo projectRepo;
 
     public TaskRepo(UserService userService, ProjectRepo projectRepo) {
         this.userService = userService;
@@ -45,7 +47,7 @@ public class TaskRepo {
         return true;
     }
 
-    public boolean update() {
+    public boolean update(Task task) {
         return false;
     }
 

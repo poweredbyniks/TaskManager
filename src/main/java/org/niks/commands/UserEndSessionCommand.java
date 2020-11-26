@@ -1,10 +1,11 @@
 package org.niks.commands;
 
-
+import lombok.Value;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
+@Value
 public class UserEndSessionCommand extends Command {
     private UserService userService;
 

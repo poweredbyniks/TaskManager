@@ -7,12 +7,12 @@ import java.util.List;
 
 @Value
 public class Project {
-    private long projectID;
-    private String projectName;
-    private String projectDescription;
-    private Date startDate;
-    private Date finishDate;
-    private List<Task> taskList;
-    private long userID;
+    long projectID;
+    String projectName;
+    String projectDescription;
+    Date startDate;
+    Date finishDate;
+    List<Task> taskList;
+    long userID;
 
 }

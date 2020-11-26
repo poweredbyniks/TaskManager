@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
 public class UserService {
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
@@ -27,7 +27,7 @@ public class UserService {
         this.currentUser = currentUser;
     }
 
-    public void userCreate(String userName, String password) {
+    public void create(String userName, String password) {
         User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
         if (userRepo.save(user)) {
             System.out.println("[User " + userName + " created]");

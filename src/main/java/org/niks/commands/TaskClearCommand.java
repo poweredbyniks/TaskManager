@@ -1,13 +1,15 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
+@Value
 public class TaskClearCommand extends Command {
-    private TaskService taskService;
-    private UserService userService;
+    TaskService taskService;
+    UserService userService;
 
     public TaskClearCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
@@ -27,7 +29,7 @@ public class TaskClearCommand extends Command {
     @Override
     public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
-            taskService.taskClear();
+            taskService.clear();
         } else {
             System.out.println("Log in before working");
         }

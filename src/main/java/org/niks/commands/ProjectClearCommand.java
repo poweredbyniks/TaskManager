@@ -1,13 +1,15 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
+@Value
 public class ProjectClearCommand extends Command {
-    private ProjectService projectService;
-    private UserService userService;
+    ProjectService projectService;
+    UserService userService;
 
     public ProjectClearCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
@@ -27,7 +29,7 @@ public class ProjectClearCommand extends Command {
     @Override
     public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
-            projectService.projectClear();
+            projectService.clear();
         } else {
             System.out.println("Log in before working");
         }

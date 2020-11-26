@@ -1,5 +1,6 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.ProjectService;
@@ -12,10 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-
+@Value
 public class ProjectCreateCommand extends Command {
-    private ProjectService projectService;
-    private UserService userService;
+    ProjectService projectService;
+    UserService userService;
 
     public ProjectCreateCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
@@ -48,7 +49,7 @@ public class ProjectCreateCommand extends Command {
             try {
                 Project project = new Project(randomNumber(), projectName, projectDescription,
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
-                projectService.projectCreate(project);
+                projectService.create(project);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

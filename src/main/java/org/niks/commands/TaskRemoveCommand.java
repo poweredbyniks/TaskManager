@@ -1,15 +1,17 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-
+@Value
 public class TaskRemoveCommand extends Command {
-    private TaskService taskService;
-    private UserService userService;
+    TaskService taskService;
+    UserService userService;
+
 
     public TaskRemoveCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
@@ -31,7 +33,7 @@ public class TaskRemoveCommand extends Command {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
-                taskService.taskRemove(reader.readLine());
+                taskService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

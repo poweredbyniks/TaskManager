@@ -1,12 +1,14 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+@Value
 public class UserRegistrationCommand extends Command {
-    private UserService userService;
+    UserService userService;
 
     public UserRegistrationCommand(UserService userService) {
         this.userService = userService;
@@ -28,6 +30,6 @@ public class UserRegistrationCommand extends Command {
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
-        userService.userCreate(userName, password);
+        userService.create(userName, password);
     }
 }

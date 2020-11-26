@@ -1,18 +1,20 @@
 package org.niks.service;
 
+import lombok.Value;
 import org.niks.entity.Task;
 import org.niks.repository.TaskRepo;
 
 import java.text.SimpleDateFormat;
 
-public class TaskService {
-    private TaskRepo taskRepo;
+@Value
+public class TaskService extends Service <Task> {
+    TaskRepo taskRepo;
 
     public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
     }
 
-    public void taskCreate(Task task) {
+    public void create(Task task) {
         if (taskRepo.save(task)) {
             System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
         } else {
@@ -20,7 +22,7 @@ public class TaskService {
         }
     }
 
-    public void taskList() {
+    public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskRepo.findAll()) {
             System.out.println("[Task " + task.getTaskName() + " in the project " + task.getProjectName() + "]" +
@@ -29,12 +31,12 @@ public class TaskService {
         }
     }
 
-    public void taskRemove(String taskToRemove) {
+    public void remove(String taskToRemove) {
         taskRepo.remove(taskToRemove);
         System.out.println("[Task " + taskToRemove + "removed]");
     }
 
-    public void taskClear() {
+    public void clear() {
         taskRepo.removeAll();
         System.out.println("[Task list is empty]");
     }

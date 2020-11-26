@@ -1,8 +1,8 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.entity.Task;
 import org.niks.entity.User;
-import org.niks.repository.ProjectRepo;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -12,9 +12,10 @@ import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+@Value
 public class TaskCreateCommand extends Command {
-    private TaskService taskService;
-    private UserService userService;
+    TaskService taskService;
+    UserService userService;
 
     public TaskCreateCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
@@ -50,7 +51,7 @@ public class TaskCreateCommand extends Command {
                 String finishDate = reader.readLine();
                 Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
                         dateFormat.parse(finishDate), currentUser.getUserID());
-                taskService.taskCreate(task);
+                taskService.create(task);
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }

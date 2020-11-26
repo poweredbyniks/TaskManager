@@ -1,12 +1,14 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+@Value
 public class UserPasswordEditCommand extends Command {
-    private UserService userService;
+    UserService userService;
 
     public UserPasswordEditCommand(UserService userService) {
         this.userService = userService;

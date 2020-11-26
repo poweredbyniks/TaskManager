@@ -1,15 +1,16 @@
 package org.niks.repository;
 
+import lombok.Value;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.util.*;
 
-
-public class ProjectRepo {
-    private Map<String, Project> projectMap = new HashMap<>();
-    private UserService userService;
+@Value
+public class ProjectRepo extends Repository <Project> {
+    Map<String, Project> projectMap = new HashMap<>();
+    UserService userService;
 
     public ProjectRepo(UserService userService) {
         this.userService = userService;

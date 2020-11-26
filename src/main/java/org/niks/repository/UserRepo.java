@@ -1,13 +1,15 @@
 package org.niks.repository;
 
+import lombok.Value;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.util.*;
 
+@Value
 public class UserRepo {
-    private Map<String, User> userMap = new HashMap<>();
+    Map<String, User> userMap = new HashMap<>();
 
     public UserRepo() {
         User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));

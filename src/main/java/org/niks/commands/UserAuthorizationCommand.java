@@ -1,14 +1,15 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+@Value
 public class UserAuthorizationCommand extends Command {
-    private UserService userService;
-    private User verifiedUser;
+    UserService userService;
 
     public UserAuthorizationCommand(UserService userService) {
         this.userService = userService;
@@ -30,7 +31,7 @@ public class UserAuthorizationCommand extends Command {
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
-        verifiedUser = userService.userVerify(userName, password);
+        User verifiedUser = userService.userVerify(userName, password);
         userService.setCurrentUser(verifiedUser);
     }
 

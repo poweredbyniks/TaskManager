@@ -1,14 +1,16 @@
 package org.niks.commands;
 
+import lombok.Value;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+@Value
 public class ProjectRemoveCommand extends Command {
-    private ProjectService projectService;
-    private UserService userService;
+    ProjectService projectService;
+    UserService userService;
     public ProjectRemoveCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
@@ -29,7 +31,7 @@ public class ProjectRemoveCommand extends Command {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");
-                projectService.projectRemove(reader.readLine());
+                projectService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

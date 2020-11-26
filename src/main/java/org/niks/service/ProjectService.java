@@ -1,5 +1,6 @@
 package org.niks.service;
 
+import lombok.Value;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.ProjectRepo;
@@ -7,20 +8,21 @@ import org.niks.repository.ProjectRepo;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class ProjectService {
-    private ProjectRepo projectRepo;
+@Value
+public class ProjectService extends Service <Project>{
+    ProjectRepo projectRepo;
 
     public ProjectService(ProjectRepo projectRepo) {
         this.projectRepo = projectRepo;
     }
 
-    public void projectCreate(Project project) {
+    public void create(Project project) {
         if (projectRepo.save(project)) {
             System.out.println("[Project " + project.getProjectName() + " created]");
         }
     }
 
-    public void projectList() {
+    public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         List<Project> projectList = projectRepo.findAll();
         for (Project project : projectList) {
@@ -42,12 +44,12 @@ public class ProjectService {
         }
     }
 
-    public void projectRemove(String projectToRemove) {
+    public void remove(String projectToRemove) {
         projectRepo.remove(projectToRemove);
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
-    public void projectClear() {
+    public void clear() {
         projectRepo.removeAll();
         System.out.println("[Project list is plain empty]");
     }

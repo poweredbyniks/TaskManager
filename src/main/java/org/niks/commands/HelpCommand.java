@@ -9,8 +9,8 @@ import java.util.Map;
 
 @Value
 public class HelpCommand extends Command {
-    private UserService userService;
-    private Map<String, Command> commandMap;
+    UserService userService;
+    Map<String, Command> commandMap;
 
     public HelpCommand(Map<String, Command> commandMap, UserService userService) {
         this.userService = userService;
