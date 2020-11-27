@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ public class HelpCommand extends Command {
     UserService userService;
     Map<String, Command> commandMap;
 
+    @NotNull
     public HelpCommand(Map<String, Command> commandMap, UserService userService) {
         this.userService = userService;
         this.commandMap = commandMap;

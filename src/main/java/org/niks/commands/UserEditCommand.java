@@ -1,6 +1,8 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
@@ -10,6 +12,7 @@ import java.io.IOException;
 public class UserEditCommand extends Command {
     UserService userService;
 
+    @NotNull
     public UserEditCommand(UserService userService) {
         this.userService = userService;
     }

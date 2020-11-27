@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 public class UserAuthorizationCommand extends Command {
     UserService userService;
 
+    @NotNull
     public UserAuthorizationCommand(UserService userService) {
         this.userService = userService;
     }

@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.ProjectService;
@@ -18,6 +19,7 @@ public class ProjectCreateCommand extends Command {
     ProjectService projectService;
     UserService userService;
 
+    @NotNull
     public ProjectCreateCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
@@ -51,7 +53,7 @@ public class ProjectCreateCommand extends Command {
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
                 projectService.create(project);
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.out.println("Incorrect date");
             }
         } else {
             System.out.println("Log in before working");

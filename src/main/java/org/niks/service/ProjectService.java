@@ -1,6 +1,7 @@
 package org.niks.service;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.ProjectRepo;
@@ -12,13 +13,18 @@ import java.util.List;
 public class ProjectService extends Service <Project>{
     ProjectRepo projectRepo;
 
+    @NotNull
     public ProjectService(ProjectRepo projectRepo) {
         this.projectRepo = projectRepo;
     }
 
     public void create(Project project) {
-        if (projectRepo.save(project)) {
-            System.out.println("[Project " + project.getProjectName() + " created]");
+        if(!project.getProjectName().equals("")) {
+            if (projectRepo.save(project)) {
+                System.out.println("[Project " + project.getProjectName() + " created]");
+            }
+        } else {
+            System.out.println("Enter valid project name and try again");
         }
     }
 

@@ -1,6 +1,8 @@
 package org.niks.repository;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.UserService;
@@ -12,14 +14,17 @@ public class ProjectRepo extends Repository <Project> {
     Map<String, Project> projectMap = new HashMap<>();
     UserService userService;
 
+    @NotNull
     public ProjectRepo(UserService userService) {
         this.userService = userService;
     }
 
+    @Nullable
     private User currentUser() {
         return userService.getCurrentUser();
     }
 
+    @NotNull
     public List<Project> findAll() {
         List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
@@ -30,6 +35,7 @@ public class ProjectRepo extends Repository <Project> {
         return projectList;
     }
 
+    @NotNull
     public Optional<Project> findOne(String name) {
         Project project = null;
         if (projectMap.get(name).getUserID() == currentUser().getUserID()) {

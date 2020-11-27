@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
@@ -11,6 +12,7 @@ public class ProjectListCommand extends Command {
     ProjectService projectService;
     UserService userService;
 
+    @NotNull
     public ProjectListCommand(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;

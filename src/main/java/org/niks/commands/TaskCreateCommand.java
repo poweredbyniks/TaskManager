@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.TaskService;
@@ -17,6 +18,7 @@ public class TaskCreateCommand extends Command {
     TaskService taskService;
     UserService userService;
 
+    @NotNull
     public TaskCreateCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
         this.userService = userService;

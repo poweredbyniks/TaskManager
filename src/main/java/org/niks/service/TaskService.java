@@ -1,6 +1,7 @@
 package org.niks.service;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.repository.TaskRepo;
 
@@ -10,15 +11,20 @@ import java.text.SimpleDateFormat;
 public class TaskService extends Service <Task> {
     TaskRepo taskRepo;
 
+    @NotNull
     public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
     }
 
     public void create(Task task) {
-        if (taskRepo.save(task)) {
-            System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
+        if(!task.getTaskName().equals("")) {
+            if (taskRepo.save(task)) {
+                System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
+            } else {
+                System.out.println("No such existing project");
+            }
         } else {
-            System.out.println("No such existing project");
+            System.out.println("Enter valid task name and try again");
         }
     }
 
@@ -40,6 +46,4 @@ public class TaskService extends Service <Task> {
         taskRepo.removeAll();
         System.out.println("[Task list is empty]");
     }
-
-
 }

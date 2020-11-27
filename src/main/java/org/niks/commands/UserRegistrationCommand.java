@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.IOException;
 public class UserRegistrationCommand extends Command {
     UserService userService;
 
+    @NotNull
     public UserRegistrationCommand(UserService userService) {
         this.userService = userService;
     }

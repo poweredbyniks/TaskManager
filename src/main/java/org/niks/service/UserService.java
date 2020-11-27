@@ -1,9 +1,10 @@
 package org.niks.service;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.UserRepo;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,10 +16,12 @@ public class UserService {
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
+    @NotNull
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
+    @Nullable
     public User getCurrentUser() {
         return currentUser;
     }
@@ -28,12 +31,19 @@ public class UserService {
     }
 
     public void create(String userName, String password) {
+        if (!userName.equals("")) {
         User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-        if (userRepo.save(user)) {
-            System.out.println("[User " + userName + " created]");
-        } else System.out.println("Something went wrong");
+            if (userRepo.save(user)) {
+                System.out.println("[User " + userName + " created]");
+            } else {
+                System.out.println("Something went wrong");
+            }
+        } else {
+            System.out.println("Enter valid user name and try again");
+        }
     }
 
+    @Nullable
     public User userVerify(String userName, String password) {
         try {
             if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
@@ -55,15 +65,23 @@ public class UserService {
     }
 
     public void userNameEdit(String newUserName) {
-        if (userRepo.userNameUpdate(newUserName, currentUser)) {
-            System.out.println("Your new user name is " + newUserName);
+        if(!newUserName.equals("")) {
+            if (userRepo.userNameUpdate(newUserName, currentUser)) {
+                System.out.println("Your new user name is " + newUserName);
+            }
+        } else {
+            System.out.println("Enter valid user name and try again");
         }
     }
 
     public void passwordEdit(String newPassword) {
+        if(!newPassword.equals("")){
         String hashPassword = hash(newPassword);
         if (userRepo.passwordUpdate(hashPassword, currentUser)) {
             System.out.println("Password updated");
+        }
+        } else {
+            System.out.println("Enter valid password and try again");
         }
     }
 
@@ -72,8 +90,9 @@ public class UserService {
         return random.nextInt();
     }
 
+    @NotNull
     public static String hash(String password) {
-        String hashPassword = null;
+        String hashPassword = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
@@ -83,7 +102,7 @@ public class UserService {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             hashPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException | NullPointerException e) {
             e.printStackTrace();
         }
         return hashPassword;

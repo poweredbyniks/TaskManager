@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 public class UserEndSessionCommand extends Command {
     private UserService userService;
 
+    @NotNull
     public UserEndSessionCommand(UserService userService) {
         this.userService = userService;
     }

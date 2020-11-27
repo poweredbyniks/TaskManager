@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -12,7 +13,7 @@ public class TaskRemoveCommand extends Command {
     TaskService taskService;
     UserService userService;
 
-
+    @NotNull
     public TaskRemoveCommand(TaskService taskService, UserService userService) {
         this.taskService = taskService;
         this.userService = userService;
