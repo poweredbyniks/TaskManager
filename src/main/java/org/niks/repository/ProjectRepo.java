@@ -14,7 +14,6 @@ public class ProjectRepo extends Repository <Project> {
     Map<String, Project> projectMap = new HashMap<>();
     UserService userService;
 
-    @NotNull
     public ProjectRepo(UserService userService) {
         this.userService = userService;
     }

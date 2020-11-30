@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 public class TaskService extends Service <Task> {
     TaskRepo taskRepo;
 
-    @NotNull
     public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
     }

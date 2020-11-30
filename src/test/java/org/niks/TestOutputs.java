@@ -1,7 +1,7 @@
 package org.niks;
 
 public class TestOutputs {
-    public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String HELP_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -24,7 +24,7 @@ public class TestOutputs {
             "password-edit : Edit current password\n" +
             "user-reg : Registration of a new user\n";
 
-    public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -37,7 +37,7 @@ public class TestOutputs {
             "[Enter finishing date dd.MM.yyyy]\n" +
             "[Project newProject created]\n";
 
-    public static final String PROJECT_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String PROJECT_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -55,7 +55,7 @@ public class TestOutputs {
             "Finish date: 31.10.2020\n" +
             "Task list is empty\n";
 
-    public static final String PROJECT_LIST_WITH_TASK_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String PROJECT_LIST_WITH_TASK_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -84,7 +84,7 @@ public class TestOutputs {
             "Finish date: 26.11.2020\n";
 
 
-    public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -103,7 +103,7 @@ public class TestOutputs {
             "[Enter finishing date dd.MM.yyyy]\n" +
             "[Task newTask created and added to the project newProject]\n";
 
-    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -125,7 +125,7 @@ public class TestOutputs {
             "Start date: 30.11.2020\n" +
             "Finish date: 01.12.2020\n";
 
-    public static final String PROJECT_ISOLATION_OUTPUT = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String PROJECT_ISOLATION_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -139,6 +139,7 @@ public class TestOutputs {
             "[Project newProject created]\n" +
             "Enter user name\n" +
             "Enter password\n" +
+            "newUser logged out\n" +
             "[User secondUser created]\n" +
             "Enter user name\n" +
             "Enter password\n" +
@@ -154,7 +155,7 @@ public class TestOutputs {
             "Finish date: 30.12.2020\n" +
             "Task list is empty\n";
 
-    public static final String USER_NAME_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String USER_NAME_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +
@@ -164,7 +165,7 @@ public class TestOutputs {
             "Enter new user name\n" +
             "Your new user name is Larry Page\n";
 
-    public static final String USER_PASSWORD_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\n" +
+    public static final String USER_PASSWORD_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
             "[User newUser created]\n" +

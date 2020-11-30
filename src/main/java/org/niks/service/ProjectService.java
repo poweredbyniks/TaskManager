@@ -13,7 +13,6 @@ import java.util.List;
 public class ProjectService extends Service <Project>{
     ProjectRepo projectRepo;
 
-    @NotNull
     public ProjectService(ProjectRepo projectRepo) {
         this.projectRepo = projectRepo;
     }

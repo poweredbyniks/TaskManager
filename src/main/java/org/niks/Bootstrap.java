@@ -62,7 +62,7 @@ public class Bootstrap {
     }
 
     public void commandExecution() {
-        System.out.println("Welcome to the Task Manager.\nSign up, please");
+        System.out.println("Welcome to the Task Manager.\nSign up, please\nType help for instructions");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
             while (input != null) {

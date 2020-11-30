@@ -15,7 +15,6 @@ public class TaskRepo extends Repository<Task> {
     UserService userService;
     ProjectRepo projectRepo;
 
-    @NotNull
     public TaskRepo(UserService userService, ProjectRepo projectRepo) {
         this.userService = userService;
         this.projectRepo = projectRepo;

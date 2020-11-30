@@ -13,10 +13,10 @@ import java.util.NoSuchElementException;
 
 public class UserService {
     private final UserRepo userRepo;
+    
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
-    @NotNull
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
@@ -31,8 +31,12 @@ public class UserService {
     }
 
     public void create(String userName, String password) {
+        if (currentUser != null) {
+            System.out.println(currentUser.getUserName() + " logged out");
+            setCurrentUser(null);
+        }
         if (!userName.equals("")) {
-        User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
+            User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
             if (userRepo.save(user)) {
                 System.out.println("[User " + userName + " created]");
             } else {
@@ -45,6 +49,10 @@ public class UserService {
 
     @Nullable
     public User userVerify(String userName, String password) {
+        if (currentUser != null) {
+            System.out.println(currentUser.getUserName() + " logged out");
+            setCurrentUser(null);
+        }
         try {
             if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
                 System.out.println("Welcome " + userName);
