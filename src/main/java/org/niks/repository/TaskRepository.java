@@ -10,14 +10,14 @@ import org.niks.service.UserService;
 import java.util.*;
 
 @Value
-public class TaskRepo extends Repository<Task> {
+public class TaskRepository implements ITaskRepository {
     Map<String, Task> taskMap = new HashMap<>();
     UserService userService;
-    ProjectRepo projectRepo;
+    ProjectRepository projectRepository;
 
-    public TaskRepo(UserService userService, ProjectRepo projectRepo) {
+    public TaskRepository(UserService userService, ProjectRepository projectRepository) {
         this.userService = userService;
-        this.projectRepo = projectRepo;
+        this.projectRepository = projectRepository;
     }
 
     @Nullable
@@ -27,7 +27,7 @@ public class TaskRepo extends Repository<Task> {
 
     @NotNull
     public List<Task> findAll() {
-        List<Task> taskList = new ArrayList<>();
+        @Nullable List<Task> taskList = new ArrayList<>();
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
             if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
                 taskList.add(taskEntry.getValue());
@@ -37,14 +37,14 @@ public class TaskRepo extends Repository<Task> {
     }
 
     @NotNull
-    public Optional<Task> findOne(String name) {
+    public Optional<Task> findOne(@NotNull String name) {
         return Optional.ofNullable(taskMap.get(name));
     }
 
-    public boolean save(Task task) {
+    public boolean save(@NotNull Task task) {
         try {
             taskMap.put(task.getTaskName(), task);
-            projectRepo.findOne(task.getProjectName()).get().getTaskList().add(task);
+            projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
 
         } catch (NoSuchElementException e) {
             System.out.println("Project not found");
@@ -52,11 +52,11 @@ public class TaskRepo extends Repository<Task> {
         return true;
     }
 
-    public boolean update(Task task) {
+    public boolean update(@NotNull Task task) {
         return false;
     }
 
-    public void remove(String name) {
+    public void remove(@NotNull String name) {
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
             if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
                 taskMap.remove(name);

@@ -10,11 +10,11 @@ import org.niks.service.UserService;
 import java.util.*;
 
 @Value
-public class ProjectRepo extends Repository <Project> {
+public class ProjectRepository implements IProjectRepository {
     Map<String, Project> projectMap = new HashMap<>();
     UserService userService;
 
-    public ProjectRepo(UserService userService) {
+    public ProjectRepository(UserService userService) {
         this.userService = userService;
     }
 
@@ -24,7 +24,8 @@ public class ProjectRepo extends Repository <Project> {
     }
 
     @NotNull
-    public List<Project> findAll() {
+    public List findAll() {
+        @Nullable
         List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
@@ -35,7 +36,7 @@ public class ProjectRepo extends Repository <Project> {
     }
 
     @NotNull
-    public Optional<Project> findOne(String name) {
+    public Optional<Project> findOne(@NotNull String name) {
         Project project = null;
         if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
             project = projectMap.get(name);
@@ -52,7 +53,7 @@ public class ProjectRepo extends Repository <Project> {
         return false;
     }
 
-    public void remove(String name) {
+    public void remove(@NotNull String name) {
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
                 projectMap.remove(name);

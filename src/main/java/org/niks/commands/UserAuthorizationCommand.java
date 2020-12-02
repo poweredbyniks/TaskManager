@@ -30,8 +30,10 @@ public class UserAuthorizationCommand extends Command {
     @Override
     public void execute(BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
+        @NotNull
         String userName = reader.readLine();
         System.out.println("Enter password");
+        @NotNull
         String password = reader.readLine();
         User verifiedUser = userService.userVerify(userName, password);
         userService.setCurrentUser(verifiedUser);

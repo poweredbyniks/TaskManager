@@ -41,12 +41,16 @@ public class ProjectCreateCommand extends Command {
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("[Enter project name]");
+            @NotNull
             String projectName = reader.readLine();
             System.out.println("[Enter project description]");
+            @NotNull
             String projectDescription = reader.readLine();
             System.out.println("[Enter starting date dd.MM.yyyy]");
+            @NotNull
             String startDate = reader.readLine();
             System.out.println("[Enter finishing date dd.MM.yyyy]");
+            @NotNull
             String finishDate = reader.readLine();
             try {
                 Project project = new Project(randomNumber(), projectName, projectDescription,
@@ -61,6 +65,7 @@ public class ProjectCreateCommand extends Command {
     }
 
     public long randomNumber() {
+        @NotNull
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }

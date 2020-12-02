@@ -4,21 +4,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
-import org.niks.repository.UserRepo;
+import org.niks.repository.UserRepository;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
-public class UserService {
-    private final UserRepo userRepo;
-    
+public class UserService implements IUserService {
+    private final UserRepository userRepository;
+
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Nullable
@@ -30,14 +31,14 @@ public class UserService {
         this.currentUser = currentUser;
     }
 
-    public void create(String userName, String password) {
+    public void create(@NotNull String userName, @NotNull String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
         }
         if (!userName.equals("")) {
             User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-            if (userRepo.save(user)) {
+            if (userRepository.save(user)) {
                 System.out.println("[User " + userName + " created]");
             } else {
                 System.out.println("Something went wrong");
@@ -48,15 +49,15 @@ public class UserService {
     }
 
     @Nullable
-    public User userVerify(String userName, String password) {
+    public User userVerify(@NotNull String userName, @NotNull String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
         }
         try {
-            if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
+            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
                 System.out.println("Welcome " + userName);
-                return userRepo.findOne(userName).get();
+                return userRepository.findOne(userName).get();
             } else {
                 System.out.println("Wrong user name or password");
                 return null;
@@ -67,14 +68,14 @@ public class UserService {
         return null;
     }
 
-    public void userInfo(String userName) {
-        System.out.println("User ID is: " + userRepo.findOne(userName).get().getUserID()
-                + "\nUser name is: " + userRepo.findOne(userName).get().getUserName());
+    public void userInfo(@NotNull String userName) {
+        System.out.println("User ID is: " + userRepository.findOne(userName).get().getUserID()
+                + "\nUser name is: " + userRepository.findOne(userName).get().getUserName());
     }
 
-    public void userNameEdit(String newUserName) {
-        if(!newUserName.equals("")) {
-            if (userRepo.userNameUpdate(newUserName, currentUser)) {
+    public void userNameEdit(@NotNull String newUserName) {
+        if (!newUserName.equals("")) {
+            if (userRepository.userNameUpdate(newUserName, currentUser)) {
                 System.out.println("Your new user name is " + newUserName);
             }
         } else {
@@ -82,12 +83,12 @@ public class UserService {
         }
     }
 
-    public void passwordEdit(String newPassword) {
-        if(!newPassword.equals("")){
-        String hashPassword = hash(newPassword);
-        if (userRepo.passwordUpdate(hashPassword, currentUser)) {
-            System.out.println("Password updated");
-        }
+    public void passwordEdit(@NotNull String newPassword) {
+        if (!newPassword.equals("")) {
+            String hashPassword = hash(newPassword);
+            if (userRepository.passwordUpdate(hashPassword, currentUser)) {
+                System.out.println("Password updated");
+            }
         } else {
             System.out.println("Enter valid password and try again");
         }
@@ -99,7 +100,7 @@ public class UserService {
     }
 
     @NotNull
-    public static String hash(String password) {
+    public static String hash(@NotNull String password) {
         String hashPassword = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");

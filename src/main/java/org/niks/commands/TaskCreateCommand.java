@@ -42,14 +42,19 @@ public class TaskCreateCommand extends Command {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 System.out.println("[Enter project to include to]");
+                @NotNull
                 String projectName = reader.readLine();
                 System.out.println("[Enter task name]");
+                @NotNull
                 String taskName = reader.readLine();
                 System.out.println("[Enter task description]");
+                @NotNull
                 String taskDescription = reader.readLine();
                 System.out.println("[Enter starting date dd.MM.yyyy]");
+                @NotNull
                 String startDate = reader.readLine();
                 System.out.println("[Enter finishing date dd.MM.yyyy]");
+                @NotNull
                 String finishDate = reader.readLine();
                 Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
                         dateFormat.parse(finishDate), currentUser.getUserID());
@@ -63,6 +68,7 @@ public class TaskCreateCommand extends Command {
     }
 
     public static long randomNumber() {
+        @NotNull
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }

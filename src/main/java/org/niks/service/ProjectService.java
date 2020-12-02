@@ -4,22 +4,22 @@ import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
-import org.niks.repository.ProjectRepo;
+import org.niks.repository.ProjectRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Value
-public class ProjectService extends Service <Project>{
-    ProjectRepo projectRepo;
+public class ProjectService implements IProjectService{
+    ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepo projectRepo) {
-        this.projectRepo = projectRepo;
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
-    public void create(Project project) {
+    public void create(@NotNull Project project) {
         if(!project.getProjectName().equals("")) {
-            if (projectRepo.save(project)) {
+            if (projectRepository.save(project)) {
                 System.out.println("[Project " + project.getProjectName() + " created]");
             }
         } else {
@@ -29,7 +29,7 @@ public class ProjectService extends Service <Project>{
 
     public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        List<Project> projectList = projectRepo.findAll();
+        List<Project> projectList = projectRepository.findAll();
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
                     + "\nDescription: " + project.getProjectDescription()
@@ -49,13 +49,13 @@ public class ProjectService extends Service <Project>{
         }
     }
 
-    public void remove(String projectToRemove) {
-        projectRepo.remove(projectToRemove);
+    public void remove(@NotNull String projectToRemove) {
+        projectRepository.remove(projectToRemove);
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
     public void clear() {
-        projectRepo.removeAll();
+        projectRepository.removeAll();
         System.out.println("[Project list is plain empty]");
     }
 }

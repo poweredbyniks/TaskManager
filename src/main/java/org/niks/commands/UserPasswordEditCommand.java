@@ -30,6 +30,7 @@ public class UserPasswordEditCommand extends Command {
     public void execute(BufferedReader reader) throws IOException {
         if (userService != null) {
             System.out.println("Enter new password");
+            @NotNull
             String newPassword = reader.readLine();
             userService.passwordEdit(newPassword);
         } else {

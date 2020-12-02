@@ -3,21 +3,21 @@ package org.niks.service;
 import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
-import org.niks.repository.TaskRepo;
+import org.niks.repository.TaskRepository;
 
 import java.text.SimpleDateFormat;
 
 @Value
-public class TaskService extends Service <Task> {
-    TaskRepo taskRepo;
+public class TaskService implements ITaskService {
+    TaskRepository taskRepository;
 
-    public TaskService(TaskRepo taskRepo) {
-        this.taskRepo = taskRepo;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
-    public void create(Task task) {
-        if(!task.getTaskName().equals("")) {
-            if (taskRepo.save(task)) {
+    public void create(@NotNull Task task) {
+        if (!task.getTaskName().equals("")) {
+            if (taskRepository.save(task)) {
                 System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
             } else {
                 System.out.println("No such existing project");
@@ -29,20 +29,20 @@ public class TaskService extends Service <Task> {
 
     public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        for (Task task : taskRepo.findAll()) {
+        for (Task task : taskRepository.findAll()) {
             System.out.println("[Task " + task.getTaskName() + " in the project " + task.getProjectName() + "]" +
                     "\nStart date: " + dateFormat.format(task.getStartDate()) +
                     "\nFinish date: " + dateFormat.format(task.getFinishDate()));
         }
     }
 
-    public void remove(String taskToRemove) {
-        taskRepo.remove(taskToRemove);
+    public void remove(@NotNull String taskToRemove) {
+        taskRepository.remove(taskToRemove);
         System.out.println("[Task " + taskToRemove + "removed]");
     }
 
     public void clear() {
-        taskRepo.removeAll();
+        taskRepository.removeAll();
         System.out.println("[Task list is empty]");
     }
 }

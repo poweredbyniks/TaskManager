@@ -29,8 +29,10 @@ public class UserRegistrationCommand extends Command {
     @Override
     public void execute(BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
+        @NotNull
         String userName = reader.readLine();
         System.out.println("Enter password");
+        @NotNull
         String password = reader.readLine();
         userService.create(userName, password);
     }

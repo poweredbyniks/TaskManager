@@ -1,9 +1,9 @@
 package org.niks;
 
 import org.niks.commands.*;
-import org.niks.repository.ProjectRepo;
-import org.niks.repository.TaskRepo;
-import org.niks.repository.UserRepo;
+import org.niks.repository.ProjectRepository;
+import org.niks.repository.TaskRepository;
+import org.niks.repository.UserRepository;
 import org.niks.service.ProjectService;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
@@ -15,12 +15,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-    UserRepo userRepo = new UserRepo();
-    UserService userService = new UserService(userRepo);
-    ProjectRepo projectRepo = new ProjectRepo(userService);
-    TaskRepo taskRepo = new TaskRepo(userService, projectRepo);
-    ProjectService projectService = new ProjectService(projectRepo);
-    TaskService taskService = new TaskService(taskRepo);
+    UserRepository userRepository = new UserRepository();
+    UserService userService = new UserService(userRepository);
+    ProjectRepository projectRepository = new ProjectRepository(userService);
+    TaskRepository taskRepository = new TaskRepository(userService, projectRepository);
+    ProjectService projectService = new ProjectService(projectRepository);
+    TaskService taskService = new TaskService(taskRepository);
 
     public Map<String, Command> commandMap = new LinkedHashMap<>();
 
