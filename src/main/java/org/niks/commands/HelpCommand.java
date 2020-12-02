@@ -28,12 +28,8 @@ public class HelpCommand extends Command {
     }
 
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
-            for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
-                System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
-            }
-        } else {
-            System.out.println("Log in before working");
+        for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
+            System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
         }
     }
 }

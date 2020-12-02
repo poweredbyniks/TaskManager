@@ -94,7 +94,7 @@ public class UserService implements IUserService {
         }
     }
 
-    public long randomNumber() {
+    public final long randomNumber() {
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }

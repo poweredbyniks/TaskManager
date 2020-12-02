@@ -26,7 +26,7 @@ public class ProjectRepository implements IProjectRepository {
     @NotNull
     public List findAll() {
         @Nullable
-        List<Project> projectList = new ArrayList<>();
+        final List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
                 projectList.add(projectEntry.getValue());
