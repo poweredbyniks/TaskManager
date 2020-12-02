@@ -16,14 +16,6 @@ import java.util.ArrayList;
 
 @Value
 public class ProjectCreateCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectCreateCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -37,7 +29,7 @@ public class ProjectCreateCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) throws IOException {
-        User currentUser = userService.getCurrentUser();
+        User currentUser = UserService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("[Enter project name]");
@@ -51,7 +43,7 @@ public class ProjectCreateCommand extends Command {
             try {
                 Project project = new Project(randomNumber(), projectName, projectDescription,
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
-                projectService.create(project);
+                ProjectService.create(project);
             } catch (ParseException e) {
                 System.out.println("Incorrect date");
             }

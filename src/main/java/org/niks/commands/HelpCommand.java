@@ -10,12 +10,10 @@ import java.util.Map;
 
 @Value
 public class HelpCommand extends Command {
-    UserService userService;
     Map<String, Command> commandMap;
 
     @NotNull
-    public HelpCommand(Map<String, Command> commandMap, UserService userService) {
-        this.userService = userService;
+    public HelpCommand(Map<String, Command> commandMap) {
         this.commandMap = commandMap;
     }
 
@@ -28,7 +26,7 @@ public class HelpCommand extends Command {
     }
 
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (UserService.getCurrentUser() != null) {
             for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
                 System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
             }

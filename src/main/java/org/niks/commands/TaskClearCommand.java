@@ -9,14 +9,7 @@ import java.io.BufferedReader;
 
 @Value
 public class TaskClearCommand extends Command {
-    TaskService taskService;
-    UserService userService;
 
-    @NotNull
-    public TaskClearCommand(TaskService taskService, UserService userService) {
-        this.taskService = taskService;
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -30,8 +23,8 @@ public class TaskClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
-            taskService.clear();
+        if (UserService.getCurrentUser() != null) {
+            TaskService.clear();
         } else {
             System.out.println("Log in before working");
         }

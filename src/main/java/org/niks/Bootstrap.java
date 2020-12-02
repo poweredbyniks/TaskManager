@@ -1,12 +1,6 @@
 package org.niks;
 
 import org.niks.commands.*;
-import org.niks.repository.ProjectRepo;
-import org.niks.repository.TaskRepo;
-import org.niks.repository.UserRepo;
-import org.niks.service.ProjectService;
-import org.niks.service.TaskService;
-import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,32 +9,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-    UserRepo userRepo = new UserRepo();
-    UserService userService = new UserService(userRepo);
-    ProjectRepo projectRepo = new ProjectRepo(userService);
-    TaskRepo taskRepo = new TaskRepo(userService, projectRepo);
-    ProjectService projectService = new ProjectService(projectRepo);
-    TaskService taskService = new TaskService(taskRepo);
 
     public Map<String, Command> commandMap = new LinkedHashMap<>();
 
-    HelpCommand helpCommand = new HelpCommand(commandMap, userService);
-    ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService, userService);
-    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
-    ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
-    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
+    HelpCommand helpCommand = new HelpCommand(commandMap);
+    ProjectClearCommand projectClearCommand = new ProjectClearCommand();
+    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand();
+    ProjectListCommand projectListCommand = new ProjectListCommand();
+    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand();
 
-    TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, userService);
-    TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
-    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
+    TaskClearCommand taskClearCommand = new TaskClearCommand();
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand();
+    TaskListCommand taskListCommand = new TaskListCommand();
+    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand();
 
-    UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);
-    UserEditCommand userEditCommand = new UserEditCommand(userService);
-    UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
-    UserInfoCommand userInfoCommand = new UserInfoCommand(userService);
-    UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
-    UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
+    UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand();
+    UserEditCommand userEditCommand = new UserEditCommand();
+    UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand();
+    UserInfoCommand userInfoCommand = new UserInfoCommand();
+    UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand();
+    UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand();
 
     public void init() {
         commandMap.put(helpCommand.getName(), helpCommand);

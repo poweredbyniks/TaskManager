@@ -15,14 +15,6 @@ import java.text.SimpleDateFormat;
 
 @Value
 public class TaskCreateCommand extends Command {
-    TaskService taskService;
-    UserService userService;
-
-    @NotNull
-    public TaskCreateCommand(TaskService taskService, UserService userService) {
-        this.taskService = taskService;
-        this.userService = userService;
-    }
 
 
     @Override
@@ -37,7 +29,7 @@ public class TaskCreateCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        User currentUser = userService.getCurrentUser();
+        User currentUser = UserService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
@@ -53,7 +45,7 @@ public class TaskCreateCommand extends Command {
                 String finishDate = reader.readLine();
                 Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
                         dateFormat.parse(finishDate), currentUser.getUserID());
-                taskService.create(task);
+                TaskService.create(task);
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }

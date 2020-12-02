@@ -4,40 +4,37 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
-import org.niks.repository.UserRepo;
+import org.niks.repository.UserRepository;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
-public class UserService {
-    private final UserRepo userRepo;
-    
-    private User currentUser;
+public interface UserService {
+
+    User currentUser = null;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
-
     @Nullable
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public static User setCurrentUser(User currentUser) {
+        User currentUser1 = currentUser;
+        return currentUser1;
     }
 
-    public void create(String userName, String password) {
+    public static void create(String userName, String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
         }
         if (!userName.equals("")) {
             User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-            if (userRepo.save(user)) {
+            if (UserRepository.save(user)) {
                 System.out.println("[User " + userName + " created]");
             } else {
                 System.out.println("Something went wrong");
@@ -48,15 +45,15 @@ public class UserService {
     }
 
     @Nullable
-    public User userVerify(String userName, String password) {
+    public static User userVerify(String userName, String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
         }
         try {
-            if (hash(password).equals(userRepo.findOne(userName).get().getPasswordHash())) {
+            if (hash(password).equals(UserRepository.findOne(userName).get().getPasswordHash())) {
                 System.out.println("Welcome " + userName);
-                return userRepo.findOne(userName).get();
+                return UserRepository.findOne(userName).get();
             } else {
                 System.out.println("Wrong user name or password");
                 return null;
@@ -67,14 +64,14 @@ public class UserService {
         return null;
     }
 
-    public void userInfo(String userName) {
-        System.out.println("User ID is: " + userRepo.findOne(userName).get().getUserID()
-                + "\nUser name is: " + userRepo.findOne(userName).get().getUserName());
+    public static void userInfo(String userName) {
+        System.out.println("User ID is: " + UserRepository.findOne(userName).get().getUserID()
+                + "\nUser name is: " + UserRepository.findOne(userName).get().getUserName());
     }
 
-    public void userNameEdit(String newUserName) {
+    public static void userNameEdit(String newUserName) {
         if(!newUserName.equals("")) {
-            if (userRepo.userNameUpdate(newUserName, currentUser)) {
+            if (UserRepository.userNameUpdate(newUserName, currentUser)) {
                 System.out.println("Your new user name is " + newUserName);
             }
         } else {
@@ -82,10 +79,10 @@ public class UserService {
         }
     }
 
-    public void passwordEdit(String newPassword) {
+    public static void passwordEdit(String newPassword) {
         if(!newPassword.equals("")){
         String hashPassword = hash(newPassword);
-        if (userRepo.passwordUpdate(hashPassword, currentUser)) {
+        if (UserRepository.passwordUpdate(hashPassword, currentUser)) {
             System.out.println("Password updated");
         }
         } else {
@@ -93,7 +90,7 @@ public class UserService {
         }
     }
 
-    public long randomNumber() {
+    public static long randomNumber() {
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }

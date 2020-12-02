@@ -10,12 +10,6 @@ import java.io.IOException;
 
 @Value
 public class UserAuthorizationCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserAuthorizationCommand(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -33,8 +27,8 @@ public class UserAuthorizationCommand extends Command {
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
-        User verifiedUser = userService.userVerify(userName, password);
-        userService.setCurrentUser(verifiedUser);
+        User verifiedUser = UserService.userVerify(userName, password);
+        UserService.setCurrentUser(verifiedUser);
     }
 
 }

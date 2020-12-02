@@ -9,13 +9,6 @@ import java.io.IOException;
 
 @Value
 public class UserPasswordEditCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserPasswordEditCommand(UserService userService) {
-        this.userService = userService;
-    }
-
     @Override
     public String getName() {
         return "password-edit";
@@ -28,10 +21,10 @@ public class UserPasswordEditCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) throws IOException {
-        if (userService != null) {
+        if (UserService.getCurrentUser() != null) {
             System.out.println("Enter new password");
             String newPassword = reader.readLine();
-            userService.passwordEdit(newPassword);
+            UserService.passwordEdit(newPassword);
         } else {
             System.out.println("Log in before working");
         }

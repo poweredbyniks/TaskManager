@@ -10,12 +10,6 @@ import java.io.IOException;
 
 @Value
 public class UserEditCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserEditCommand(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -29,10 +23,10 @@ public class UserEditCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) throws IOException {
-        if (userService != null) {
+        if (UserService.currentUser != null) {
             System.out.println("Enter new user name");
             String newUserName = reader.readLine();
-            userService.userNameEdit(newUserName);
+            UserService.userNameEdit(newUserName);
         } else {
             System.out.println("Log in before working");
         }

@@ -1,25 +1,18 @@
 package org.niks.service;
 
-import lombok.Value;
-import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
-import org.niks.repository.ProjectRepo;
+import org.niks.repository.ProjectRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@Value
-public class ProjectService extends Service <Project>{
-    ProjectRepo projectRepo;
+public interface ProjectService {
 
-    public ProjectService(ProjectRepo projectRepo) {
-        this.projectRepo = projectRepo;
-    }
 
-    public void create(Project project) {
+    public static void create(Project project) {
         if(!project.getProjectName().equals("")) {
-            if (projectRepo.save(project)) {
+            if (ProjectRepository.save(project)) {
                 System.out.println("[Project " + project.getProjectName() + " created]");
             }
         } else {
@@ -27,9 +20,9 @@ public class ProjectService extends Service <Project>{
         }
     }
 
-    public void list() {
+    public static void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        List<Project> projectList = projectRepo.findAll();
+        List<Project> projectList = ProjectRepository.findAll();
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
                     + "\nDescription: " + project.getProjectDescription()
@@ -49,13 +42,13 @@ public class ProjectService extends Service <Project>{
         }
     }
 
-    public void remove(String projectToRemove) {
-        projectRepo.remove(projectToRemove);
+    public static void remove(String projectToRemove) {
+        ProjectRepository.remove(projectToRemove);
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
-    public void clear() {
-        projectRepo.removeAll();
+    public static void clear() {
+        ProjectRepository.removeAll();
         System.out.println("[Project list is plain empty]");
     }
 }

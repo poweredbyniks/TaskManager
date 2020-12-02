@@ -9,14 +9,6 @@ import java.io.BufferedReader;
 
 @Value
 public class ProjectClearCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectClearCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -30,8 +22,8 @@ public class ProjectClearCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
-            projectService.clear();
+        if (UserService.getCurrentUser() != null) {
+            ProjectService.clear();
         } else {
             System.out.println("Log in before working");
         }

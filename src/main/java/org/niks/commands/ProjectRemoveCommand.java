@@ -10,14 +10,6 @@ import java.io.IOException;
 
 @Value
 public class ProjectRemoveCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectRemoveCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -31,10 +23,10 @@ public class ProjectRemoveCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (UserService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");
-                projectService.remove(reader.readLine());
+                ProjectService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

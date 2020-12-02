@@ -8,12 +8,6 @@ import java.io.BufferedReader;
 
 @Value
 public class UserEndSessionCommand extends Command {
-    private UserService userService;
-
-    @NotNull
-    public UserEndSessionCommand(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public String getName() {
@@ -27,6 +21,6 @@ public class UserEndSessionCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        userService.setCurrentUser(null);
+        UserService.setCurrentUser(null);
     }
 }

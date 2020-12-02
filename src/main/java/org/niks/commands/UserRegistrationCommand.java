@@ -9,13 +9,6 @@ import java.io.IOException;
 
 @Value
 public class UserRegistrationCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserRegistrationCommand(UserService userService) {
-        this.userService = userService;
-    }
-
     @Override
     public String getName() {
         return "user-reg";
@@ -32,6 +25,6 @@ public class UserRegistrationCommand extends Command {
         String userName = reader.readLine();
         System.out.println("Enter password");
         String password = reader.readLine();
-        userService.create(userName, password);
+        UserService.create(userName, password);
     }
 }
