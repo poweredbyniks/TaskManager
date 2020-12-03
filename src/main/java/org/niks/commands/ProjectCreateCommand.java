@@ -40,16 +40,16 @@ public class ProjectCreateCommand extends Command {
         User currentUser = userService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            System.out.println("[Enter project name]");
+            System.out.println("Enter project name");
             @NotNull
             String projectName = reader.readLine();
-            System.out.println("[Enter project description]");
+            System.out.println("Enter project description");
             @NotNull
             String projectDescription = reader.readLine();
-            System.out.println("[Enter starting date dd.MM.yyyy]");
+            System.out.println("Enter starting date dd.MM.yyyy");
             @NotNull
             String startDate = reader.readLine();
-            System.out.println("[Enter finishing date dd.MM.yyyy]");
+            System.out.println("Enter finishing date dd.MM.yyyy");
             @NotNull
             String finishDate = reader.readLine();
             try {

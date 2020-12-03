@@ -39,7 +39,7 @@ public class UserService implements IUserService {
         if (!userName.equals("")) {
             User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
             if (userRepository.save(user)) {
-                System.out.println("[User " + userName + " created]");
+                System.out.println("User " + userName + " created");
             } else {
                 System.out.println("Something went wrong");
             }

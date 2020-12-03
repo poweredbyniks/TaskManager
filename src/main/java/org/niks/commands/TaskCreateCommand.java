@@ -41,19 +41,19 @@ public class TaskCreateCommand extends Command {
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
-                System.out.println("[Enter project to include to]");
+                System.out.println("Enter project to include to");
                 @NotNull
                 String projectName = reader.readLine();
-                System.out.println("[Enter task name]");
+                System.out.println("Enter task name");
                 @NotNull
                 String taskName = reader.readLine();
-                System.out.println("[Enter task description]");
+                System.out.println("Enter task description");
                 @NotNull
                 String taskDescription = reader.readLine();
-                System.out.println("[Enter starting date dd.MM.yyyy]");
+                System.out.println("Enter starting date dd.MM.yyyy");
                 @NotNull
                 String startDate = reader.readLine();
-                System.out.println("[Enter finishing date dd.MM.yyyy]");
+                System.out.println("Enter finishing date dd.MM.yyyy");
                 @NotNull
                 String finishDate = reader.readLine();
                 Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),

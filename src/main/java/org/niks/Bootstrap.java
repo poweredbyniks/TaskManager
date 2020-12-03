@@ -43,6 +43,8 @@ public class Bootstrap {
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
     public void init() {
+        commandMap.put(userAuthorizationCommand.getName(), userAuthorizationCommand);
+        commandMap.put(userRegistrationCommand.getName(), userRegistrationCommand);
         commandMap.put(helpCommand.getName(), helpCommand);
         commandMap.put(projectCreateCommand.getName(), projectCreateCommand);
         commandMap.put(projectListCommand.getName(), projectListCommand);
@@ -52,12 +54,10 @@ public class Bootstrap {
         commandMap.put(taskListCommand.getName(), taskListCommand);
         commandMap.put(taskRemoveCommand.getName(), taskRemoveCommand);
         commandMap.put(taskClearCommand.getName(), taskClearCommand);
-        commandMap.put(userAuthorizationCommand.getName(), userAuthorizationCommand);
         commandMap.put(userEditCommand.getName(), userEditCommand);
         commandMap.put(userEndSessionCommand.getName(), userEndSessionCommand);
         commandMap.put(userInfoCommand.getName(), userInfoCommand);
         commandMap.put(userPasswordUpdateCommand.getName(), userPasswordUpdateCommand);
-        commandMap.put(userRegistrationCommand.getName(), userRegistrationCommand);
         commandExecution();
     }
 

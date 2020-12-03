@@ -18,7 +18,7 @@ public class TaskService implements ITaskService {
     public void create(@NotNull Task task) {
         if (!task.getTaskName().equals("")) {
             if (taskRepository.save(task)) {
-                System.out.println("[Task " + task.getTaskName() + " created and added to the project " + task.getProjectName() + "]");
+                System.out.println("Task " + task.getTaskName() + " created and added to the project " + task.getProjectName());
             } else {
                 System.out.println("No such existing project");
             }
@@ -30,7 +30,7 @@ public class TaskService implements ITaskService {
     public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskRepository.findAll()) {
-            System.out.println("[Task " + task.getTaskName() + " in the project " + task.getProjectName() + "]" +
+            System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName() +
                     "\nStart date: " + dateFormat.format(task.getStartDate()) +
                     "\nFinish date: " + dateFormat.format(task.getFinishDate()));
         }
@@ -38,11 +38,11 @@ public class TaskService implements ITaskService {
 
     public void remove(@NotNull String taskToRemove) {
         taskRepository.remove(taskToRemove);
-        System.out.println("[Task " + taskToRemove + "removed]");
+        System.out.println("Task " + taskToRemove + "removed");
     }
 
     public void clear() {
         taskRepository.removeAll();
-        System.out.println("[Task list is empty]");
+        System.out.println("Task list is empty");
     }
 }

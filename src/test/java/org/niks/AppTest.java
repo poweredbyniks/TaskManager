@@ -10,7 +10,7 @@ class AppTest {
 
     @Test
     public void testHelp() throws IOException {
-        String helpCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nhelp\n exit\n\u001a";
+        String helpCommand = "help\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(helpCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));

@@ -20,7 +20,7 @@ public class ProjectService implements IProjectService{
     public void create(@NotNull Project project) {
         if(!project.getProjectName().equals("")) {
             if (projectRepository.save(project)) {
-                System.out.println("[Project " + project.getProjectName() + " created]");
+                System.out.println("Project " + project.getProjectName() + " created");
             }
         } else {
             System.out.println("Enter valid project name and try again");
