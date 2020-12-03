@@ -71,10 +71,32 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              <outputDirectory>${project.build.directory}/release/lib</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+              <artifactItem>
+              <groupId>org.poweredbyniks</groupId>
+              <artifactId>taskmanager</artifactId>
+              <version>1.0</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>${project.build.directory}/release/bin</outputDirectory>
+              </artifactItem>
+              </artifactItems>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
           </execution>
         </executions>
