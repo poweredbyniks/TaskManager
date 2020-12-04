@@ -22,11 +22,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-project-info-reports-plugin</artifactId>
-      <version>3.1.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.14</version>
@@ -36,11 +31,6 @@
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>20.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-dependency-plugin</artifactId>
-      <version>3.1.2</version>
     </dependency>
   </dependencies>
 
