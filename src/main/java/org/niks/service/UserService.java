@@ -37,7 +37,7 @@ public class UserService implements IUserService {
             setCurrentUser(null);
         }
         if (!userName.equals("")) {
-            User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
+            @NotNull User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
             if (userRepository.save(user)) {
                 System.out.println("User " + userName + " created");
             } else {

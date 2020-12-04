@@ -2,6 +2,7 @@ package org.niks.service;
 
 import lombok.Value;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.ProjectRepository;
@@ -29,7 +30,7 @@ public class ProjectService implements IProjectService{
 
     public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        List<Project> projectList = projectRepository.findAll();
+        @NotNull List<Project> projectList = projectRepository.findAll();
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
                     + "\nDescription: " + project.getProjectDescription()

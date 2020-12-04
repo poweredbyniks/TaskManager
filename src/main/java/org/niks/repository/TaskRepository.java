@@ -27,7 +27,7 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     public List<Task> findAll() {
-        @Nullable List<Task> taskList = new ArrayList<>();
+        @NotNull List<Task> taskList = new ArrayList<>();
         for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
             if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
                 taskList.add(taskEntry.getValue());

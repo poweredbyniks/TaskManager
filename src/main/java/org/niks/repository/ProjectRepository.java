@@ -25,7 +25,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     public List findAll() {
-        @Nullable
+        @NotNull
         final List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
@@ -37,7 +37,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     public Optional<Project> findOne(@NotNull String name) {
-        Project project = null;
+        @Nullable Project project = null;
         if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
             project = projectMap.get(name);
         }

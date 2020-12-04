@@ -2,7 +2,6 @@ package org.niks.repository;
 
 import lombok.Value;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
@@ -21,7 +20,7 @@ public class UserRepository implements IUserRepository {
 
     @NotNull
     public List<User> findAll(List<String> names) {
-        @Nullable List<User> userList = new ArrayList<>(userMap.values());
+        @NotNull List<User> userList = new ArrayList<>(userMap.values());
         return userList;
     }
 
