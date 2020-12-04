@@ -12,13 +12,13 @@ public interface IProjectRepository {
     List findAll();
 
     @Nullable
-    Optional findOne(String name);
+    Optional findOne(@NotNull String name);
 
-    boolean save(Project project);
+    boolean save(@NotNull Project project);
 
-    boolean update(Project project);
+    boolean update(@NotNull Project project);
 
-    void remove(String name);
+    void remove(@NotNull String name);
 
     void removeAll();
 }

@@ -12,13 +12,13 @@ public interface ITaskRepository {
     List findAll();
 
     @Nullable
-    Optional findOne(String name);
+    Optional findOne(@NotNull String name);
 
-    boolean save(Task task);
+    boolean save(@NotNull Task task);
 
-    boolean update(Task task);
+    boolean update(@NotNull Task task);
 
-    void remove(String name);
+    void remove(@NotNull String name);
 
     void removeAll();
 }
