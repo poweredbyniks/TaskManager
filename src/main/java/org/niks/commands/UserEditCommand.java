@@ -1,21 +1,15 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@Value
-public class UserEditCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserEditCommand(UserService userService) {
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class UserEditCommand extends Command {
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -28,10 +22,10 @@ public class UserEditCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
         if (userService != null) {
             System.out.println("Enter new user name");
-            String newUserName = reader.readLine();
+            final String newUserName = reader.readLine();
             userService.userNameEdit(newUserName);
         } else {
             System.out.println("Log in before working");

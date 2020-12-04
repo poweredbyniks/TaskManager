@@ -1,20 +1,15 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@Value
-public class UserPasswordEditCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserPasswordEditCommand(UserService userService) {
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class UserPasswordEditCommand extends Command {
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -27,11 +22,10 @@ public class UserPasswordEditCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
         if (userService != null) {
             System.out.println("Enter new password");
-            @NotNull
-            String newPassword = reader.readLine();
+            final String newPassword = reader.readLine();
             userService.passwordEdit(newPassword);
         } else {
             System.out.println("Log in before working");

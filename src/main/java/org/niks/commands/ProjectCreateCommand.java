@@ -1,6 +1,6 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.User;
@@ -14,16 +14,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-@Value
-public class ProjectCreateCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectCreateCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class ProjectCreateCommand extends Command {
+    private final ProjectService projectService;
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -36,24 +30,20 @@ public class ProjectCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
-        User currentUser = userService.getCurrentUser();
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
+        final User currentUser = userService.getCurrentUser();
         if (currentUser != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("Enter project name");
-            @NotNull
-            String projectName = reader.readLine();
+            final String projectName = reader.readLine();
             System.out.println("Enter project description");
-            @NotNull
-            String projectDescription = reader.readLine();
+            final String projectDescription = reader.readLine();
             System.out.println("Enter starting date dd.MM.yyyy");
-            @NotNull
-            String startDate = reader.readLine();
+            final String startDate = reader.readLine();
             System.out.println("Enter finishing date dd.MM.yyyy");
-            @NotNull
-            String finishDate = reader.readLine();
+            final String finishDate = reader.readLine();
             try {
-                Project project = new Project(randomNumber(), projectName, projectDescription,
+                final Project project = new Project(randomNumber(), projectName, projectDescription,
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
                 projectService.create(project);
             } catch (ParseException e) {
@@ -65,8 +55,7 @@ public class ProjectCreateCommand extends Command {
     }
 
     public long randomNumber() {
-        @NotNull
-        SecureRandom random = new SecureRandom();
+        final SecureRandom random = new SecureRandom();
         return random.nextInt();
     }
 }

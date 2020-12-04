@@ -1,23 +1,14 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 import java.util.Map;
 
-
-@Value
-public class HelpCommand extends Command {
-    UserService userService;
-    Map<String, Command> commandMap;
-
-    @NotNull
-    public HelpCommand(Map<String, Command> commandMap, UserService userService) {
-        this.userService = userService;
-        this.commandMap = commandMap;
-    }
+@AllArgsConstructor
+public final class HelpCommand extends Command {
+    private final Map<String, Command> commandMap;
 
     public String getName() {
         return "help";
@@ -27,7 +18,7 @@ public class HelpCommand extends Command {
         return "Help command";
     }
 
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
             System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
         }

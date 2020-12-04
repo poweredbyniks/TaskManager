@@ -1,5 +1,6 @@
 package org.niks.service;
 
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
@@ -12,32 +13,29 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
-public class UserService implements IUserService {
+@RequiredArgsConstructor
+public final class UserService implements IUserService {
     private final UserRepository userRepository;
 
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Nullable
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
+    public void setCurrentUser(@Nullable final User currentUser) {
         this.currentUser = currentUser;
     }
 
-    public void create(@NotNull String userName, @NotNull String password) {
+    public void create(@NotNull final String userName, @NotNull final String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
         }
         if (!userName.equals("")) {
-            @NotNull User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
+            final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
             if (userRepository.save(user)) {
                 System.out.println("User " + userName + " created");
             } else {
@@ -49,7 +47,7 @@ public class UserService implements IUserService {
     }
 
     @Nullable
-    public User userVerify(@NotNull String userName, @NotNull String password) {
+    public User userVerify(@NotNull final String userName, @NotNull final String password) {
         if (currentUser != null) {
             System.out.println(currentUser.getUserName() + " logged out");
             setCurrentUser(null);
@@ -68,12 +66,12 @@ public class UserService implements IUserService {
         return null;
     }
 
-    public void userInfo(@NotNull String userName) {
+    public void userInfo(@NotNull final String userName) {
         System.out.println("User ID is: " + userRepository.findOne(userName).get().getUserID()
                 + "\nUser name is: " + userRepository.findOne(userName).get().getUserName());
     }
 
-    public void userNameEdit(@NotNull String newUserName) {
+    public void userNameEdit(@NotNull final String newUserName) {
         if (!newUserName.equals("")) {
             if (userRepository.userNameUpdate(newUserName, currentUser)) {
                 System.out.println("Your new user name is " + newUserName);
@@ -83,9 +81,9 @@ public class UserService implements IUserService {
         }
     }
 
-    public void passwordEdit(@NotNull String newPassword) {
+    public void passwordEdit(@NotNull final String newPassword) {
         if (!newPassword.equals("")) {
-            String hashPassword = hash(newPassword);
+            final String hashPassword = hash(newPassword);
             if (userRepository.passwordUpdate(hashPassword, currentUser)) {
                 System.out.println("Password updated");
             }
@@ -95,12 +93,12 @@ public class UserService implements IUserService {
     }
 
     public final long randomNumber() {
-        SecureRandom random = new SecureRandom();
+        final SecureRandom random = new SecureRandom();
         return random.nextInt();
     }
 
     @NotNull
-    public static String hash(@NotNull String password) {
+    public static String hash(@NotNull final String password) {
         String hashPassword = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");

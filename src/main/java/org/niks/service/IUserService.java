@@ -1,6 +1,7 @@
 package org.niks.service;
 
+import org.jetbrains.annotations.NotNull;
 
 public interface IUserService {
-    public void create(String userName, String password);
+    void create(@NotNull final String userName, @NotNull final String password);
 }

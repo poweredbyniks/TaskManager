@@ -1,22 +1,16 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
-@Value
-public class TaskClearCommand extends Command {
-    TaskService taskService;
-    UserService userService;
-
-    @NotNull
-    public TaskClearCommand(TaskService taskService, UserService userService) {
-        this.taskService = taskService;
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class TaskClearCommand extends Command {
+    private final TaskService taskService;
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -29,7 +23,7 @@ public class TaskClearCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             taskService.clear();
         } else {

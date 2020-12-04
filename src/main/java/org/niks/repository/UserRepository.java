@@ -1,6 +1,5 @@
 package org.niks.repository;
 
-import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
@@ -8,28 +7,27 @@ import org.niks.service.UserService;
 
 import java.util.*;
 
-@Value
-public class UserRepository implements IUserRepository {
-    Map<String, User> userMap = new HashMap<>();
+public final class UserRepository implements IUserRepository {
+    private final Map<String, User> userMap = new HashMap<>();
 
     @NotNull
     public UserRepository() {
-        User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
+        final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
     }
 
     @NotNull
-    public List<User> findAll(List<String> names) {
+    public List<User> findAll(@NotNull final List<String> names) {
         @NotNull List<User> userList = new ArrayList<>(userMap.values());
         return userList;
     }
 
     @NotNull
-    public Optional<User> findOne(@NotNull String name) {
+    public Optional<User> findOne(@NotNull final String name) {
         return Optional.ofNullable(userMap.get(name));
     }
 
-    public boolean save(@NotNull User user) {
+    public boolean save(@NotNull final User user) {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
             return true;
@@ -39,21 +37,21 @@ public class UserRepository implements IUserRepository {
         }
     }
 
-    public boolean userNameUpdate(@NotNull String newUserName, @NotNull User user) {
-        User userNameUpdateUser = new User(AccessRoles.USER, user.getUserID(), newUserName, user.getPasswordHash());
+    public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {
+        final User userNameUpdateUser = new User(AccessRoles.USER, user.getUserID(), newUserName, user.getPasswordHash());
         userMap.remove(user.getUserName());
         userMap.put(userNameUpdateUser.getUserName(), userNameUpdateUser);
         return true;
     }
 
-    public boolean passwordUpdate(@NotNull String password, @NotNull User user) {
-        User passwordUpdateUser = new User(AccessRoles.USER, user.getUserID(), user.getUserName(), password);
+    public boolean passwordUpdate(@NotNull final String password, @NotNull final User user) {
+        final User passwordUpdateUser = new User(AccessRoles.USER, user.getUserID(), user.getUserName(), password);
         userMap.remove(user.getUserName());
         userMap.put(passwordUpdateUser.getUserName(), passwordUpdateUser);
         return true;
     }
 
-    public void remove(@NotNull String name) {
+    public void remove(@NotNull final String name) {
         userMap.remove(name);
     }
 

@@ -1,22 +1,16 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
-@Value
-public class ProjectClearCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectClearCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class ProjectClearCommand extends Command {
+    private final ProjectService projectService;
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -29,7 +23,7 @@ public class ProjectClearCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             projectService.clear();
         } else {

@@ -1,6 +1,6 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.UserService;
@@ -8,14 +8,9 @@ import org.niks.service.UserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@Value
+@AllArgsConstructor
 public class UserAuthorizationCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserAuthorizationCommand(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -28,14 +23,12 @@ public class UserAuthorizationCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
-        @NotNull
-        String userName = reader.readLine();
+        final String userName = reader.readLine();
         System.out.println("Enter password");
-        @NotNull
-        String password = reader.readLine();
-        User verifiedUser = userService.userVerify(userName, password);
+        final String password = reader.readLine();
+        final User verifiedUser = userService.userVerify(userName, password);
         userService.setCurrentUser(verifiedUser);
     }
 

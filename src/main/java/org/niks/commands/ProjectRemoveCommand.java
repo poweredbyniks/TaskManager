@@ -1,6 +1,6 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.ProjectService;
 import org.niks.service.UserService;
@@ -8,16 +8,10 @@ import org.niks.service.UserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@Value
-public class ProjectRemoveCommand extends Command {
-    ProjectService projectService;
-    UserService userService;
-
-    @NotNull
-    public ProjectRemoveCommand(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class ProjectRemoveCommand extends Command {
+    private final ProjectService projectService;
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -30,7 +24,7 @@ public class ProjectRemoveCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");

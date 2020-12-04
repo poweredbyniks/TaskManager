@@ -1,21 +1,17 @@
 package org.niks.service;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.repository.TaskRepository;
 
 import java.text.SimpleDateFormat;
 
-@Value
-public class TaskService implements ITaskService {
-    TaskRepository taskRepository;
+@AllArgsConstructor
+public final class TaskService implements ITaskService {
+    private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
-
-    public void create(@NotNull Task task) {
+    public void create(@NotNull final Task task) {
         if (!task.getTaskName().equals("")) {
             if (taskRepository.save(task)) {
                 System.out.println("Task " + task.getTaskName() + " created and added to the project " + task.getProjectName());
@@ -28,7 +24,7 @@ public class TaskService implements ITaskService {
     }
 
     public void list() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskRepository.findAll()) {
             System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName() +
                     "\nStart date: " + dateFormat.format(task.getStartDate()) +
@@ -36,7 +32,7 @@ public class TaskService implements ITaskService {
         }
     }
 
-    public void remove(@NotNull String taskToRemove) {
+    public void remove(@NotNull final String taskToRemove) {
         taskRepository.remove(taskToRemove);
         System.out.println("Task " + taskToRemove + "removed");
     }

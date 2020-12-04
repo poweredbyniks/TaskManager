@@ -24,7 +24,7 @@ public class Bootstrap {
 
     public Map<String, Command> commandMap = new LinkedHashMap<>();
 
-    HelpCommand helpCommand = new HelpCommand(commandMap, userService);
+    HelpCommand helpCommand = new HelpCommand(commandMap);
     ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService, userService);
     ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
     ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);

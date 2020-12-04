@@ -1,14 +1,15 @@
 package org.niks.service;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 
 public interface IProjectService {
-    void create(Project project);
+    void create(@NotNull final Project project);
 
     void list();
 
-    void remove(String projectToRemove);
+    void remove(@NotNull final String projectToRemove);
 
     void clear();
 }

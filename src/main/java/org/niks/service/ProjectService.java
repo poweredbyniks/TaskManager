@@ -1,8 +1,7 @@
 package org.niks.service;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.ProjectRepository;
@@ -10,16 +9,12 @@ import org.niks.repository.ProjectRepository;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@Value
-public class ProjectService implements IProjectService{
-    ProjectRepository projectRepository;
+@AllArgsConstructor
+public final class ProjectService implements IProjectService {
+    private final ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
-
-    public void create(@NotNull Project project) {
-        if(!project.getProjectName().equals("")) {
+    public void create(@NotNull final Project project) {
+        if (!project.getProjectName().equals("")) {
             if (projectRepository.save(project)) {
                 System.out.println("Project " + project.getProjectName() + " created");
             }
@@ -30,7 +25,7 @@ public class ProjectService implements IProjectService{
 
     public void list() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        @NotNull List<Project> projectList = projectRepository.findAll();
+        final List<Project> projectList = projectRepository.findAll();
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
                     + "\nDescription: " + project.getProjectDescription()
@@ -50,7 +45,7 @@ public class ProjectService implements IProjectService{
         }
     }
 
-    public void remove(@NotNull String projectToRemove) {
+    public void remove(@NotNull final String projectToRemove) {
         projectRepository.remove(projectToRemove);
         System.out.println("[Project " + projectToRemove + " removed]");
     }

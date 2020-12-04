@@ -1,19 +1,14 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.UserService;
 
 import java.io.BufferedReader;
 
-@Value
-public class UserInfoCommand extends Command {
-    UserService userService;
-
-    @NotNull
-    public UserInfoCommand(UserService userService) {
-        this.userService = userService;
-    }
+@AllArgsConstructor
+public final class UserInfoCommand extends Command {
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -26,7 +21,7 @@ public class UserInfoCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             userService.userInfo(userService.getCurrentUser().getUserName());
         } else {

@@ -1,6 +1,6 @@
 package org.niks.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.entity.User;
@@ -13,17 +13,10 @@ import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-@Value
-public class TaskCreateCommand extends Command {
-    TaskService taskService;
-    UserService userService;
-
-    @NotNull
-    public TaskCreateCommand(TaskService taskService, UserService userService) {
-        this.taskService = taskService;
-        this.userService = userService;
-    }
-
+@AllArgsConstructor
+public final class TaskCreateCommand extends Command {
+    private final TaskService taskService;
+    private final UserService userService;
 
     @Override
     public String getName() {
@@ -36,27 +29,22 @@ public class TaskCreateCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
-        User currentUser = userService.getCurrentUser();
+    public void execute(@NotNull final BufferedReader reader) {
+        final User currentUser = userService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 System.out.println("Enter project to include to");
-                @NotNull
-                String projectName = reader.readLine();
+                final String projectName = reader.readLine();
                 System.out.println("Enter task name");
-                @NotNull
-                String taskName = reader.readLine();
+                final String taskName = reader.readLine();
                 System.out.println("Enter task description");
-                @NotNull
-                String taskDescription = reader.readLine();
+                final String taskDescription = reader.readLine();
                 System.out.println("Enter starting date dd.MM.yyyy");
-                @NotNull
-                String startDate = reader.readLine();
+                final String startDate = reader.readLine();
                 System.out.println("Enter finishing date dd.MM.yyyy");
-                @NotNull
-                String finishDate = reader.readLine();
-                Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
+                final String finishDate = reader.readLine();
+                final Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
                         dateFormat.parse(finishDate), currentUser.getUserID());
                 taskService.create(task);
             } catch (IOException | ParseException e) {
@@ -68,7 +56,6 @@ public class TaskCreateCommand extends Command {
     }
 
     public static long randomNumber() {
-        @NotNull
         SecureRandom random = new SecureRandom();
         return random.nextInt();
     }
