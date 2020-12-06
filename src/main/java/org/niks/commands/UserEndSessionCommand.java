@@ -2,13 +2,14 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class UserEndSessionCommand extends Command {
-    private final UserService userService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -22,6 +23,6 @@ public final class UserEndSessionCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        userService.setCurrentUser(null);
+        iUserService.setCurrentUser(null);
     }
 }

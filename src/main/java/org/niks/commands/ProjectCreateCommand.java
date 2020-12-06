@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.User;
-import org.niks.service.ProjectService;
-import org.niks.service.UserService;
+import org.niks.service.IProjectService;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 public final class ProjectCreateCommand extends Command {
-    private final ProjectService projectService;
-    private final UserService userService;
+    private final IProjectService iProjectService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -31,7 +31,7 @@ public final class ProjectCreateCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        final User currentUser = userService.getCurrentUser();
+        final User currentUser = iUserService.getCurrentUser();
         if (currentUser != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("Enter project name");
@@ -45,7 +45,7 @@ public final class ProjectCreateCommand extends Command {
             try {
                 final Project project = new Project(randomNumber(), projectName, projectDescription,
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
-                projectService.create(project);
+                iProjectService.create(project);
             } catch (ParseException e) {
                 System.out.println("Incorrect date");
             }

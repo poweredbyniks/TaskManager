@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.entity.User;
-import org.niks.service.TaskService;
-import org.niks.service.UserService;
+import org.niks.service.ITaskService;
+import org.niks.service.IUserService;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +16,8 @@ import java.text.SimpleDateFormat;
 
 @AllArgsConstructor
 public final class TaskCreateCommand extends Command {
-    private final TaskService taskService;
-    private final UserService userService;
+    private final ITaskService iTaskService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -30,7 +31,7 @@ public final class TaskCreateCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        final User currentUser = userService.getCurrentUser();
+        final User currentUser = iUserService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
@@ -46,7 +47,7 @@ public final class TaskCreateCommand extends Command {
                 final String finishDate = reader.readLine();
                 final Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
                         dateFormat.parse(finishDate), currentUser.getUserID());
-                taskService.create(task);
+                iTaskService.create(task);
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }

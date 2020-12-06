@@ -2,15 +2,16 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.TaskService;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.ITaskService;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class TaskClearCommand extends Command {
-    private final TaskService taskService;
-    private final UserService userService;
+    private final ITaskService iTaskService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -24,8 +25,8 @@ public final class TaskClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
-            taskService.clear();
+        if (iUserService.getCurrentUser() != null) {
+            iTaskService.clear();
         } else {
             System.out.println("Log in before working");
         }

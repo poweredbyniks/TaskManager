@@ -7,7 +7,7 @@ import org.niks.service.UserService;
 
 import java.util.*;
 
-public final class UserRepository implements IUserRepository {
+public final class UserRepository implements IUserRepository<User> {
     private final Map<String, User> userMap = new HashMap<>();
 
     @NotNull

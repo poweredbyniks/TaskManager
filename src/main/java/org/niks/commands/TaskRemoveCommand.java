@@ -2,16 +2,17 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.TaskService;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.ITaskService;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
 public final class TaskRemoveCommand extends Command {
-    private final TaskService taskService;
-    private final UserService userService;
+    private final ITaskService iTaskService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -25,10 +26,10 @@ public final class TaskRemoveCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (iUserService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
-                taskService.remove(reader.readLine());
+                iTaskService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

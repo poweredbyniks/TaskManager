@@ -1,14 +1,22 @@
 package org.niks.repository;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.niks.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface IUserRepository {
-    @Nullable
-    Optional findOne(@NotNull String name);
+public interface IUserRepository<T> {
+    List<T> findAll(@NotNull final List<String> names);
 
-    boolean save(@NotNull User user);
+    Optional<T> findOne(@NotNull String name);
+
+    boolean save(@NotNull T user);
+
+    boolean userNameUpdate(@NotNull final String newUserName, @NotNull final T user);
+
+    boolean passwordUpdate(@NotNull final String password, @NotNull final T user);
+
+    void remove(@NotNull final String name);
+
+    void removeAll();
 }

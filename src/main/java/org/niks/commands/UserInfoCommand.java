@@ -2,13 +2,14 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class UserInfoCommand extends Command {
-    private final UserService userService;
+    private final IUserService <User>  iUserService;
 
     @Override
     public String getName() {
@@ -22,8 +23,8 @@ public final class UserInfoCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
-            userService.userInfo(userService.getCurrentUser().getUserName());
+        if (iUserService.getCurrentUser() != null) {
+            iUserService.userInfo(iUserService.getCurrentUser().getUserName());
         } else {
             System.out.println("Log in before working");
         }

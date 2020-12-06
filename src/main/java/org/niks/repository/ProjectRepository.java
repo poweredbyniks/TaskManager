@@ -1,23 +1,22 @@
 package org.niks.repository;
 
 import lombok.AllArgsConstructor;
-import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.User;
-import org.niks.service.UserService;
+import org.niks.service.IUserService;
 
 import java.util.*;
 
 @AllArgsConstructor
-public final class ProjectRepository implements IProjectRepository {
+public final class ProjectRepository implements IProjectRepository <Project> {
     private final Map<String, Project> projectMap = new HashMap<>();
-    private final UserService userService;
+    private final IUserService iUserService;
 
     @Nullable
     private User currentUser() {
-        return userService.getCurrentUser();
+        return iUserService.getCurrentUser();
     }
 
     @NotNull

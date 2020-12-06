@@ -2,21 +2,20 @@ package org.niks.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.niks.entity.Task;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ITaskRepository {
+public interface ITaskRepository <T> {
     @NotNull
-    List findAll();
+     List <T> findAll();
 
     @Nullable
-    Optional findOne(@NotNull String name);
+     Optional <T> findOne(@NotNull String name);
 
-    boolean save(@NotNull Task task);
+    boolean save(@NotNull T entity);
 
-    boolean update(@NotNull Task task);
+    boolean update(@NotNull T entity);
 
     void remove(@NotNull String name);
 

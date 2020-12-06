@@ -3,23 +3,24 @@ package org.niks.repository;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.entity.User;
-import org.niks.service.UserService;
+import org.niks.service.IUserService;
 
 import java.util.*;
 
 @AllArgsConstructor
-public final class TaskRepository implements ITaskRepository {
+public final class TaskRepository implements ITaskRepository<Task> {
 
-    private final UserService userService;
-    private final ProjectRepository projectRepository;
+    private final IUserService iUserService;
+    private final IProjectRepository<Project> iProjectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
 
     @Nullable
     private User currentUser() {
-        return userService.getCurrentUser();
+        return iUserService.getCurrentUser();
     }
 
     @NotNull
@@ -41,7 +42,7 @@ public final class TaskRepository implements ITaskRepository {
     public boolean save(@NotNull final Task task) {
         try {
             taskMap.put(task.getTaskName(), task);
-            projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
+            iProjectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
 
         } catch (NoSuchElementException e) {
             System.out.println("Project not found");

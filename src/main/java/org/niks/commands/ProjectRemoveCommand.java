@@ -2,16 +2,17 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.ProjectService;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.IProjectService;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
 public final class ProjectRemoveCommand extends Command {
-    private final ProjectService projectService;
-    private final UserService userService;
+    private final IProjectService iProjectService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -25,10 +26,10 @@ public final class ProjectRemoveCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (iUserService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project name to remove");
-                projectService.remove(reader.readLine());
+                iProjectService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

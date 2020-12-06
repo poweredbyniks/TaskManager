@@ -2,14 +2,15 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.service.UserService;
+import org.niks.entity.User;
+import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
 public final class UserRegistrationCommand extends Command {
-    private final UserService userService;
+    private final IUserService <User> iUserService;
 
     @Override
     public String getName() {
@@ -27,6 +28,6 @@ public final class UserRegistrationCommand extends Command {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        userService.create(userName, password);
+        iUserService.create(userName, password);
     }
 }
