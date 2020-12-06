@@ -14,8 +14,8 @@ import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
-public final class UserService implements IUserService <User> {
-    private final IUserRepository <User> iUserRepository;
+public final class UserService implements IUserService<User> {
+    private final IUserRepository<User> iUserRepository;
 
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";

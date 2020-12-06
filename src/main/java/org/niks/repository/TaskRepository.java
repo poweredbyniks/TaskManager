@@ -13,7 +13,7 @@ import java.util.*;
 @AllArgsConstructor
 public final class TaskRepository implements ITaskRepository<Task> {
 
-    private final IUserService iUserService;
+    private final IUserService<User> iUserService;
     private final IProjectRepository<Project> iProjectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();

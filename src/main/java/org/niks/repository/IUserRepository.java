@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository<T> {
+    @NotNull
     List<T> findAll(@NotNull final List<String> names);
 
+    @NotNull
     Optional<T> findOne(@NotNull String name);
 
     boolean save(@NotNull T user);

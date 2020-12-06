@@ -58,5 +58,4 @@ public final class UserRepository implements IUserRepository<User> {
     public void removeAll() {
         userMap.clear();
     }
-
 }

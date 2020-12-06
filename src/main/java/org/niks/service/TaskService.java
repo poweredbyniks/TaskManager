@@ -8,7 +8,7 @@ import org.niks.repository.ITaskRepository;
 import java.text.SimpleDateFormat;
 
 @AllArgsConstructor
-public final class TaskService implements ITaskService {
+public final class TaskService implements ITaskService <Task> {
     private final ITaskRepository <Task> iTaskRepository;
 
     public void create(@NotNull final Task task) {
