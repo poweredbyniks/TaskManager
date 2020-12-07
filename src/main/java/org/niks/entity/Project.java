@@ -14,5 +14,6 @@ public class Project {
     Date finishDate;
     List<Task> taskList;
     long userID;
-
+    ProgressStatus progressStatus;
+    Date creationDate;
 }

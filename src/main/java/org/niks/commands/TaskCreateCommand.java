@@ -2,6 +2,7 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.entity.ProgressStatus;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.ITaskService;
@@ -13,11 +14,12 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @AllArgsConstructor
 public final class TaskCreateCommand extends Command {
-    private final ITaskService iTaskService;
-    private final IUserService <User> iUserService;
+    private final ITaskService<Task> iTaskService;
+    private final IUserService<User> iUserService;
 
     @Override
     public String getName() {
@@ -46,7 +48,7 @@ public final class TaskCreateCommand extends Command {
                 System.out.println("Enter finishing date dd.MM.yyyy");
                 final String finishDate = reader.readLine();
                 final Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
-                        dateFormat.parse(finishDate), currentUser.getUserID());
+                        dateFormat.parse(finishDate), currentUser.getUserID(), ProgressStatus.PLANNED, new Date());
                 iTaskService.create(task);
             } catch (IOException | ParseException e) {
                 e.printStackTrace();

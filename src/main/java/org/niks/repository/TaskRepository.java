@@ -16,7 +16,7 @@ public final class TaskRepository implements ITaskRepository<Task> {
     private final IUserService<User> iUserService;
     private final IProjectRepository<Project> iProjectRepository;
 
-    private final Map<String, Task> taskMap = new HashMap<>();
+    private final Map<String, Task> taskMap = new LinkedHashMap<>();
 
     @Nullable
     private User currentUser() {

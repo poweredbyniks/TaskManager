@@ -32,18 +32,52 @@ class AppTest {
     @Test
     public void testProjectList() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
-                "\n31.10.2020\nproject-list\nproject-list \n\u001a";
+                "\n31.10.2020\nproject-list\ncreation date\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT, os.toString(), "Incorrect project-list output");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT, os.toString(), "Incorrect project-list ordered by creation date output");
     }
+
+    @Test
+    public void testProjectListOrderedByStartDate() throws IOException {
+        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\nproject-create\ngoProject\nGoProject\n30.08.2020\n31.09.2020\nproject-list\nstart date\n\u001a";
+        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE, os.toString(), "Incorrect project-list output ordered by start date");
+    }
+
+    @Test
+    public void testProjectListOrderedByFinishDate() throws IOException {
+        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\nproject-create\ngoProject\nGoProject\n30.08.2020\n31.09.2020\nproject-list\nfinish date\n\u001a";
+        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE, os.toString(), "Incorrect project-list output ordered by start date");
+    }
+
+    @Test
+    public void testProjectListOrderedByStatus() throws IOException {
+        String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\nproject-create\ngoProject\nGoProject\n30.08.2020\n31.09.2020\nproject-list\nstatus\n\u001a";
+        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_STATUS, os.toString(), "Incorrect project-list output ordered by status");
+    }
+
 
     @Test
     public void testProjectListWithTask() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
-                "\n31.10.2020\ntask-create\nnewProject\nnewTask\nfeed a cat\n25.11.2020\n26.11.2020\nproject-list\nproject-list \n\u001a";
+                "\n31.10.2020\ntask-create\nnewProject\nnewTask\nfeed a cat\n25.11.2020\n26.11.2020\nproject-list\ncreation date\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
