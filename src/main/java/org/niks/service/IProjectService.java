@@ -2,9 +2,10 @@ package org.niks.service;
 
 
 import org.jetbrains.annotations.NotNull;
+import org.niks.entity.Project;
 
-public interface IProjectService<T> {
-    void create(@NotNull final T project);
+public interface IProjectService <Project> {
+    void create(@NotNull final Project project);
 
     void list();
 

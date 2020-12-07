@@ -7,7 +7,7 @@ import org.niks.service.UserService;
 
 import java.util.*;
 
-public final class UserRepository implements IUserRepository<User> {
+public final class UserRepository implements IUserRepository <User>{
     private final Map<String, User> userMap = new HashMap<>();
 
     @NotNull
@@ -17,8 +17,8 @@ public final class UserRepository implements IUserRepository<User> {
     }
 
     @NotNull
-    public List<User> findAll(@NotNull final List<String> names) {
-        @NotNull List<User> userList = new ArrayList<>(userMap.values());
+    public <User> List  findAll(@NotNull final List<String> names) {
+        @NotNull List<User> userList = new ArrayList<User>(userMap.values());
         return userList;
     }
 

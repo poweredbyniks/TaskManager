@@ -7,16 +7,14 @@ import org.niks.entity.Project;
 import java.util.List;
 import java.util.Optional;
 
-public interface IProjectRepository <T> {
-    @NotNull
-     List <T> findAll();
+public interface IProjectRepository <Project> {
+    @NotNull <T> List findAll();
 
-    @NotNull
-    Optional <T> findOne(@NotNull String name);
+    @NotNull <T> Optional findOne(@NotNull String name);
 
-    boolean save(@NotNull T entity);
+    boolean save(@NotNull Project entity);
 
-    boolean update(@NotNull T entity);
+    boolean update(@NotNull Project entity);
 
     void remove(@NotNull String name);
 

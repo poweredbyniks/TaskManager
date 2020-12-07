@@ -11,10 +11,10 @@ import org.niks.service.IUserService;
 import java.util.*;
 
 @AllArgsConstructor
-public final class TaskRepository implements ITaskRepository<Task> {
+public final class TaskRepository implements ITaskRepository <Task> {
 
-    private final IUserService<User> iUserService;
-    private final IProjectRepository<Project> iProjectRepository;
+    private final IUserService <User> iUserService;
+    private final IProjectRepository <Project> iProjectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
 
@@ -35,7 +35,7 @@ public final class TaskRepository implements ITaskRepository<Task> {
     }
 
     @NotNull
-    public Optional<Task> findOne(@NotNull final String name) {
+    public <Task> Optional findOne(@NotNull final String name) {
         return Optional.ofNullable(taskMap.get(name));
     }
 

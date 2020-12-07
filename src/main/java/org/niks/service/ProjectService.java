@@ -10,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @AllArgsConstructor
-public final class ProjectService implements IProjectService<Project> {
-    private final IProjectRepository<Project> iProjectRepository;
+public final class ProjectService implements IProjectService {
+    private final IProjectRepository iProjectRepository;
 
     public void create(@NotNull final Project project) {
         if (!project.getProjectName().equals("")) {
