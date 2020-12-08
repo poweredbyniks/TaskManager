@@ -3,7 +3,7 @@ package org.niks.service;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 
-public interface ITaskService <Task>{
+public interface ITaskService {
     void create(@NotNull final Task task);
 
     void list();

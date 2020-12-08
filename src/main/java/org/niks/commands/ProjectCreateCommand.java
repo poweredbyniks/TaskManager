@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public final class ProjectCreateCommand extends Command {
     private final IProjectService iProjectService;
-    private final IUserService <User> iUserService;
+    private final IUserService iUserService;
 
     @Override
     public String getName() {

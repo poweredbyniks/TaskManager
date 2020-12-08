@@ -2,7 +2,6 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.entity.User;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
 
@@ -11,7 +10,7 @@ import java.io.BufferedReader;
 @AllArgsConstructor
 public final class ProjectListCommand extends Command {
     private final IProjectService iProjectService;
-    private final IUserService <User> iUserService;
+    private final IUserService iUserService;
 
     @Override
     public String getName() {

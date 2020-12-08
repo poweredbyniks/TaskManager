@@ -10,9 +10,9 @@ import org.niks.service.IUserService;
 import java.util.*;
 
 @AllArgsConstructor
-public final class ProjectRepository implements IProjectRepository <Project>{
+public final class ProjectRepository implements IProjectRepository {
     private final Map<String, Project> projectMap = new HashMap<>();
-    private final IUserService <User> iUserService;
+    private final IUserService iUserService;
 
     @Nullable
     private User currentUser() {
@@ -31,7 +31,7 @@ public final class ProjectRepository implements IProjectRepository <Project>{
     }
 
     @NotNull
-    public Optional <Project> findOne(@NotNull final String name) {
+    public Optional<Project> findOne(@NotNull final String name) {
         Project project = null;
         if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
             project = projectMap.get(name);

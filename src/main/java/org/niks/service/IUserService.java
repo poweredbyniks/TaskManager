@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.User;
 
-public interface IUserService <User> {
+public interface IUserService {
 
     @Nullable
     User getCurrentUser();

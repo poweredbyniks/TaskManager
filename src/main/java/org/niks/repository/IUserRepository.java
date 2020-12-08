@@ -6,10 +6,10 @@ import org.niks.entity.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserRepository <User> {
-    @NotNull <T> List findAll(@NotNull final List<String> names);
+public interface IUserRepository {
+    @NotNull List<User> findAll(@NotNull final List<String> names);
 
-    @NotNull <T> Optional findOne(@NotNull String name);
+    @NotNull Optional<User> findOne(@NotNull String name);
 
     boolean save(@NotNull User user);
 

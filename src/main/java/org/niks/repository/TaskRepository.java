@@ -3,7 +3,6 @@ package org.niks.repository;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
@@ -11,10 +10,10 @@ import org.niks.service.IUserService;
 import java.util.*;
 
 @AllArgsConstructor
-public final class TaskRepository implements ITaskRepository <Task> {
+public final class TaskRepository implements ITaskRepository {
 
-    private final IUserService <User> iUserService;
-    private final IProjectRepository <Project> iProjectRepository;
+    private final IUserService iUserService;
+    private final IProjectRepository iProjectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
 
@@ -34,8 +33,8 @@ public final class TaskRepository implements ITaskRepository <Task> {
         return taskList;
     }
 
-    @NotNull
-    public <Task> Optional findOne(@NotNull final String name) {
+    @NotNull @Override
+    public Optional<Task> findOne(@NotNull final String name) {
         return Optional.ofNullable(taskMap.get(name));
     }
 

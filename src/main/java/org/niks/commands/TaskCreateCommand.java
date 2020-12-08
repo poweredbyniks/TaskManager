@@ -7,7 +7,6 @@ import org.niks.entity.User;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -17,7 +16,7 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public final class TaskCreateCommand extends Command {
     private final ITaskService iTaskService;
-    private final IUserService <User> iUserService;
+    private final IUserService iUserService;
 
     @Override
     public String getName() {
