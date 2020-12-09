@@ -23,7 +23,7 @@ public final class ProjectListCommand extends Command {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
+    public void execute(@NotNull BufferedReader reader) {
         if (iUserService.getCurrentUser() != null) {
             iProjectService.list(reader);
         } else {

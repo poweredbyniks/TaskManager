@@ -5,6 +5,7 @@ import org.niks.repository.ProjectRepository;
 import org.niks.repository.TaskRepository;
 import org.niks.repository.UserRepository;
 import org.niks.service.ProjectService;
+import org.niks.service.SearchService;
 import org.niks.service.TaskService;
 import org.niks.service.UserService;
 
@@ -21,6 +22,7 @@ public class Bootstrap {
     TaskRepository taskRepository = new TaskRepository(userService, projectRepository);
     ProjectService projectService = new ProjectService(projectRepository);
     TaskService taskService = new TaskService(taskRepository);
+    SearchService searchService = new SearchService(projectRepository, taskRepository);
 
     public Map<String, Command> commandMap = new LinkedHashMap<>();
 
@@ -29,11 +31,13 @@ public class Bootstrap {
     ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
     ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
     ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
+    ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, searchService);
 
     TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
     TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, userService);
     TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
     TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
+    TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, searchService);
 
     UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);
     UserEditCommand userEditCommand = new UserEditCommand(userService);
@@ -58,6 +62,8 @@ public class Bootstrap {
         commandMap.put(userEndSessionCommand.getName(), userEndSessionCommand);
         commandMap.put(userInfoCommand.getName(), userInfoCommand);
         commandMap.put(userPasswordUpdateCommand.getName(), userPasswordUpdateCommand);
+        commandMap.put(projectSearchCommand.getName(), projectSearchCommand);
+        commandMap.put(taskSearchCommand.getName(), taskSearchCommand);
         commandExecution();
     }
 

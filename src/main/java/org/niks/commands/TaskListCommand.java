@@ -25,7 +25,7 @@ public final class TaskListCommand extends Command {
     @Override
     public void execute(@NotNull final BufferedReader reader) {
         if (iUserService.getCurrentUser() != null) {
-            iTaskService.list();
+            iTaskService.list(reader);
         } else {
             System.out.println("Log in before working");
         }

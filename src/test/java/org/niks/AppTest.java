@@ -101,7 +101,7 @@ class AppTest {
     public void testTaskList() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\ntask-create\nnewProject\nnewTask\nTask description" +
-                "\n30.11.2020\n31.11.2020\ntask-list\n exit\n\u001a";
+                "\n30.11.2020\n31.11.2020\ntask-list\n\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -113,7 +113,7 @@ class AppTest {
     public void testProjectIsolation() throws IOException {
         String projectListCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
                 "\n31.10.2020\nuser-reg\nsecondUser\n321\nuser-login\nsecondUser\n321\nproject-create\nsecondProject\nProject description\n" +
-                "29.12.2020\n30.12.2020\nproject-list";
+                "29.12.2020\n30.12.2020\nproject-list\n\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -140,6 +140,31 @@ class AppTest {
         App.main(new String[0]);
         Assertions.assertEquals(TestOutputs.USER_PASSWORD_EDIT_COMMAND, os.toString(), "Incorrect password-edit output");
     }
+
+    @Test
+    public void testProjectSearch() throws IOException {
+        String testUserEditCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\nproject-create\nsecondProject\nsecondDescription\n25.11.2020\n26.11.2020\nproject-create\nthirdProject\nthirdDescription\n25.11.2020\n26.11.2020" +
+                "\nproject-search\nsec\n exit\n\u001a";
+        System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.PROJECT_SEARCH_OUTPUT, os.toString(), "Incorrect project search output");
+    }
+
+    @Test
+    public void testTaskSearch() throws IOException {
+        String testUserEditCommand = "user-reg\nnewUser\n123\nuser-login\nnewUser\n123\nproject-create\nnewProject\nProject description\n30.10.2020" +
+                "\n31.10.2020\ntask-create\nnewProject\nTask\nDescription\n25.11.2020\n26.11.2020\ntask-create\nnewProject\nsecondTask\nsecondDescription\n" +
+                "25.11.2020\n26.11.2020\ntask-create\nnewProject\nthirdTask\nthirdDescription\n25.11.2020\n26.11.2020\ntask-search\nsec\n exit\n\u001a";
+        System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
+    }
+
 }
 
 

@@ -20,7 +20,7 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     @NotNull
-    public List findAll() {
+    public List<Project> findAll() {
         @NotNull final List<Project> projectList = new ArrayList<>();
         for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
             if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {

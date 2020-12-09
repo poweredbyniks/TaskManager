@@ -16,7 +16,9 @@ public class TestOutputs {
             "user-edit : Edit user name\n" +
             "user-exit : Log out\n" +
             "user-info : User info: user ID, user name\n" +
-            "password-edit : Edit current password\n";
+            "password-edit : Edit current password\n" +
+            "project-search : Find desired project by name or description\n" +
+            "task-search : Find desired task by name or description\n";
 
 
     public static final String PROJECT_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
@@ -210,6 +212,8 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Task newTask created and added to the project newProject\n" +
+            "Order by\n" +
+            "Ordered by creation date\n" +
             "Task newTask in the project newProject\n" +
             "Start date: 30.11.2020\n" +
             "Finish date: 01.12.2020\n";
@@ -265,4 +269,67 @@ public class TestOutputs {
             "Welcome newUser\n" +
             "Enter new password\n" +
             "Password updated\n";
+
+    public static final String PROJECT_SEARCH_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "User newUser created\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project newProject created\n" +
+
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project secondProject created\n" +
+
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project thirdProject created\n" +
+            "Enter project to find\n" +
+            "secondProject\n";
+
+    public static final String TASK_SEARCH_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "User newUser created\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project newProject created\n" +
+
+            "Enter project to include to\n" +
+            "Enter task name\n" +
+            "Enter task description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Task Task created and added to the project newProject\n" +
+
+            "Enter project to include to\n" +
+            "Enter task name\n" +
+            "Enter task description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Task secondTask created and added to the project newProject\n" +
+
+            "Enter project to include to\n" +
+            "Enter task name\n" +
+            "Enter task description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Task thirdTask created and added to the project newProject\n" +
+            "Enter task to find\n" +
+            "secondTask\n";
 }

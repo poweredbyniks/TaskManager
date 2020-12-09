@@ -26,12 +26,15 @@ public final class ProjectService implements IProjectService {
         }
     }
 
-        public void list(@NotNull final BufferedReader reader) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            final List<Project> projectList = iProjectRepository.findAll();
-            System.out.println("Order by");
-            try {
-                String order = reader.readLine();
+    public void list(@NotNull final BufferedReader reader) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        final List<Project> projectList = iProjectRepository.findAll();
+        System.out.println("Order by");
+        try {
+            String order = reader.readLine();
+            if (order.equals("")) {
+                System.out.println("Ordered by creation date");
+            } else {
                 if (order.equals("start date")) {
                     projectList.sort(CompareByStartDate);
                 }
@@ -42,9 +45,10 @@ public final class ProjectService implements IProjectService {
                     projectList.sort(CompareByStatus);
                 }
                 System.out.println("Ordered by " + order);
-            } catch (NullPointerException | IOException e){
-                System.out.println("Ordered by creation date");
             }
+        } catch (NullPointerException | IOException e) {
+            e.printStackTrace();
+        }
 
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
@@ -74,7 +78,8 @@ public final class ProjectService implements IProjectService {
         iProjectRepository.removeAll();
         System.out.println("[Project list is plain empty]");
     }
-        public static Comparator<Project> CompareByStartDate = Comparator.comparing(Project::getStartDate);
-        public static Comparator<Project> CompareByFinishDate = Comparator.comparing(Project::getFinishDate);
-        public static Comparator<Project> CompareByStatus = Comparator.comparing(Project::getProjectStatus);
+
+    public static Comparator<Project> CompareByStartDate = Comparator.comparing(Project::getStartDate);
+    public static Comparator<Project> CompareByFinishDate = Comparator.comparing(Project::getFinishDate);
+    public static Comparator<Project> CompareByStatus = Comparator.comparing(Project::getProjectStatus);
 }
