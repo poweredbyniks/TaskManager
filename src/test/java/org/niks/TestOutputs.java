@@ -44,10 +44,102 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project newProject created\n" +
+            "Order by\n" +
+            "Ordered by creation date\n" +
             "Project Name: newProject\n" +
             "Description: Project description\n" +
             "Start date: 30.10.2020\n" +
             "Finish date: 31.10.2020\n" +
+            "Task list is empty\n";
+
+    public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "User newUser created\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project newProject created\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project goProject created\n" +
+            "Order by\n" +
+            "Ordered by start date\n" +
+            "Project Name: goProject\n" +
+            "Description: GoProject\n" +
+            "Start date: 30.08.2020\n" +
+            "Finish date: 01.10.2020\n" +
+            "Task list is empty\n" +
+            "Project Name: newProject\n" +
+            "Description: Project description\n" +
+            "Start date: 30.10.2020\n" +
+            "Finish date: 31.10.2020\n" +
+            "Task list is empty\n";
+
+    public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "User newUser created\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project newProject created\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project goProject created\n" +
+            "Order by\n" +
+            "Ordered by finish date\n" +
+            "Project Name: goProject\n" +
+            "Description: GoProject\n" +
+            "Start date: 30.08.2020\n" +
+            "Finish date: 01.10.2020\n" +
+            "Task list is empty\n" +
+            "Project Name: newProject\n" +
+            "Description: Project description\n" +
+            "Start date: 30.10.2020\n" +
+            "Finish date: 31.10.2020\n" +
+            "Task list is empty\n";
+
+    public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_STATUS = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "User newUser created\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome newUser\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project newProject created\n" +
+            "Enter project name\n" +
+            "Enter project description\n" +
+            "Enter starting date dd.MM.yyyy\n" +
+            "Enter finishing date dd.MM.yyyy\n" +
+            "Project goProject created\n" +
+            "Order by\n" +
+            "Ordered by status\n" +
+            "Project Name: newProject\n" +
+            "Description: Project description\n" +
+            "Start date: 30.10.2020\n" +
+            "Finish date: 31.10.2020\n" +
+            "Task list is empty\n" +
+            "Project Name: goProject\n" +
+            "Description: GoProject\n" +
+            "Start date: 30.08.2020\n" +
+            "Finish date: 01.10.2020\n" +
             "Task list is empty\n";
 
     public static final String PROJECT_LIST_WITH_TASK_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
@@ -68,6 +160,8 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Task newTask created and added to the project newProject\n" +
+            "Order by\n" +
+            "Ordered by creation date\n" +
             "Project Name: newProject\n" +
             "Description: Project description\n" +
             "Start date: 30.10.2020\n" +
@@ -144,6 +238,8 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project secondProject created\n" +
+            "Order by\n" +
+            "Ordered by creation date\n" +
             "Project Name: secondProject\n" +
             "Description: Project description\n" +
             "Start date: 29.12.2020\n" +

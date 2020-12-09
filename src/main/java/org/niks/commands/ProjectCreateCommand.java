@@ -3,6 +3,7 @@ package org.niks.commands;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
+import org.niks.entity.Status;
 import org.niks.entity.User;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
@@ -13,6 +14,7 @@ import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @AllArgsConstructor
 public final class ProjectCreateCommand extends Command {
@@ -44,7 +46,8 @@ public final class ProjectCreateCommand extends Command {
             final String finishDate = reader.readLine();
             try {
                 final Project project = new Project(randomNumber(), projectName, projectDescription,
-                        dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(), currentUser.getUserID());
+                        dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(),
+                        currentUser.getUserID(), Status.PLANNED, new Date());
                 iProjectService.create(project);
             } catch (ParseException e) {
                 System.out.println("Incorrect date");

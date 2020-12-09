@@ -25,7 +25,7 @@ public final class ProjectListCommand extends Command {
     @Override
     public void execute(@NotNull final BufferedReader reader) {
         if (iUserService.getCurrentUser() != null) {
-            iProjectService.list();
+            iProjectService.list(reader);
         } else {
             System.out.println("Log in before working");
         }

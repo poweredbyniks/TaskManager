@@ -13,4 +13,6 @@ public class Task {
     Date startDate;
     Date finishDate;
     long userID;
+    Status taskStatus;
+    Date creationDate;
 }

@@ -11,7 +11,7 @@ import java.util.*;
 
 @AllArgsConstructor
 public final class ProjectRepository implements IProjectRepository {
-    private final Map<String, Project> projectMap = new HashMap<>();
+    private final Map<String, Project> projectMap = new LinkedHashMap<>();
     private final IUserService iUserService;
 
     @Nullable
