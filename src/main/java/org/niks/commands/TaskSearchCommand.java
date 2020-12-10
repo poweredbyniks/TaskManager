@@ -1,8 +1,8 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
-import org.niks.service.SearchService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.io.IOException;
 @AllArgsConstructor
 public class TaskSearchCommand extends Command {
 
-    private final IUserService iUserService;
-    private final SearchService searchService;
+    private final IUserService userService;
+    private final ITaskService taskService;
 
     @Override
     public String getName() {
@@ -25,11 +25,11 @@ public class TaskSearchCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) throws IOException {
-        if (iUserService.getCurrentUser() != null) {
+        if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task to find");
                 String name = reader.readLine();
-                searchService.taskSearch(name);
+                taskService.taskSearch(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }

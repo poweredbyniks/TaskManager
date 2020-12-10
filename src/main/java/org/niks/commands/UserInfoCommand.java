@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class UserInfoCommand extends Command {
-    private final IUserService iUserService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -22,8 +22,8 @@ public final class UserInfoCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (iUserService.getCurrentUser() != null) {
-            iUserService.userInfo(iUserService.getCurrentUser().getUserName());
+        if (userService.getCurrentUser() != null) {
+            userService.userInfo(userService.getCurrentUser().getUserName());
         } else {
             System.out.println("Log in before working");
         }

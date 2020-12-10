@@ -13,4 +13,6 @@ public interface ITaskService {
     void remove(@NotNull final String taskToRemove);
 
     void clear();
+
+    void taskSearch(@NotNull final String source);
 }

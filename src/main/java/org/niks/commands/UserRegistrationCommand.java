@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public final class UserRegistrationCommand extends Command {
-    private final IUserService iUserService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -27,6 +27,6 @@ public final class UserRegistrationCommand extends Command {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        iUserService.create(userName, password);
+        userService.create(userName, password);
     }
 }

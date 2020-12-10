@@ -17,8 +17,8 @@ import java.util.Date;
 
 @AllArgsConstructor
 public final class TaskCreateCommand extends Command {
-    private final ITaskService iTaskService;
-    private final IUserService iUserService;
+    private final ITaskService taskService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -32,7 +32,7 @@ public final class TaskCreateCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        final User currentUser = iUserService.getCurrentUser();
+        final User currentUser = userService.getCurrentUser();
         if (currentUser != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
@@ -47,10 +47,10 @@ public final class TaskCreateCommand extends Command {
                 System.out.println("Enter finishing date dd.MM.yyyy");
                 final String finishDate = reader.readLine();
                 final Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
-                        dateFormat.parse(finishDate), currentUser.getUserID(),Status.PLANNED, new Date());
-                iTaskService.create(task);
+                        dateFormat.parse(finishDate), currentUser.getUserID(), Status.PLANNED, new Date());
+                taskService.create(task);
             } catch (IOException | ParseException e) {
-                e.printStackTrace();
+                System.out.println("Incorrect date");
             }
         } else {
             System.out.println("Log in before working");

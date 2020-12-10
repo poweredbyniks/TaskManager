@@ -9,8 +9,8 @@ import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class ProjectListCommand extends Command {
-    private final IProjectService iProjectService;
-    private final IUserService iUserService;
+    private final IProjectService projectService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -24,8 +24,8 @@ public final class ProjectListCommand extends Command {
 
     @Override
     public void execute(@NotNull BufferedReader reader) {
-        if (iUserService.getCurrentUser() != null) {
-            iProjectService.list(reader);
+        if (userService.getCurrentUser() != null) {
+            projectService.list(reader);
         } else {
             System.out.println("Log in before working");
         }

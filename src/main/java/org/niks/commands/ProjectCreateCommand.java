@@ -18,8 +18,8 @@ import java.util.Date;
 
 @AllArgsConstructor
 public final class ProjectCreateCommand extends Command {
-    private final IProjectService iProjectService;
-    private final IUserService iUserService;
+    private final IProjectService projectService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -33,7 +33,7 @@ public final class ProjectCreateCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        final User currentUser = iUserService.getCurrentUser();
+        final User currentUser = userService.getCurrentUser();
         if (currentUser != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("Enter project name");
@@ -48,7 +48,7 @@ public final class ProjectCreateCommand extends Command {
                 final Project project = new Project(randomNumber(), projectName, projectDescription,
                         dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(),
                         currentUser.getUserID(), Status.PLANNED, new Date());
-                iProjectService.create(project);
+                projectService.create(project);
             } catch (ParseException e) {
                 System.out.println("Incorrect date");
             }

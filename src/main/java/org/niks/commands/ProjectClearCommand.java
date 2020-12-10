@@ -9,8 +9,8 @@ import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class ProjectClearCommand extends Command {
-    IProjectService iProjectService;
-    IUserService iUserService;
+    IProjectService projectService;
+    IUserService userService;
 
     @Override
     public String getName() {
@@ -24,8 +24,8 @@ public final class ProjectClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (iUserService.getCurrentUser() != null) {
-            iProjectService.clear();
+        if (userService.getCurrentUser() != null) {
+            projectService.clear();
         } else {
             System.out.println("Log in before working");
         }

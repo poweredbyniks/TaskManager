@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 public final class UserService implements IUserService {
-    private final IUserRepository iUserRepository;
+    private final IUserRepository userRepository;
 
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
@@ -36,7 +36,7 @@ public final class UserService implements IUserService {
         }
         if (!userName.equals("")) {
             final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-            if (iUserRepository.save(user)) {
+            if (userRepository.save(user)) {
                 System.out.println("User " + userName + " created");
             } else {
                 System.out.println("Something went wrong");
@@ -53,9 +53,9 @@ public final class UserService implements IUserService {
             setCurrentUser(null);
         }
         try {
-            if (hash(password).equals(iUserRepository.findOne(userName).get().getPasswordHash())) {
+            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
                 System.out.println("Welcome " + userName);
-                return iUserRepository.findOne(userName).get();
+                return userRepository.findOne(userName).get();
             } else {
                 System.out.println("Wrong user name or password");
                 return null;
@@ -67,13 +67,13 @@ public final class UserService implements IUserService {
     }
 
     public void userInfo(@NotNull final String userName) {
-        System.out.println("User ID is: " + iUserRepository.findOne(userName).get().getUserID()
-                + "\nUser name is: " + iUserRepository.findOne(userName).get().getUserName());
+        System.out.println("User ID is: " + userRepository.findOne(userName).get().getUserID()
+                + "\nUser name is: " + userRepository.findOne(userName).get().getUserName());
     }
 
     public void userNameEdit(@NotNull final String newUserName) {
         if (!newUserName.equals("")) {
-            if (iUserRepository.userNameUpdate(newUserName, currentUser)) {
+            if (userRepository.userNameUpdate(newUserName, currentUser)) {
                 System.out.println("Your new user name is " + newUserName);
             }
         } else {
@@ -84,7 +84,7 @@ public final class UserService implements IUserService {
     public void passwordEdit(@NotNull final String newPassword) {
         if (!newPassword.equals("")) {
             final String hashPassword = hash(newPassword);
-            if (iUserRepository.passwordUpdate(hashPassword, currentUser)) {
+            if (userRepository.passwordUpdate(hashPassword, currentUser)) {
                 System.out.println("Password updated");
             }
         } else {

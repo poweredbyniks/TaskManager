@@ -1,16 +1,16 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
-import org.niks.service.SearchService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
 public class ProjectSearchCommand extends Command {
-    IUserService iUserService;
-    SearchService searchService;
+    IUserService userService;
+    IProjectService projectService;
 
     @Override
     public String getName() {
@@ -24,11 +24,11 @@ public class ProjectSearchCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) throws IOException {
-        if (iUserService.getCurrentUser() != null) {
+        if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project to find");
                 String name = reader.readLine();
-                searchService.projectSearch(name);
+                projectService.projectSearch(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }

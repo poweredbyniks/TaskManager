@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public class UserAuthorizationCommand extends Command {
-    private final IUserService iUserService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -28,8 +28,8 @@ public class UserAuthorizationCommand extends Command {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        final User verifiedUser = iUserService.userVerify(userName, password);
-        iUserService.setCurrentUser(verifiedUser);
+        final User verifiedUser = userService.userVerify(userName, password);
+        userService.setCurrentUser(verifiedUser);
     }
 
 }

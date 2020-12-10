@@ -12,14 +12,14 @@ import java.util.*;
 @AllArgsConstructor
 public final class TaskRepository implements ITaskRepository {
 
-    private final IUserService iUserService;
-    private final IProjectRepository iProjectRepository;
+    private final IUserService userService;
+    private final IProjectRepository projectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
 
     @Nullable
     private User currentUser() {
-        return iUserService.getCurrentUser();
+        return userService.getCurrentUser();
     }
 
     @NotNull
@@ -42,9 +42,9 @@ public final class TaskRepository implements ITaskRepository {
     public boolean save(@NotNull final Task task) {
         try {
             taskMap.put(task.getTaskName(), task);
-            iProjectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
+            projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
 
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | NullPointerException e) {
             System.out.println("Project not found");
         }
         return true;

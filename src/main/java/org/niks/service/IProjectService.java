@@ -15,4 +15,6 @@ public interface IProjectService {
     void remove(@NotNull final String projectToRemove);
 
     void clear();
+
+    void projectSearch(@NotNull final String source);
 }

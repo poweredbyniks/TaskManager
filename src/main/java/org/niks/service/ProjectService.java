@@ -9,16 +9,17 @@ import org.niks.repository.IProjectRepository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
 public final class ProjectService implements IProjectService {
-    private final IProjectRepository iProjectRepository;
+    private final IProjectRepository projectRepository;
 
     public void create(@NotNull final Project project) {
         if (!project.getProjectName().equals("")) {
-            if (iProjectRepository.save(project)) {
+            if (projectRepository.save(project)) {
                 System.out.println("Project " + project.getProjectName() + " created");
             }
         } else {
@@ -28,7 +29,7 @@ public final class ProjectService implements IProjectService {
 
     public void list(@NotNull final BufferedReader reader) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        final List<Project> projectList = iProjectRepository.findAll();
+        final List<Project> projectList = projectList();
         System.out.println("Order by");
         try {
             String order = reader.readLine();
@@ -70,13 +71,33 @@ public final class ProjectService implements IProjectService {
     }
 
     public void remove(@NotNull final String projectToRemove) {
-        iProjectRepository.remove(projectToRemove);
+        projectRepository.remove(projectToRemove);
         System.out.println("[Project " + projectToRemove + " removed]");
     }
 
     public void clear() {
-        iProjectRepository.removeAll();
+        projectRepository.removeAll();
         System.out.println("[Project list is plain empty]");
+    }
+
+    public void projectSearch(@NotNull final String source) {
+        final List<Project> projectList = projectList();
+        final List<Project> foundProjectList = new ArrayList<>();
+        for (Project project : projectList) {
+            if (project.getProjectName().toLowerCase().contains(source.toLowerCase()) | project.getProjectDescription().toLowerCase().contains(source.toLowerCase())) {
+                foundProjectList.add(project);
+            }
+        }
+        if (foundProjectList.isEmpty()) {
+            System.out.println("Project not found");
+        }
+        for (Project project : foundProjectList) {
+            System.out.println(project.getProjectName());
+        }
+    }
+
+    public List<Project> projectList(){
+        return projectRepository.findAll();
     }
 
     public static Comparator<Project> CompareByStartDate = Comparator.comparing(Project::getStartDate);

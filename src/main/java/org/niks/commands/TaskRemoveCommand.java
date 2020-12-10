@@ -10,8 +10,8 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public final class TaskRemoveCommand extends Command {
-    private final ITaskService iTaskService;
-    private final IUserService iUserService;
+    private final ITaskService taskService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -25,10 +25,10 @@ public final class TaskRemoveCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (iUserService.getCurrentUser() != null) {
+        if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task name to remove");
-                iTaskService.remove(reader.readLine());
+                taskService.remove(reader.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }

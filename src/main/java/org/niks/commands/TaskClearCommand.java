@@ -9,8 +9,8 @@ import java.io.BufferedReader;
 
 @AllArgsConstructor
 public final class TaskClearCommand extends Command {
-    private final ITaskService iTaskService;
-    private final IUserService iUserService;
+    private final ITaskService taskService;
+    private final IUserService userService;
 
     @Override
     public String getName() {
@@ -24,8 +24,8 @@ public final class TaskClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (iUserService.getCurrentUser() != null) {
-            iTaskService.clear();
+        if (userService.getCurrentUser() != null) {
+            taskService.clear();
         } else {
             System.out.println("Log in before working");
         }
