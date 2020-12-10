@@ -30,7 +30,7 @@ public final class ProjectService implements IProjectService {
     public void list(@NotNull final BufferedReader reader) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         final List<Project> projectList = projectList();
-        System.out.println("Order by");
+        System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
         try {
             String order = reader.readLine();
             if (order.equals("")) {

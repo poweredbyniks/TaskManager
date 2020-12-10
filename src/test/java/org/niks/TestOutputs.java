@@ -46,7 +46,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project newProject created\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by creation date\n" +
             "Project Name: newProject\n" +
             "Description: Project description\n" +
@@ -71,7 +74,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project goProject created\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by start date\n" +
             "Project Name: goProject\n" +
             "Description: GoProject\n" +
@@ -101,7 +107,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project goProject created\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by finish date\n" +
             "Project Name: goProject\n" +
             "Description: GoProject\n" +
@@ -131,7 +140,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project goProject created\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by status\n" +
             "Project Name: newProject\n" +
             "Description: Project description\n" +
@@ -162,7 +174,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Task newTask created and added to the project newProject\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by creation date\n" +
             "Project Name: newProject\n" +
             "Description: Project description\n" +
@@ -212,7 +227,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Task newTask created and added to the project newProject\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by creation date\n" +
             "Task newTask in the project newProject\n" +
             "Start date: 30.11.2020\n" +
@@ -242,7 +260,10 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project secondProject created\n" +
-            "Order by\n" +
+            "Order by creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
             "Ordered by creation date\n" +
             "Project Name: secondProject\n" +
             "Description: Project description\n" +

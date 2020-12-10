@@ -42,7 +42,7 @@ public final class TaskService implements ITaskService {
     public void list(@NotNull final BufferedReader reader) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         final List<Task> taskList = taskRepository.findAll();
-        System.out.println("Order by");
+        System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
         try {
             String order = reader.readLine();
             if (order.equals("")) {
