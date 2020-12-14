@@ -1,11 +1,13 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 @AllArgsConstructor
 public class TaskSearchCommand extends Command {
@@ -24,12 +26,19 @@ public class TaskSearchCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter task to find");
                 String name = reader.readLine();
                 taskService.taskSearch(name);
+                final List<Task> taskList = taskService.taskSearch(name);
+                if (taskList.isEmpty()) {
+                    System.out.println("Task not found");
+                }
+                for (Task task : taskList) {
+                    System.out.println(task.getTaskName());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

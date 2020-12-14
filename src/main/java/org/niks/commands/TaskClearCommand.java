@@ -26,6 +26,7 @@ public final class TaskClearCommand extends Command {
     public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             taskService.clear();
+            System.out.println("Task list is empty");
         } else {
             System.out.println("Log in before working");
         }

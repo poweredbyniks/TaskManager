@@ -26,7 +26,12 @@ public final class UserEditCommand extends Command {
         if (userService != null) {
             System.out.println("Enter new user name");
             final String newUserName = reader.readLine();
-            userService.userNameEdit(newUserName);
+            if (!newUserName.equals("")) {
+                userService.userNameEdit(newUserName);
+                System.out.println("Your new user name is " + newUserName);
+            } else {
+                System.out.println("Enter valid user name and try again");
+            }
         } else {
             System.out.println("Log in before working");
         }

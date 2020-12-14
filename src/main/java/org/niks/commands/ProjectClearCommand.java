@@ -26,6 +26,7 @@ public final class ProjectClearCommand extends Command {
     public void execute(@NotNull final BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             projectService.clear();
+            System.out.println("Project list is plain empty");
         } else {
             System.out.println("Log in before working");
         }

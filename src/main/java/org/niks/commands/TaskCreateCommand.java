@@ -2,6 +2,7 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.Task;
 import org.niks.entity.User;
@@ -14,6 +15,7 @@ import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 public final class TaskCreateCommand extends Command {
@@ -46,9 +48,26 @@ public final class TaskCreateCommand extends Command {
                 final String startDate = reader.readLine();
                 System.out.println("Enter finishing date dd.MM.yyyy");
                 final String finishDate = reader.readLine();
-                final Task task = new Task(randomNumber(), taskName, projectName, taskDescription, dateFormat.parse(startDate),
-                        dateFormat.parse(finishDate), currentUser.getUserID(), Status.PLANNED, new Date());
-                taskService.create(task);
+                final List<Project> projectList = taskService.projectList();
+                if (projectList.isEmpty()) {
+                    System.out.println("Project list is empty");
+                }
+                if (!taskName.equals("")) {
+                    for (Project project : projectList) {
+                        if (project.getProjectName().equals(projectName)) {
+                            final Task task = new Task(randomNumber(), taskName, projectName, taskDescription,
+                                    dateFormat.parse(startDate), dateFormat.parse(finishDate), currentUser.getUserID(),
+                                    Status.PLANNED, new Date());
+                            taskService.create(task);
+                            System.out.println("Task " + task.getTaskName() + " created and added to the project "
+                                    + task.getProjectName());
+                        } else {
+                            System.out.println("No such existing project");
+                        }
+                    }
+                } else {
+                    System.out.println("Enter valid task name and try again");
+                }
             } catch (IOException | ParseException e) {
                 System.out.println("Incorrect date");
             }

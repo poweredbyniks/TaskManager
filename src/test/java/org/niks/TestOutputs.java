@@ -248,9 +248,9 @@ public class TestOutputs {
             "Enter starting date dd.MM.yyyy\n" +
             "Enter finishing date dd.MM.yyyy\n" +
             "Project newProject created\n" +
+            "newUser logged out\n" +
             "Enter user name\n" +
             "Enter password\n" +
-            "newUser logged out\n" +
             "User secondUser created\n" +
             "Enter user name\n" +
             "Enter password\n" +

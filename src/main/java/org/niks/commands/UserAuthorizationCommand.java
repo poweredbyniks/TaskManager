@@ -28,8 +28,17 @@ public class UserAuthorizationCommand extends Command {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
+        if (userService.getCurrentUser() != null) {
+            System.out.println(userService.getCurrentUser().getUserName() + " logged out");
+            userService.setCurrentUser(null);
+        }
         final User verifiedUser = userService.userVerify(userName, password);
-        userService.setCurrentUser(verifiedUser);
-    }
+        if (verifiedUser != null) {
+            System.out.println("Welcome " + userName);
+            userService.setCurrentUser(verifiedUser);
+        } else {
+            System.out.println("Wrong user name or password");
+        }
 
+    }
 }

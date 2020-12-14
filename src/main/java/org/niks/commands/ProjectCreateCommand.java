@@ -45,10 +45,15 @@ public final class ProjectCreateCommand extends Command {
             System.out.println("Enter finishing date dd.MM.yyyy");
             final String finishDate = reader.readLine();
             try {
-                final Project project = new Project(randomNumber(), projectName, projectDescription,
-                        dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(),
-                        currentUser.getUserID(), Status.PLANNED, new Date());
-                projectService.create(project);
+                if (!projectName.equals("")) {
+                    final Project project = new Project(randomNumber(), projectName, projectDescription,
+                            dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(),
+                            currentUser.getUserID(), Status.PLANNED, new Date());
+                    projectService.create(project);
+                    System.out.println("Project " + project.getProjectName() + " created");
+                } else {
+                    System.out.println("Enter valid project name and try again");
+                }
             } catch (ParseException e) {
                 System.out.println("Incorrect date");
             }

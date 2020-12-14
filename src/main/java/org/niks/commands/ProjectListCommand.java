@@ -2,10 +2,15 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.entity.Project;
+import org.niks.entity.Task;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @AllArgsConstructor
 public final class ProjectListCommand extends Command {
@@ -24,8 +29,37 @@ public final class ProjectListCommand extends Command {
 
     @Override
     public void execute(@NotNull BufferedReader reader) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         if (userService.getCurrentUser() != null) {
-            projectService.list(reader);
+            try {
+                System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
+                final String order = reader.readLine();
+                if (order.equals("")) {
+                    System.out.println("Ordered by creation date");
+                } else {
+                    System.out.println("Ordered by " + order);
+                }
+                final List<Project> projectList = projectService.list(order);
+                for (Project project : projectList) {
+                    System.out.println("Project Name: " + project.getProjectName()
+                            + "\nDescription: " + project.getProjectDescription()
+                            + "\nStart date: " + dateFormat.format(project.getStartDate())
+                            + "\nFinish date: " + dateFormat.format(project.getFinishDate()));
+                    if (project.getTaskList().size() != 0) {
+                        for (Task task : project.getTaskList()) {
+                            System.out.println("Tasks:"
+                                    + "\nTask name: " + task.getTaskName()
+                                    + "\nTask description: " + task.getTaskDescription()
+                                    + "\nStart date: " + dateFormat.format(task.getStartDate())
+                                    + "\nFinish date: " + dateFormat.format(task.getFinishDate()));
+                        }
+                    } else {
+                        System.out.println("Task list is empty");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Log in before working");
         }

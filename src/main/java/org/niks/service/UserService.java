@@ -30,66 +30,30 @@ public final class UserService implements IUserService {
     }
 
     public void create(@NotNull final String userName, @NotNull final String password) {
-        if (currentUser != null) {
-            System.out.println(currentUser.getUserName() + " logged out");
-            setCurrentUser(null);
-        }
-        if (!userName.equals("")) {
-            final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-            if (userRepository.save(user)) {
-                System.out.println("User " + userName + " created");
-            } else {
-                System.out.println("Something went wrong");
-            }
-        } else {
-            System.out.println("Enter valid user name and try again");
-        }
+        final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
+        userRepository.save(user);
     }
 
     @Nullable
     public User userVerify(@NotNull final String userName, @NotNull final String password) {
-        if (currentUser != null) {
-            System.out.println(currentUser.getUserName() + " logged out");
-            setCurrentUser(null);
+        if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
+            return userRepository.findOne(userName).get();
+        } else {
+            return null;
         }
-        try {
-            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
-                System.out.println("Welcome " + userName);
-                return userRepository.findOne(userName).get();
-            } else {
-                System.out.println("Wrong user name or password");
-                return null;
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("User not found");
-        }
-        return null;
     }
 
-    public void userInfo(@NotNull final String userName) {
-        System.out.println("User ID is: " + userRepository.findOne(userName).get().getUserID()
-                + "\nUser name is: " + userRepository.findOne(userName).get().getUserName());
+    public User userInfo(@NotNull final String userName) {
+        return userRepository.findOne(userName).get();
     }
 
     public void userNameEdit(@NotNull final String newUserName) {
-        if (!newUserName.equals("")) {
-            if (userRepository.userNameUpdate(newUserName, currentUser)) {
-                System.out.println("Your new user name is " + newUserName);
-            }
-        } else {
-            System.out.println("Enter valid user name and try again");
-        }
+        userRepository.userNameUpdate(newUserName, currentUser);
     }
 
     public void passwordEdit(@NotNull final String newPassword) {
-        if (!newPassword.equals("")) {
-            final String hashPassword = hash(newPassword);
-            if (userRepository.passwordUpdate(hashPassword, currentUser)) {
-                System.out.println("Password updated");
-            }
-        } else {
-            System.out.println("Enter valid password and try again");
-        }
+        final String hashPassword = hash(newPassword);
+        userRepository.passwordUpdate(hashPassword, currentUser);
     }
 
     public final long randomNumber() {
