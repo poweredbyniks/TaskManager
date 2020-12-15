@@ -40,13 +40,8 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public boolean save(@NotNull final Task task) {
-        try {
-            taskMap.put(task.getTaskName(), task);
-            projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
-
-        } catch (NoSuchElementException | NullPointerException e) {
-            System.out.println("Project not found");
-        }
+        taskMap.put(task.getTaskName(), task);
+        projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
         return true;
     }
 

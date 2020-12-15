@@ -29,9 +29,9 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public void create(@NotNull final String userName, @NotNull final String password) {
+    public boolean create(@NotNull final String userName, @NotNull final String password) {
         final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Nullable

@@ -32,7 +32,6 @@ public final class UserRepository implements IUserRepository {
             userMap.put(user.getUserName(), user);
             return true;
         } else {
-            System.out.println("User already exists");
             return false;
         }
     }

@@ -32,8 +32,11 @@ public final class UserRegistrationCommand extends Command {
         System.out.println("Enter password");
         final String password = reader.readLine();
         if (!userName.equals("")) {
-            userService.create(userName, password);
-            System.out.println("User " + userName + " created");
+            if(userService.create(userName, password)) {
+                System.out.println("User " + userName + " created");
+            } else{
+                System.out.println("User " + userName + " already exists");
+            }
         } else {
             System.out.println("Enter valid user name and try again");
         }
