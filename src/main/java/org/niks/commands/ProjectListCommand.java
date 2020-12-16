@@ -35,19 +35,13 @@ public final class ProjectListCommand extends Command {
             try {
                 System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
                 final String order = reader.readLine();
-                Comparator<Project> projectComparator = null;
                 if (order.equals("") || order.equals("creation date")) {
                     System.out.println("Ordered by creation date");
                     final List<Project> projectList = projectService.list();
                     listOutput(projectList);
                 } else {
                     System.out.println("Ordered by " + order);
-                    for (ProjectSort projectSort : ProjectSort.values()) {
-                        if (projectSort.getOrder().equals(order)) {
-                            projectComparator = projectSort.getProjectComparator();
-                        }
-                    }
-                    final List<Project> projectList = projectService.list(projectComparator);
+                    final List<Project> projectList = projectService.list(order);
                     listOutput(projectList);
                 }
             } catch (NullPointerException e) {

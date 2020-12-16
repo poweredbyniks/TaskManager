@@ -2,6 +2,7 @@ package org.niks.service;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.repository.IProjectRepository;
 
@@ -24,9 +25,15 @@ public final class ProjectService implements IProjectService {
         return projectList;
     }
 
-    public List<Project> list(@NotNull final Comparator<Project> projectComparator) {
+    public List<Project> list(@NotNull final String order) {
+        Comparator<Project> projectComparator;
         final List<Project> projectList = projectList();
-        projectList.sort(projectComparator);
+        for (ProjectSort projectSort : ProjectSort.values()) {
+            if (projectSort.getOrder().equals(order)) {
+                projectComparator = projectSort.getProjectComparator();
+                projectList.sort(projectComparator);
+            }
+        }
         return projectList;
     }
 

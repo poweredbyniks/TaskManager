@@ -12,9 +12,9 @@ import java.util.List;
 public interface IProjectService {
     void create(@NotNull final Project project);
 
-    List<Project> list ();
+    List<Project> list();
 
-    List<Project> list(@NotNull final Comparator<Project> projectComparator);
+    List<Project> list(String order);
 
     void remove(@NotNull final String projectToRemove);
 
