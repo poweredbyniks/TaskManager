@@ -10,6 +10,8 @@ import java.util.List;
 public interface ITaskService {
     void create(@NotNull final Task task);
 
+    List<Task> list();
+
     List<Task> list(@NotNull final String order);
 
     void remove(@NotNull final String taskToRemove);

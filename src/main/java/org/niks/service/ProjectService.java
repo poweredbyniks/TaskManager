@@ -21,8 +21,7 @@ public final class ProjectService implements IProjectService {
     }
 
     public List<Project> list() {
-        final List<Project> projectList = projectList();
-        return projectList;
+        return projectList();
     }
 
     public List<Project> list(@NotNull final String order) {

@@ -2,6 +2,7 @@ package org.niks.service;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.ProjectSort;
 import org.niks.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
@@ -9,6 +10,7 @@ import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,24 +22,18 @@ public final class TaskService implements ITaskService {
         taskRepository.save(task);
     }
 
+    public List<Task> list() {
+        return taskList();
+    }
+
     public List<Task> list(@NotNull final String order) {
+        Comparator<Task> taskComparator;
         final List<Task> taskList = taskList();
-
-
-        try {
-            switch (order) {
-                case "start date":
-                    taskList.sort(TaskSort.START_DATE.taskComparator);
-                    break;
-                case "finish date":
-                    taskList.sort(TaskSort.FINISH_DATE.taskComparator);
-                    break;
-                case "status":
-                    taskList.sort(TaskSort.STATUS.taskComparator);
-                    break;
+        for (TaskSort taskSort : TaskSort.values()) {
+            if (taskSort.getOrder().equals(order)) {
+                taskComparator = taskSort.getTaskComparator();
+                taskList.sort(taskComparator);
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
         return taskList;
     }

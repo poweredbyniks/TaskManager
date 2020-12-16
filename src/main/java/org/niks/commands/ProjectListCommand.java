@@ -2,7 +2,6 @@ package org.niks.commands;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.service.IProjectService;
@@ -11,7 +10,6 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
@@ -52,7 +50,7 @@ public final class ProjectListCommand extends Command {
         }
     }
 
-    public void listOutput(List<Project> projectList) {
+    private void listOutput(List<Project> projectList) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()

@@ -27,28 +27,35 @@ public final class TaskListCommand extends Command {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
+
         if (userService.getCurrentUser() != null) {
-            System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
             try {
-                String order = reader.readLine();
-                if (order.equals("")) {
+                System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
+                final String order = reader.readLine();
+                if (order.equals("") || order.equals("creation date")) {
                     System.out.println("Ordered by creation date");
+                    final List<Task> taskList = taskService.list();
+                    listOutput(taskList);
                 } else {
                     System.out.println("Ordered by " + order);
+                    final List<Task> taskList = taskService.list(order);
+                    listOutput(taskList);
                 }
-                final List<Task> taskList = taskService.list(order);
-                for (Task task : taskList) {
-                    System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName() +
-                            "\nStart date: " + dateFormat.format(task.getStartDate()) +
-                            "\nFinish date: " + dateFormat.format(task.getFinishDate()));
-                }
-            } catch (IOException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         } else {
             System.out.println("Log in before working");
+        }
+    }
+
+    private void listOutput(List<Task> taskList) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        for (Task task : taskList) {
+            System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName() +
+                    "\nStart date: " + dateFormat.format(task.getStartDate()) +
+                    "\nFinish date: " + dateFormat.format(task.getFinishDate()));
         }
     }
 }
