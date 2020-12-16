@@ -6,12 +6,15 @@ import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 
 import java.io.BufferedReader;
+import java.util.Comparator;
 import java.util.List;
 
 public interface IProjectService {
     void create(@NotNull final Project project);
 
-    List<Project> list(@NotNull final String order);
+    List<Project> list ();
+
+    List<Project> list(@NotNull final Comparator<Project> projectComparator);
 
     void remove(@NotNull final String projectToRemove);
 

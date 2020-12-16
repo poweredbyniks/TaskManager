@@ -19,23 +19,14 @@ public final class ProjectService implements IProjectService {
         }
     }
 
-    public List<Project> list(@NotNull final String order) {
+    public List<Project> list() {
         final List<Project> projectList = projectList();
-        try {
-            switch (order) {
-                case "start date":
-                    projectList.sort(COMPARE_BY_START_DATE);
-                    break;
-                case "finish date":
-                    projectList.sort(COMPARE_BY_FINISH_DATE);
-                    break;
-                case "status":
-                    projectList.sort(COMPARE_BY_STATUS);
-                    break;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        return projectList;
+    }
+
+    public List<Project> list(@NotNull final Comparator<Project> projectComparator) {
+        final List<Project> projectList = projectList();
+        projectList.sort(projectComparator);
         return projectList;
     }
 
@@ -62,8 +53,4 @@ public final class ProjectService implements IProjectService {
     public List<Project> projectList() {
         return projectRepository.findAll();
     }
-
-    public static Comparator<Project> COMPARE_BY_START_DATE = Comparator.comparing(Project::getStartDate);
-    public static Comparator<Project> COMPARE_BY_FINISH_DATE = Comparator.comparing(Project::getFinishDate);
-    public static Comparator<Project> COMPARE_BY_STATUS = Comparator.comparing(Project::getProjectStatus);
 }

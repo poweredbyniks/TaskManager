@@ -2,13 +2,13 @@ package org.niks.service;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.niks.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,16 +22,18 @@ public final class TaskService implements ITaskService {
 
     public List<Task> list(@NotNull final String order) {
         final List<Task> taskList = taskList();
+
+
         try {
             switch (order) {
                 case "start date":
-                    taskList.sort(COMPARE_BY_START_DATE);
+                    taskList.sort(TaskSort.START_DATE.taskComparator);
                     break;
                 case "finish date":
-                    taskList.sort(COMPARE_BY_FINISH_DATE);
+                    taskList.sort(TaskSort.FINISH_DATE.taskComparator);
                     break;
                 case "status":
-                    taskList.sort(COMPARE_BY_STATUS);
+                    taskList.sort(TaskSort.STATUS.taskComparator);
                     break;
             }
         } catch (NullPointerException e) {
@@ -47,7 +49,6 @@ public final class TaskService implements ITaskService {
     public void clear() {
         taskRepository.removeAll();
     }
-
 
     public List<Task> taskSearch(@NotNull final String source) {
         final List<Task> taskList = taskList();
@@ -68,9 +69,4 @@ public final class TaskService implements ITaskService {
     public List<Task> taskList() {
         return taskRepository.findAll();
     }
-
-
-    public static Comparator<Task> COMPARE_BY_START_DATE = Comparator.comparing(Task::getStartDate);
-    public static Comparator<Task> COMPARE_BY_FINISH_DATE = Comparator.comparing(Task::getFinishDate);
-    public static Comparator<Task> COMPARE_BY_STATUS = Comparator.comparing(Task::getTaskStatus);
 }
