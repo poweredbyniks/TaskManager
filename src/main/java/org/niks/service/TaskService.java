@@ -50,8 +50,9 @@ public final class TaskService implements ITaskService {
         final List<Task> taskList = taskList();
         final List<Task> foundTaskList = new ArrayList<>();
         for (Task task : taskList) {
-            if (task.getTaskName().toLowerCase().contains(source.toLowerCase()) ||
-                    task.getTaskDescription().toLowerCase().contains(source.toLowerCase())) {
+            String sourceToLowerCase = source.toLowerCase();
+            if (task.getTaskName().toLowerCase().contains(sourceToLowerCase) ||
+                    task.getTaskDescription().toLowerCase().contains(sourceToLowerCase)) {
                 foundTaskList.add(task);
             }
         }

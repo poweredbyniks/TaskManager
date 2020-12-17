@@ -48,8 +48,9 @@ public final class ProjectService implements IProjectService {
         final List<Project> projectList = projectList();
         final List<Project> foundProjectList = new ArrayList<>();
         for (Project project : projectList) {
-            if (project.getProjectName().toLowerCase().contains(source.toLowerCase()) ||
-                    project.getProjectDescription().toLowerCase().contains(source.toLowerCase())) {
+            String sourceToLowerCase = source.toLowerCase();
+            if (project.getProjectName().toLowerCase().contains(sourceToLowerCase) ||
+                    project.getProjectDescription().toLowerCase().contains(sourceToLowerCase)) {
                 foundProjectList.add(project);
             }
         }
