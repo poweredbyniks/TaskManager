@@ -2,7 +2,6 @@ package org.niks.service;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.ProjectSort;
 import org.niks.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
@@ -27,12 +26,10 @@ public final class TaskService implements ITaskService {
     }
 
     public List<Task> list(@NotNull final String order) {
-        Comparator<Task> taskComparator;
         final List<Task> taskList = taskList();
         for (TaskSort taskSort : TaskSort.values()) {
             if (taskSort.getOrder().equals(order)) {
-                taskComparator = taskSort.getTaskComparator();
-                taskList.sort(taskComparator);
+                taskList.sort(taskSort.getTaskComparator());
             }
         }
         return taskList;

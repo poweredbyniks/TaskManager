@@ -25,12 +25,10 @@ public final class ProjectService implements IProjectService {
     }
 
     public List<Project> list(@NotNull final String order) {
-        Comparator<Project> projectComparator;
         final List<Project> projectList = projectList();
         for (ProjectSort projectSort : ProjectSort.values()) {
             if (projectSort.getOrder().equals(order)) {
-                projectComparator = projectSort.getProjectComparator();
-                projectList.sort(projectComparator);
+                projectList.sort(projectSort.getProjectComparator());
             }
         }
         return projectList;
