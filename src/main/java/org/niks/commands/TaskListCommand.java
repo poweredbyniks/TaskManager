@@ -31,16 +31,18 @@ public final class TaskListCommand extends Command {
 
         if (userService.getCurrentUser() != null) {
             try {
-                System.out.println("Order by creation date\nstart date\nfinish date\nstatus");
+                System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
                 final String order = reader.readLine();
                 if (order.equals("") || order.equals("creation date")) {
                     System.out.println("Ordered by creation date");
                     final List<Task> taskList = taskService.list();
                     listOutput(taskList);
-                } else {
+                } else if (order.equals("start date") || order.equals("finish date") || order.equals("status")) {
                     System.out.println("Ordered by " + order);
                     final List<Task> taskList = taskService.list(order);
                     listOutput(taskList);
+                } else {
+                    System.out.println("Wrong order argument, try again");
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();

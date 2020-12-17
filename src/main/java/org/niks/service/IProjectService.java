@@ -2,11 +2,8 @@ package org.niks.service;
 
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 
-import java.io.BufferedReader;
-import java.util.Comparator;
 import java.util.List;
 
 public interface IProjectService {

@@ -9,7 +9,6 @@ import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor

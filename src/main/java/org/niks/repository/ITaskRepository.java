@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ITaskRepository {
     @NotNull List<Task> findAll();
 
-    @NotNull Optional<Task> findOne(@NotNull String name);
+    @NotNull Optional<Task> findOne(@NotNull final String name);
 
     boolean save(@NotNull Task entity);
 

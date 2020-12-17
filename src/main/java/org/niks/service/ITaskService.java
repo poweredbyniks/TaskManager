@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 
-import java.io.BufferedReader;
 import java.util.List;
 
 public interface ITaskService {

@@ -25,7 +25,7 @@ public class ProjectSearchCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) throws IOException {
+    public void execute(BufferedReader reader) {
         if (userService.getCurrentUser() != null) {
             try {
                 System.out.println("Enter project to find");
