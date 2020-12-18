@@ -39,6 +39,10 @@ public class UserAuthorizationCommand extends Command {
         } else {
             System.out.println("Wrong user name or password");
         }
+    }
 
+    @Override
+    public boolean inner() {
+        return false;
     }
 }

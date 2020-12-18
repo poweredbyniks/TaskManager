@@ -23,7 +23,7 @@ public final class UserEditCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (userService != null) {
+        if (inner()) {
             System.out.println("Enter new user name");
             final String newUserName = reader.readLine();
             if (!newUserName.equals("")) {
@@ -32,8 +32,16 @@ public final class UserEditCommand extends Command {
             } else {
                 System.out.println("Enter valid user name and try again");
             }
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }

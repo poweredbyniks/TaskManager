@@ -23,6 +23,11 @@ public final class HelpCommand extends Command {
             System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
         }
     }
+
+    @Override
+    public boolean inner() {
+        return false;
+    }
 }
 
 

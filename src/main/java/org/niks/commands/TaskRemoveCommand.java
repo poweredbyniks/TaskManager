@@ -25,7 +25,7 @@ public final class TaskRemoveCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             try {
                 System.out.println("Enter task name to remove");
                 String taskToRemove = reader.readLine();
@@ -34,8 +34,16 @@ public final class TaskRemoveCommand extends Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }

@@ -35,7 +35,7 @@ public final class TaskCreateCommand extends Command {
     @Override
     public void execute(@NotNull final BufferedReader reader) {
         final User currentUser = userService.getCurrentUser();
-        if (currentUser != null) {
+        if (inner()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 System.out.println("Enter project to include to");
@@ -65,14 +65,22 @@ public final class TaskCreateCommand extends Command {
                             System.out.println("No such existing project");
                         }
                     }
-                } else {
-                    System.out.println("Enter valid task name and try again");
                 }
             } catch (IOException | ParseException e) {
                 System.out.println("Incorrect date");
             }
         } else {
             System.out.println("Log in before working");
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
+        } else {
+            System.out.println("Log in before working");
+            return false;
         }
     }
 

@@ -23,7 +23,7 @@ public final class UserRegistrationCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             System.out.println(userService.getCurrentUser().getUserName() + " logged out");
             userService.setCurrentUser(null);
         }
@@ -32,13 +32,18 @@ public final class UserRegistrationCommand extends Command {
         System.out.println("Enter password");
         final String password = reader.readLine();
         if (!userName.equals("")) {
-            if(userService.create(userName, password)) {
+            if (userService.create(userName, password)) {
                 System.out.println("User " + userName + " created");
-            } else{
+            } else {
                 System.out.println("User " + userName + " already exists");
             }
         } else {
             System.out.println("Enter valid user name and try again");
         }
+    }
+
+    @Override
+    public boolean inner() {
+        return userService.getCurrentUser() != null;
     }
 }

@@ -24,11 +24,19 @@ public final class TaskClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             taskService.clear();
             System.out.println("Task list is empty");
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }

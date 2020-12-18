@@ -24,4 +24,9 @@ public final class UserEndSessionCommand extends Command {
     public void execute(@NotNull final BufferedReader reader) {
         userService.setCurrentUser(null);
     }
+
+    @Override
+    public boolean inner() {
+        return false;
+    }
 }

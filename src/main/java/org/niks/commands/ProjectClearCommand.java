@@ -24,11 +24,19 @@ public final class ProjectClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             projectService.clear();
             System.out.println("Project list is plain empty");
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }

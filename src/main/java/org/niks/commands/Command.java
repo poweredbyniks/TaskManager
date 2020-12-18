@@ -1,5 +1,6 @@
 package org.niks.commands;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -9,6 +10,10 @@ public abstract class Command {
 
     public abstract String getDescription();
 
-    public abstract void execute(BufferedReader reader) throws IOException;
+    public void execute(BufferedReader reader) throws IOException {
+        inner();
+    }
+
+    public abstract boolean inner();
 }
 

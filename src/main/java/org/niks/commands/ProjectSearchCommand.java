@@ -26,7 +26,7 @@ public class ProjectSearchCommand extends Command {
 
     @Override
     public void execute(BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             try {
                 System.out.println("Enter project to find");
                 String name = reader.readLine();
@@ -41,8 +41,16 @@ public class ProjectSearchCommand extends Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }

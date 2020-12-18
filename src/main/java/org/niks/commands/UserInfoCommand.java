@@ -23,12 +23,20 @@ public final class UserInfoCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (userService.getCurrentUser() != null) {
+        if (inner()) {
             User user = userService.userInfo(userService.getCurrentUser().getUserName());
             System.out.println("User ID is: " + user.getUserID()
                     + "\nUser name is: " + user.getUserName());
+        }
+    }
+
+    @Override
+    public boolean inner() {
+        if (userService.getCurrentUser() != null) {
+            return true;
         } else {
             System.out.println("Log in before working");
+            return false;
         }
     }
 }
