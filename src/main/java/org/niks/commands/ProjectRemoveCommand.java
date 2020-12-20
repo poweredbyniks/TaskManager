@@ -30,7 +30,7 @@ public final class ProjectRemoveCommand extends Command {
                 System.out.println("Enter project name to remove");
                 String projectToRemove = reader.readLine();
                 projectService.remove(projectToRemove);
-                System.out.println("[Project " + projectToRemove + " removed]");
+                System.out.println("Project " + projectToRemove + " removed");
             } catch (IOException e) {
                 e.printStackTrace();
             }

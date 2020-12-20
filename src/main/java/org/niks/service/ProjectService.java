@@ -14,22 +14,18 @@ public final class ProjectService implements IProjectService {
     private final IProjectRepository projectRepository;
 
     public void create(@NotNull final Project project) {
-        {
-            projectRepository.save(project);
-        }
+        projectRepository.save(project);
     }
 
+    @NotNull
     public List<Project> list() {
         return projectList();
     }
 
+    @NotNull
     public List<Project> list(@NotNull final String order) {
         final List<Project> projectList = projectList();
-        for (ProjectSort projectSort : ProjectSort.values()) {
-            if (projectSort.getOrder().equals(order)) {
-                projectList.sort(projectSort.getProjectComparator());
-            }
-        }
+        projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
         return projectList;
     }
 
@@ -41,11 +37,12 @@ public final class ProjectService implements IProjectService {
         projectRepository.removeAll();
     }
 
+    @NotNull
     public List<Project> projectSearch(@NotNull final String source) {
+        String sourceToLowerCase = source.toLowerCase();
         final List<Project> projectList = projectList();
         final List<Project> foundProjectList = new ArrayList<>();
         for (Project project : projectList) {
-            String sourceToLowerCase = source.toLowerCase();
             if (project.getProjectName().toLowerCase().contains(sourceToLowerCase) ||
                     project.getProjectDescription().toLowerCase().contains(sourceToLowerCase)) {
                 foundProjectList.add(project);
@@ -54,6 +51,7 @@ public final class ProjectService implements IProjectService {
         return foundProjectList;
     }
 
+    @NotNull
     public List<Project> projectList() {
         return projectRepository.findAll();
     }

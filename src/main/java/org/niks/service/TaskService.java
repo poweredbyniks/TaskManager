@@ -20,17 +20,13 @@ public final class TaskService implements ITaskService {
         taskRepository.save(task);
     }
 
-    public List<Task> list() {
+    public @NotNull List<Task> list() {
         return taskList();
     }
 
-    public List<Task> list(@NotNull final String order) {
+    public @NotNull List<Task> list(@NotNull final String order) {
         final List<Task> taskList = taskList();
-        for (TaskSort taskSort : TaskSort.values()) {
-            if (taskSort.getOrder().equals(order)) {
-                taskList.sort(taskSort.getTaskComparator());
-            }
-        }
+        taskList.sort(TaskSort.valueOf(order).getTaskComparator());
         return taskList;
     }
 
@@ -42,6 +38,7 @@ public final class TaskService implements ITaskService {
         taskRepository.removeAll();
     }
 
+    @NotNull
     public List<Task> taskSearch(@NotNull final String source) {
         final List<Task> taskList = taskList();
         final List<Task> foundTaskList = new ArrayList<>();
@@ -55,10 +52,12 @@ public final class TaskService implements ITaskService {
         return foundTaskList;
     }
 
+    @NotNull
     public List<Project> projectList() {
         return projectRepository.findAll();
     }
 
+    @NotNull
     public List<Task> taskList() {
         return taskRepository.findAll();
     }

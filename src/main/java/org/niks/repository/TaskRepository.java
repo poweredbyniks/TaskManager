@@ -34,7 +34,6 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     @NotNull
-    @Override
     public Optional<Task> findOne(@NotNull final String name) {
         return Optional.ofNullable(taskMap.get(name));
     }

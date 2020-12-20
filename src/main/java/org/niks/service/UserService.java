@@ -42,6 +42,7 @@ public final class UserService implements IUserService {
         }
     }
 
+    @NotNull
     public User userInfo(@NotNull final String userName) {
         return userRepository.findOne(userName).get();
     }

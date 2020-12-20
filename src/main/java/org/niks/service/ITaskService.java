@@ -9,15 +9,19 @@ import java.util.List;
 public interface ITaskService {
     void create(@NotNull final Task task);
 
+    @NotNull
     List<Task> list();
 
+    @NotNull
     List<Task> list(@NotNull final String order);
 
     void remove(@NotNull final String taskToRemove);
 
     void clear();
 
+    @NotNull
     List<Task> taskSearch(@NotNull final String source);
 
+    @NotNull
     List<Project> projectList();
 }

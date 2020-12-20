@@ -69,8 +69,6 @@ public final class TaskCreateCommand extends Command {
             } catch (IOException | ParseException e) {
                 System.out.println("Incorrect date");
             }
-        } else {
-            System.out.println("Log in before working");
         }
     }
 

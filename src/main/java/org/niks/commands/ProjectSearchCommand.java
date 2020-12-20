@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
@@ -25,7 +26,7 @@ public class ProjectSearchCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (inner()) {
             try {
                 System.out.println("Enter project to find");

@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
@@ -26,7 +27,7 @@ public class TaskSearchCommand extends Command {
     }
 
     @Override
-    public void execute(BufferedReader reader) {
+    public void execute(@NotNull final BufferedReader reader) {
         if (inner()) {
             try {
                 System.out.println("Enter task to find");

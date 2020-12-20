@@ -10,13 +10,13 @@ import java.util.Optional;
 public interface IProjectRepository {
     @NotNull List<Project> findAll();
 
-    @NotNull Optional<Project> findOne(@NotNull String name);
+    @NotNull Optional<Project> findOne(@NotNull final String name);
 
-    boolean save(@NotNull Project entity);
+    boolean save(@NotNull final Project entity);
 
-    boolean update(@NotNull Project entity);
+    boolean update(@NotNull final Project entity);
 
-    void remove(@NotNull String name);
+    void remove(@NotNull final String name);
 
     void removeAll();
 }
