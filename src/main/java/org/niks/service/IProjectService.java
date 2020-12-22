@@ -2,6 +2,7 @@ package org.niks.service;
 
 
 import org.jetbrains.annotations.NotNull;
+import org.niks.ProjectSort;
 import org.niks.entity.Project;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface IProjectService {
     List<Project> list();
 
     @NotNull
-    List<Project> list(String order);
+    List<Project> list(ProjectSort order);
 
     void remove(@NotNull final String projectToRemove);
 

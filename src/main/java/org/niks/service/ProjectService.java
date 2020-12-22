@@ -23,9 +23,9 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> list(@NotNull final String order) {
+    public List<Project> list(@NotNull final ProjectSort order) {
         final List<Project> projectList = projectList();
-        projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
+        projectList.sort(order.getProjectComparator());
         return projectList;
     }
 
