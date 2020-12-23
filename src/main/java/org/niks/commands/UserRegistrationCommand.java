@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
-public final class UserRegistrationCommand extends Command {
+public final class UserRegistrationCommand extends CommandWithUserCheck {
     private final IUserService userService;
 
     @Override
@@ -23,7 +23,7 @@ public final class UserRegistrationCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (super.inner()) {
             System.out.println(userService.getCurrentUser().getUserName() + " logged out");
             userService.setCurrentUser(null);
         }

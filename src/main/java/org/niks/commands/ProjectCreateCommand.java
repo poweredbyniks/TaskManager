@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @AllArgsConstructor
-public final class ProjectCreateCommand extends Command {
+public final class ProjectCreateCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
     private final IUserService userService;
 
@@ -34,7 +34,7 @@ public final class ProjectCreateCommand extends Command {
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
         final User currentUser = userService.getCurrentUser();
-        if (inner()) {
+        if (super.inner()) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             System.out.println("Enter project name");
             final String projectName = reader.readLine();
@@ -57,16 +57,6 @@ public final class ProjectCreateCommand extends Command {
             } catch (ParseException e) {
                 System.out.println("Incorrect date");
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 

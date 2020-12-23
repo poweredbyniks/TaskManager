@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.util.Map;
 
 @AllArgsConstructor
-public final class HelpCommand extends Command {
+public final class HelpCommand extends CommandWithoutUserCheck {
     private final Map<String, Command> commandMap;
 
     public String getName() {
@@ -22,11 +22,6 @@ public final class HelpCommand extends Command {
         for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
             System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
         }
-    }
-
-    @Override
-    public boolean inner() {
-        return false;
     }
 }
 

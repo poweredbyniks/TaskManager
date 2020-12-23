@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
-public final class UserEditCommand extends Command {
+public final class UserEditCommand extends CommandWithUserCheck {
     private final IUserService userService;
 
     @Override
@@ -23,7 +23,7 @@ public final class UserEditCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (super.inner()) {
             System.out.println("Enter new user name");
             final String newUserName = reader.readLine();
             if (!newUserName.equals("")) {
@@ -32,16 +32,6 @@ public final class UserEditCommand extends Command {
             } else {
                 System.out.println("Enter valid user name and try again");
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

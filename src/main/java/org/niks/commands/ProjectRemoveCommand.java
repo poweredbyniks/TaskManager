@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
-public final class ProjectRemoveCommand extends Command {
+public final class ProjectRemoveCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
     private final IUserService userService;
 
@@ -25,7 +25,7 @@ public final class ProjectRemoveCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (inner()) {
+        if (super.inner()) {
             try {
                 System.out.println("Enter project name to remove");
                 String projectToRemove = reader.readLine();
@@ -34,16 +34,6 @@ public final class ProjectRemoveCommand extends Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

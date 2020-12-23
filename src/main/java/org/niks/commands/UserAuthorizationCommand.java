@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @AllArgsConstructor
-public class UserAuthorizationCommand extends Command {
+public class UserAuthorizationCommand extends CommandWithoutUserCheck {
     private final IUserService userService;
 
     @Override
@@ -39,10 +39,5 @@ public class UserAuthorizationCommand extends Command {
         } else {
             System.out.println("Wrong user name or password");
         }
-    }
-
-    @Override
-    public boolean inner() {
-        return false;
     }
 }

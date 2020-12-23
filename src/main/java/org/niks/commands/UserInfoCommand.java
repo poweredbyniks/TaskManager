@@ -8,7 +8,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 @AllArgsConstructor
-public final class UserInfoCommand extends Command {
+public final class UserInfoCommand extends CommandWithUserCheck {
     private final IUserService userService;
 
     @Override
@@ -23,20 +23,10 @@ public final class UserInfoCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (inner()) {
+        if (super.inner()) {
             User user = userService.userInfo(userService.getCurrentUser().getUserName());
             System.out.println("User ID is: " + user.getUserID()
                     + "\nUser name is: " + user.getUserName());
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

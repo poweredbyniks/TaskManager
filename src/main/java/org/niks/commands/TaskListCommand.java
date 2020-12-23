@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @AllArgsConstructor
-public final class TaskListCommand extends Command {
+public final class TaskListCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
     private final IUserService userService;
 
@@ -28,7 +28,7 @@ public final class TaskListCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (super.inner()) {
             System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
             final String outputOrder = reader.readLine();
             final String order = outputOrder.replace(" ", "_").toUpperCase();
@@ -41,16 +41,6 @@ public final class TaskListCommand extends Command {
                 final List<Task> taskList = taskService.list(order);
                 listOutput(taskList);
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 

@@ -8,7 +8,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 @AllArgsConstructor
-public final class TaskClearCommand extends Command {
+public final class TaskClearCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
     private final IUserService userService;
 
@@ -24,19 +24,9 @@ public final class TaskClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (inner()) {
+        if (super.inner()) {
             taskService.clear();
             System.out.println("Task list is empty");
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

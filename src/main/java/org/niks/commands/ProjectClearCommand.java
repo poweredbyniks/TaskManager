@@ -8,7 +8,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 @AllArgsConstructor
-public final class ProjectClearCommand extends Command {
+public final class ProjectClearCommand extends CommandWithUserCheck {
     IProjectService projectService;
     IUserService userService;
 
@@ -24,19 +24,9 @@ public final class ProjectClearCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (inner()) {
+        if (super.inner()) {
             projectService.clear();
             System.out.println("Project list is plain empty");
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

@@ -7,7 +7,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 @AllArgsConstructor
-public final class UserEndSessionCommand extends Command {
+public final class UserEndSessionCommand extends CommandWithoutUserCheck {
     private final IUserService userService;
 
     @Override
@@ -25,8 +25,4 @@ public final class UserEndSessionCommand extends Command {
         userService.setCurrentUser(null);
     }
 
-    @Override
-    public boolean inner() {
-        return false;
-    }
 }

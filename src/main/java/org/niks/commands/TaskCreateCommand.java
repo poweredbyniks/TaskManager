@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
-public final class TaskCreateCommand extends Command {
+public final class TaskCreateCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
     private final IUserService userService;
 
@@ -35,7 +35,7 @@ public final class TaskCreateCommand extends Command {
     @Override
     public void execute(@NotNull final BufferedReader reader) {
         final User currentUser = userService.getCurrentUser();
-        if (inner()) {
+        if (super.inner()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 System.out.println("Enter project to include to");
@@ -69,16 +69,6 @@ public final class TaskCreateCommand extends Command {
             } catch (IOException | ParseException e) {
                 System.out.println("Incorrect date");
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 

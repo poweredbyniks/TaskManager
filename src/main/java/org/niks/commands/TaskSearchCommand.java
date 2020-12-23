@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @AllArgsConstructor
-public class TaskSearchCommand extends Command {
+public class TaskSearchCommand extends CommandWithUserCheck {
 
     private final IUserService userService;
     private final ITaskService taskService;
@@ -28,7 +28,7 @@ public class TaskSearchCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
-        if (inner()) {
+        if (super.inner()) {
             try {
                 System.out.println("Enter task to find");
                 String name = reader.readLine();
@@ -43,16 +43,6 @@ public class TaskSearchCommand extends Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 }

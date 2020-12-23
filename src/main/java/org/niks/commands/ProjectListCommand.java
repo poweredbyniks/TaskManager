@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public final class ProjectListCommand extends Command {
+public final class ProjectListCommand extends CommandWithUserCheck {
     public ProjectListCommand(IProjectService projectService, IUserService userService) {
         this.projectService = projectService;
         this.userService = userService;
@@ -36,7 +36,7 @@ public final class ProjectListCommand extends Command {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (super.inner()) {
             System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
             final String outputOrder = reader.readLine();
             final String order = outputOrder.replace(" ", "_").toUpperCase();
@@ -49,16 +49,6 @@ public final class ProjectListCommand extends Command {
                 final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
                 listOutput(projectList);
             }
-        }
-    }
-
-    @Override
-    public boolean inner() {
-        if (userService.getCurrentUser() != null) {
-            return true;
-        } else {
-            System.out.println("Log in before working");
-            return false;
         }
     }
 
