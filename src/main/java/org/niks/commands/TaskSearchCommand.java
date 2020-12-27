@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskSearchCommand extends CommandWithUserCheck {
 
-    private final ITaskService taskService;
     private final IUserService userService;
+    private final ITaskService taskService;
 
     @Override
     public String getName() {

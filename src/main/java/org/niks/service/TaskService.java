@@ -24,12 +24,6 @@ public final class TaskService implements ITaskService {
         return taskList();
     }
 
-    public List<Task> list(@NotNull final TaskSort order) {
-        final List<Task> taskList = taskList();
-        taskList.sort(order.getTaskComparator());
-        return taskList;
-    }
-
     public @NotNull List<Task> list(@NotNull final String order) {
         final List<Task> taskList = taskList();
         taskList.sort(TaskSort.valueOf(order).getTaskComparator());

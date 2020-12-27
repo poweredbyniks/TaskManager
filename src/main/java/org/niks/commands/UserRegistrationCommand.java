@@ -23,7 +23,7 @@ public final class UserRegistrationCommand extends CommandWithUserCheck {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (super.inner()) {
             System.out.println(userService.getCurrentUser().getUserName() + " logged out");
             userService.setCurrentUser(null);
         }
