@@ -30,6 +30,12 @@ public final class TaskService implements ITaskService {
         return taskList;
     }
 
+    public @NotNull List<Task> list(@NotNull final TaskSort order) {
+        final List<Task> taskList = taskList();
+        taskList.sort(order.getTaskComparator());
+        return taskList;
+    }
+
     public void remove(@NotNull final String taskToRemove) {
         taskRepository.remove(taskToRemove);
     }
