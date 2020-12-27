@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-
 import org.niks.service.UserService;
 
 public abstract class CommandWithUserCheck implements Command {

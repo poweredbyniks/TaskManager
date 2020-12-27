@@ -15,7 +15,7 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 public final class UserService implements IUserService {
     private final IUserRepository userRepository;
-
+    @Nullable
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
