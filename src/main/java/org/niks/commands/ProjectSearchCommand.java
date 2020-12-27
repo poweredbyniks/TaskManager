@@ -12,8 +12,8 @@ import java.util.List;
 
 @AllArgsConstructor
 public class ProjectSearchCommand extends CommandWithUserCheck {
-    IUserService userService;
-    IProjectService projectService;
+    private final IProjectService projectService;
+    private final IUserService userService;;
 
     @Override
     public String getName() {

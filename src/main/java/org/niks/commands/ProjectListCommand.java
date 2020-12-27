@@ -7,22 +7,17 @@ import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
-import org.niks.service.ProjectService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-
+@AllArgsConstructor
 public final class ProjectListCommand extends CommandWithUserCheck {
-    public ProjectListCommand(IProjectService projectService, IUserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
-
     private final IProjectService projectService;
     private final IUserService userService;
+
 
     @Override
     public String getName() {

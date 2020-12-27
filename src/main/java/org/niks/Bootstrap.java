@@ -28,13 +28,13 @@ public class Bootstrap {
     ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
     ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
     ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
-    ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, projectService);
+    ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(projectService, userService);
 
     TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
     TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, userService);
     TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
     TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
-    TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
+    TaskSearchCommand taskSearchCommand = new TaskSearchCommand(taskService, userService);
 
     UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);
     UserEditCommand userEditCommand = new UserEditCommand(userService);
