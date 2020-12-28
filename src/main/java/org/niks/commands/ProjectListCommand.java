@@ -32,20 +32,18 @@ public final class ProjectListCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (super.inner()) {
-            System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
-            final String outputOrder = reader.readLine();
-            final String order = outputOrder.replace(" ", "_").toUpperCase();
-            if (order.equals("")) {
-                System.out.println("Ordered by creation date");
-                final List<Project> projectList = projectService.list();
-                listOutput(projectList);
-            } else {
-                System.out.println("Ordered by " + outputOrder);
-                final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
-                listOutput(projectList);
-            }
+    public void inner(@NotNull final BufferedReader reader) throws IOException {
+        System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
+        final String outputOrder = reader.readLine();
+        final String order = outputOrder.replace(" ", "_").toUpperCase();
+        if (order.equals("")) {
+            System.out.println("Ordered by creation date");
+            final List<Project> projectList = projectService.list();
+            listOutput(projectList);
+        } else {
+            System.out.println("Ordered by " + outputOrder);
+            final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
+            listOutput(projectList);
         }
     }
 

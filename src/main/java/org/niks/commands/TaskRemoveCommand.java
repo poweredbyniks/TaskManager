@@ -26,16 +26,14 @@ public final class TaskRemoveCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
-        if (super.inner()) {
-            try {
-                System.out.println("Enter task name to remove");
-                String taskToRemove = reader.readLine();
-                taskService.remove(taskToRemove);
-                System.out.println("Task " + taskToRemove + "removed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void inner(@NotNull final BufferedReader reader) {
+        try {
+            System.out.println("Enter task name to remove");
+            String taskToRemove = reader.readLine();
+            taskService.remove(taskToRemove);
+            System.out.println("Task " + taskToRemove + "removed");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

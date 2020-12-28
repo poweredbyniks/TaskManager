@@ -35,42 +35,40 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
+    public void inner(@NotNull final BufferedReader reader) {
         final User currentUser = userService.getCurrentUser();
-        if (super.inner()) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            try {
-                System.out.println("Enter project to include to");
-                final String projectName = reader.readLine();
-                System.out.println("Enter task name");
-                final String taskName = reader.readLine();
-                System.out.println("Enter task description");
-                final String taskDescription = reader.readLine();
-                System.out.println("Enter starting date dd.MM.yyyy");
-                final String startDate = reader.readLine();
-                System.out.println("Enter finishing date dd.MM.yyyy");
-                final String finishDate = reader.readLine();
-                final List<Project> projectList = taskService.projectList();
-                if (projectList.isEmpty()) {
-                    System.out.println("Project list is empty");
-                }
-                if (!taskName.equals("")) {
-                    for (Project project : projectList) {
-                        if (project.getProjectName().equals(projectName)) {
-                            final Task task = new Task(randomNumber(), taskName, projectName, taskDescription,
-                                    dateFormat.parse(startDate), dateFormat.parse(finishDate), currentUser.getUserID(),
-                                    Status.PLANNED, new Date());
-                            taskService.create(task);
-                            System.out.println("Task " + task.getTaskName() + " created and added to the project "
-                                    + task.getProjectName());
-                        } else {
-                            System.out.println("No such existing project");
-                        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            System.out.println("Enter project to include to");
+            final String projectName = reader.readLine();
+            System.out.println("Enter task name");
+            final String taskName = reader.readLine();
+            System.out.println("Enter task description");
+            final String taskDescription = reader.readLine();
+            System.out.println("Enter starting date dd.MM.yyyy");
+            final String startDate = reader.readLine();
+            System.out.println("Enter finishing date dd.MM.yyyy");
+            final String finishDate = reader.readLine();
+            final List<Project> projectList = taskService.projectList();
+            if (projectList.isEmpty()) {
+                System.out.println("Project list is empty");
+            }
+            if (!taskName.equals("")) {
+                for (Project project : projectList) {
+                    if (project.getProjectName().equals(projectName)) {
+                        final Task task = new Task(randomNumber(), taskName, projectName, taskDescription,
+                                dateFormat.parse(startDate), dateFormat.parse(finishDate), currentUser.getUserID(),
+                                Status.PLANNED, new Date());
+                        taskService.create(task);
+                        System.out.println("Task " + task.getTaskName() + " created and added to the project "
+                                + task.getProjectName());
+                    } else {
+                        System.out.println("No such existing project");
                     }
                 }
-            } catch (IOException | ParseException e) {
-                System.out.println("Incorrect date");
             }
+        } catch (IOException | ParseException e) {
+            System.out.println("Incorrect date");
         }
     }
 

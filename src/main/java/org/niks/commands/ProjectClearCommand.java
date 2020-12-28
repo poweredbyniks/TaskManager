@@ -25,10 +25,8 @@ public final class ProjectClearCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
-        if (super.inner()) {
-            projectService.clear();
-            System.out.println("Project list is plain empty");
-        }
+    public void inner(@NotNull final BufferedReader reader) {
+        projectService.clear();
+        System.out.println("Project list is plain empty");
     }
 }

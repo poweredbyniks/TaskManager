@@ -29,22 +29,20 @@ public class ProjectSearchCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
-        if (super.inner()) {
-            try {
-                System.out.println("Enter project to find");
-                String name = reader.readLine();
-                projectService.projectSearch(name);
-                final List<Project> projectList = projectService.projectSearch(name);
-                if (projectList.isEmpty()) {
-                    System.out.println("Project not found");
-                }
-                for (Project project : projectList) {
-                    System.out.println(project.getProjectName());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void inner(@NotNull final BufferedReader reader) {
+        try {
+            System.out.println("Enter project to find");
+            String name = reader.readLine();
+            projectService.projectSearch(name);
+            final List<Project> projectList = projectService.projectSearch(name);
+            if (projectList.isEmpty()) {
+                System.out.println("Project not found");
             }
+            for (Project project : projectList) {
+                System.out.println(project.getProjectName());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

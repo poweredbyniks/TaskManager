@@ -23,16 +23,14 @@ public final class UserPasswordEditCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (super.inner()) {
-            System.out.println("Enter new password");
-            final String newPassword = reader.readLine();
-            if (!newPassword.equals("")) {
-                userService.passwordEdit(newPassword);
-                System.out.println("Password updated");
-            } else {
-                System.out.println("Enter valid password and try again");
-            }
+    public void inner(@NotNull final BufferedReader reader) throws IOException {
+        System.out.println("Enter new password");
+        final String newPassword = reader.readLine();
+        if (!newPassword.equals("")) {
+            userService.passwordEdit(newPassword);
+            System.out.println("Password updated");
+        } else {
+            System.out.println("Enter valid password and try again");
         }
     }
 }

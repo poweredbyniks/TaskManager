@@ -6,9 +6,11 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public final class UserRegistrationCommand extends CommandWithUserCheck {
+public final class UserRegistrationCommand extends CommandWithoutUserCheck {
+    IUserService userService;
+
     public UserRegistrationCommand(IUserService userService) {
-        super(userService);
+        this.userService = userService;
     }
 
     @Override
@@ -23,7 +25,7 @@ public final class UserRegistrationCommand extends CommandWithUserCheck {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (inner()) {
+        if (userService.getCurrentUser() != null) {
             System.out.println(userService.getCurrentUser().getUserName() + " logged out");
             userService.setCurrentUser(null);
         }
@@ -40,10 +42,5 @@ public final class UserRegistrationCommand extends CommandWithUserCheck {
         } else {
             System.out.println("Enter valid user name and try again");
         }
-    }
-
-    @Override
-    public boolean inner() {
-        return userService.getCurrentUser() != null;
     }
 }

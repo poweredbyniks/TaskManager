@@ -1,18 +1,24 @@
 package org.niks.commands;
 
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.niks.service.IUserService;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 
 @AllArgsConstructor
 public abstract class CommandWithUserCheck implements Command {
-    IUserService userService;
+    protected IUserService userService;
 
-    public boolean inner() {
+    @Override
+    public void execute(@NotNull final BufferedReader reader) throws IOException{
         if (userService.getCurrentUser() != null) {
-            return true;
+            inner(reader);
         } else {
             System.out.println("Log in before working");
-            return false;
         }
     }
+
+    protected abstract void inner(@NotNull final BufferedReader reader) throws IOException;
 }

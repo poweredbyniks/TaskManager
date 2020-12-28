@@ -23,16 +23,14 @@ public final class UserEditCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) throws IOException {
-        if (super.inner()) {
-            System.out.println("Enter new user name");
-            final String newUserName = reader.readLine();
-            if (!newUserName.equals("")) {
-                userService.userNameEdit(newUserName);
-                System.out.println("Your new user name is " + newUserName);
-            } else {
-                System.out.println("Enter valid user name and try again");
-            }
+    public void inner(@NotNull final BufferedReader reader) throws IOException {
+        System.out.println("Enter new user name");
+        final String newUserName = reader.readLine();
+        if (!newUserName.equals("")) {
+            userService.userNameEdit(newUserName);
+            System.out.println("Your new user name is " + newUserName);
+        } else {
+            System.out.println("Enter valid user name and try again");
         }
     }
 }

@@ -28,22 +28,20 @@ public class TaskSearchCommand extends CommandWithUserCheck {
     }
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) {
-        if (super.inner()) {
-            try {
-                System.out.println("Enter task to find");
-                String name = reader.readLine();
-                taskService.taskSearch(name);
-                final List<Task> taskList = taskService.taskSearch(name);
-                if (taskList.isEmpty()) {
-                    System.out.println("Task not found");
-                }
-                for (Task task : taskList) {
-                    System.out.println(task.getTaskName());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void inner(@NotNull final BufferedReader reader) {
+        try {
+            System.out.println("Enter task to find");
+            String name = reader.readLine();
+            taskService.taskSearch(name);
+            final List<Task> taskList = taskService.taskSearch(name);
+            if (taskList.isEmpty()) {
+                System.out.println("Task not found");
             }
+            for (Task task : taskList) {
+                System.out.println(task.getTaskName());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

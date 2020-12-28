@@ -8,8 +8,12 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@AllArgsConstructor
 public class UserAuthorizationCommand extends CommandWithoutUserCheck {
+
+    public UserAuthorizationCommand(IUserService userService) {
+        this.userService = userService;
+    }
+
     private final IUserService userService;
 
     @Override
@@ -22,7 +26,7 @@ public class UserAuthorizationCommand extends CommandWithoutUserCheck {
         return "User authorization";
     }
 
-    @Override
+    //@Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
         final String userName = reader.readLine();
