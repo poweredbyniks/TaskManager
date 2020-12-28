@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
@@ -26,7 +25,6 @@ public class UserAuthorizationCommand extends CommandWithoutUserCheck {
         return "User authorization";
     }
 
-    //@Override
     public void execute(@NotNull final BufferedReader reader) throws IOException {
         System.out.println("Enter user name");
         final String userName = reader.readLine();
