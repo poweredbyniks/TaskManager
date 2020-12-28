@@ -1,15 +1,16 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@AllArgsConstructor
+
 public final class UserEditCommand extends CommandWithUserCheck {
-    private final IUserService userService;
+    public UserEditCommand(IUserService userService) {
+        super(userService);
+    }
 
     @Override
     public String getName() {

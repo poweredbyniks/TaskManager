@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
@@ -16,10 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-@AllArgsConstructor
+
 public final class ProjectCreateCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
-    private final IUserService userService;
+
+    public ProjectCreateCommand(IUserService userService, IProjectService projectService) {
+        super(userService);
+        this.projectService = projectService;
+    }
 
     @Override
     public String getName() {

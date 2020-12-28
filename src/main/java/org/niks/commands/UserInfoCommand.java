@@ -1,15 +1,15 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
-@AllArgsConstructor
 public final class UserInfoCommand extends CommandWithUserCheck {
-    private final IUserService userService;
+    public UserInfoCommand(IUserService userService) {
+        super(userService);
+    }
 
     @Override
     public String getName() {

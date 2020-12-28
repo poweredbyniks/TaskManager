@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
@@ -10,11 +9,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
-@AllArgsConstructor
 public class TaskSearchCommand extends CommandWithUserCheck {
-
-    private final IUserService userService;
     private final ITaskService taskService;
+
+    public TaskSearchCommand(IUserService userService, ITaskService taskService) {
+        super(userService);
+        this.taskService = taskService;
+    }
 
     @Override
     public String getName() {

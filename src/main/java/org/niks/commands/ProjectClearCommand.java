@@ -1,16 +1,18 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
-@AllArgsConstructor
 public final class ProjectClearCommand extends CommandWithUserCheck {
     IProjectService projectService;
-    IUserService userService;
+
+    public ProjectClearCommand(IUserService userService, IProjectService projectService) {
+        super(userService);
+        this.projectService = projectService;
+    }
 
     @Override
     public String getName() {

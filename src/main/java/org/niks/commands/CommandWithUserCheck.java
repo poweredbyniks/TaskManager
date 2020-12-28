@@ -1,9 +1,11 @@
 package org.niks.commands;
 
-import org.niks.service.UserService;
+import lombok.AllArgsConstructor;
+import org.niks.service.IUserService;
 
+@AllArgsConstructor
 public abstract class CommandWithUserCheck implements Command {
-    UserService userService;
+    IUserService userService;
 
     public boolean inner() {
         if (userService.getCurrentUser() != null) {

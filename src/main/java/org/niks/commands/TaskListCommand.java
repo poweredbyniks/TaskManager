@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
@@ -11,10 +10,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@AllArgsConstructor
 public final class TaskListCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
-    private final IUserService userService;
+
+    public TaskListCommand(IUserService userService, ITaskService taskService) {
+        super(userService);
+        this.taskService = taskService;
+    }
 
     @Override
     public String getName() {

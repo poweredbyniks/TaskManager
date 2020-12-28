@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
@@ -8,10 +7,13 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@AllArgsConstructor
 public final class TaskRemoveCommand extends CommandWithUserCheck {
+    public TaskRemoveCommand(IUserService userService, ITaskService taskService) {
+        super(userService);
+        this.taskService = taskService;
+    }
+
     private final ITaskService taskService;
-    private final IUserService userService;
 
     @Override
     public String getName() {

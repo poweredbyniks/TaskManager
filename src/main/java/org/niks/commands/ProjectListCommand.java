@@ -1,13 +1,11 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
-import org.niks.service.ProjectService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,13 +14,12 @@ import java.util.List;
 
 
 public final class ProjectListCommand extends CommandWithUserCheck {
-    public ProjectListCommand(IProjectService projectService, IUserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
-
     private final IProjectService projectService;
-    private final IUserService userService;
+
+    public ProjectListCommand(IUserService userService, IProjectService projectService) {
+        super(userService);
+        this.projectService = projectService;
+    }
 
     @Override
     public String getName() {

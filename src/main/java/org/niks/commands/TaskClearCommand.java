@@ -1,16 +1,18 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 
-@AllArgsConstructor
 public final class TaskClearCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
-    private final IUserService userService;
+
+    public TaskClearCommand(IUserService userService, ITaskService taskService) {
+        super(userService);
+        this.taskService = taskService;
+    }
 
     @Override
     public String getName() {

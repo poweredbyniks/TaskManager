@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
@@ -10,10 +9,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
-@AllArgsConstructor
+
 public class ProjectSearchCommand extends CommandWithUserCheck {
-    IUserService userService;
     IProjectService projectService;
+
+    public ProjectSearchCommand(IUserService userService, IProjectService projectService) {
+        super(userService);
+        this.projectService = projectService;
+    }
 
     @Override
     public String getName() {

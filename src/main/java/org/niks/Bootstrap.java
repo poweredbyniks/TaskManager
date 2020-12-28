@@ -24,16 +24,16 @@ public class Bootstrap {
 
     public Map<String, Command> commandMap = new LinkedHashMap<>();
     HelpCommand helpCommand = new HelpCommand(commandMap);
-    ProjectClearCommand projectClearCommand = new ProjectClearCommand(projectService, userService);
-    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(projectService, userService);
-    ProjectListCommand projectListCommand = new ProjectListCommand(projectService, userService);
-    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(projectService, userService);
+    ProjectClearCommand projectClearCommand = new ProjectClearCommand(userService, projectService);
+    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(userService, projectService);
+    ProjectListCommand projectListCommand = new ProjectListCommand(userService, projectService);
+    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(userService, projectService);
     ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, projectService);
 
-    TaskClearCommand taskClearCommand = new TaskClearCommand(taskService, userService);
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(taskService, userService);
-    TaskListCommand taskListCommand = new TaskListCommand(taskService, userService);
-    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(taskService, userService);
+    TaskClearCommand taskClearCommand = new TaskClearCommand(userService, taskService);
+    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(userService, taskService);
+    TaskListCommand taskListCommand = new TaskListCommand(userService, taskService);
+    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(userService, taskService);
     TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
 
     UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);

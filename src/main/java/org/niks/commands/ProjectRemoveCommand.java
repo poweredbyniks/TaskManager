@@ -1,6 +1,5 @@
 package org.niks.commands;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
@@ -8,10 +7,14 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@AllArgsConstructor
+
 public final class ProjectRemoveCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
-    private final IUserService userService;
+
+    public ProjectRemoveCommand(IUserService userService, IProjectService projectService) {
+        super(userService);
+        this.projectService = projectService;
+    }
 
     @Override
     public String getName() {
