@@ -164,14 +164,6 @@ class AppTest {
         App.main(new String[0]);
         Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
     }
-
-    @Test
-    public void testTest(){
-        String order = "START_DATE";
-        String m = ProjectSort.valueOf(order).getOrder();
-        System.out.println(m);
-
-    }
 }
 
 
