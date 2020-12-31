@@ -36,15 +36,15 @@ public final class TaskListCommand extends CommandWithUserCheck {
         if (order.equals("")) {
             System.out.println("Ordered by creation date");
             final List<Task> taskList = taskService.list();
-            listOutput(taskList);
+            writeList(taskList);
         } else {
             System.out.println("Ordered by " + order);
             final List<Task> taskList = taskService.list(order);
-            listOutput(taskList);
+            writeList(taskList);
         }
     }
 
-    private void listOutput(List<Task> taskList) {
+    private void writeList(List<Task> taskList) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskList) {
             System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName() +

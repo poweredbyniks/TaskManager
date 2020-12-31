@@ -39,16 +39,16 @@ public final class ProjectListCommand extends CommandWithUserCheck {
         if (order.equals("")) {
             System.out.println("Ordered by creation date");
             final List<Project> projectList = projectService.list();
-            listOutput(projectList);
+            writeList(projectList);
         } else {
             System.out.println("Ordered by " + outputOrder);
             final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
-            listOutput(projectList);
+            writeList(projectList);
         }
     }
 
-    private void listOutput(List<Project> projectList) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private void writeList(List<Project> projectList) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
                     + "\nDescription: " + project.getProjectDescription()

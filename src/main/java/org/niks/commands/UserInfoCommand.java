@@ -23,7 +23,7 @@ public final class UserInfoCommand extends CommandWithUserCheck {
 
     @Override
     public void inner(@NotNull final BufferedReader reader) {
-        User user = userService.userInfo(userService.getCurrentUser().getUserName());
+        final User user = userService.userInfo(userService.getCurrentUser().getUserName());
         System.out.println("User ID is: " + user.getUserID()
                 + "\nUser name is: " + user.getUserName());
     }

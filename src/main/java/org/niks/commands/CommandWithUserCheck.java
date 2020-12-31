@@ -9,10 +9,10 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public abstract class CommandWithUserCheck implements Command {
-    protected IUserService userService;
+    protected final IUserService userService;
 
     @Override
-    public void execute(@NotNull final BufferedReader reader) throws IOException{
+    public void execute(@NotNull final BufferedReader reader) throws IOException {
         if (userService.getCurrentUser() != null) {
             inner(reader);
         } else {

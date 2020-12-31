@@ -18,8 +18,7 @@ public final class UserRepository implements IUserRepository {
 
     @NotNull
     public List<User> findAll(@NotNull final List<String> names) {
-        final List<User> userList = new ArrayList<>(userMap.values());
-        return userList;
+        return new ArrayList<>(userMap.values());
     }
 
     @NotNull

@@ -8,12 +8,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public final class TaskRemoveCommand extends CommandWithUserCheck {
+    private final ITaskService taskService;
+
     public TaskRemoveCommand(IUserService userService, ITaskService taskService) {
         super(userService);
         this.taskService = taskService;
     }
-
-    private final ITaskService taskService;
 
     @Override
     public String getName() {
@@ -29,7 +29,7 @@ public final class TaskRemoveCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) {
         try {
             System.out.println("Enter task name to remove");
-            String taskToRemove = reader.readLine();
+            final String taskToRemove = reader.readLine();
             taskService.remove(taskToRemove);
             System.out.println("Task " + taskToRemove + "removed");
         } catch (IOException e) {

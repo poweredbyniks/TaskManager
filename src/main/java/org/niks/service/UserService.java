@@ -64,10 +64,10 @@ public final class UserService implements IUserService {
     public static String hash(@NotNull final String password) {
         String hashPassword = "";
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
-            byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
+            final byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            final StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }

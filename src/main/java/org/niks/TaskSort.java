@@ -14,7 +14,7 @@ public enum TaskSort {
     FINISH_DATE((o1, o2) -> o1.getFinishDate().compareTo(o2.getFinishDate()), "finish date"),
     STATUS((o1, o2) -> o1.getTaskStatus().compareTo(o2.getTaskStatus()), "status");
 
-    public Comparator<Task> taskComparator;
-    String order;
+    private final Comparator<Task> taskComparator;
+    private final String order;
 
 }

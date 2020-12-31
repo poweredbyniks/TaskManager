@@ -1,5 +1,6 @@
 package org.niks.commands;
 
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
@@ -7,12 +8,8 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class UserAuthorizationCommand extends CommandWithoutUserCheck {
-
-    public UserAuthorizationCommand(IUserService userService) {
-        this.userService = userService;
-    }
-
+@AllArgsConstructor
+public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
     private final IUserService userService;
 
     @Override

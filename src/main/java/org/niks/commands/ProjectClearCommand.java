@@ -7,7 +7,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 public final class ProjectClearCommand extends CommandWithUserCheck {
-    IProjectService projectService;
+    private final IProjectService projectService;
 
     public ProjectClearCommand(IUserService userService, IProjectService projectService) {
         super(userService);

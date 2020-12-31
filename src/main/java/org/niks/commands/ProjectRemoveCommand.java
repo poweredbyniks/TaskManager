@@ -30,7 +30,7 @@ public final class ProjectRemoveCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) {
         try {
             System.out.println("Enter project name to remove");
-            String projectToRemove = reader.readLine();
+            final String projectToRemove = reader.readLine();
             projectService.remove(projectToRemove);
             System.out.println("Project " + projectToRemove + " removed");
         } catch (IOException e) {

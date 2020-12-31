@@ -7,7 +7,7 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 
 @AllArgsConstructor
-public final class UserEndSessionCommand extends CommandWithoutUserCheck {
+public final class UserEndSessionCommand implements ICommandWithoutUserCheck {
     private final IUserService userService;
 
     @Override

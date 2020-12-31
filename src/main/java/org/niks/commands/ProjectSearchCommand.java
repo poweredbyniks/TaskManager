@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class ProjectSearchCommand extends CommandWithUserCheck {
-    IProjectService projectService;
+    private final IProjectService projectService;
 
     public ProjectSearchCommand(IUserService userService, IProjectService projectService) {
         super(userService);
@@ -32,7 +32,7 @@ public class ProjectSearchCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) {
         try {
             System.out.println("Enter project to find");
-            String name = reader.readLine();
+            final String name = reader.readLine();
             projectService.projectSearch(name);
             final List<Project> projectList = projectService.projectSearch(name);
             if (projectList.isEmpty()) {

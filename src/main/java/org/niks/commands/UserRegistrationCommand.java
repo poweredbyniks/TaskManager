@@ -6,8 +6,8 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public final class UserRegistrationCommand extends CommandWithoutUserCheck {
-    IUserService userService;
+public final class UserRegistrationCommand implements ICommandWithoutUserCheck {
+    private final IUserService userService;
 
     public UserRegistrationCommand(IUserService userService) {
         this.userService = userService;

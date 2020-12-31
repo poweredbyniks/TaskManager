@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.util.Map;
 
 @AllArgsConstructor
-public final class HelpCommand extends CommandWithoutUserCheck {
+public final class HelpCommand implements ICommandWithoutUserCheck {
     private final Map<String, Command> commandMap;
 
     public String getName() {

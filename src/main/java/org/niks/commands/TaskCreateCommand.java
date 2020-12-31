@@ -37,7 +37,7 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
     @Override
     public void inner(@NotNull final BufferedReader reader) {
         final User currentUser = userService.getCurrentUser();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try {
             System.out.println("Enter project to include to");
             final String projectName = reader.readLine();
@@ -73,7 +73,7 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
     }
 
     public static long randomNumber() {
-        SecureRandom random = new SecureRandom();
+        final SecureRandom random = new SecureRandom();
         return random.nextInt();
     }
 }

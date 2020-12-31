@@ -31,7 +31,7 @@ public class TaskSearchCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) {
         try {
             System.out.println("Enter task to find");
-            String name = reader.readLine();
+            final String name = reader.readLine();
             taskService.taskSearch(name);
             final List<Task> taskList = taskService.taskSearch(name);
             if (taskList.isEmpty()) {

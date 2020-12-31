@@ -46,7 +46,7 @@ public final class ProjectService implements IProjectService {
 
     @NotNull
     public List<Project> projectSearch(@NotNull final String source) {
-        String sourceToLowerCase = source.toLowerCase();
+        final String sourceToLowerCase = source.toLowerCase();
         final List<Project> projectList = projectList();
         final List<Project> foundProjectList = new ArrayList<>();
         for (Project project : projectList) {
