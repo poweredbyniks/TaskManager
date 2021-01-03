@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.User;
 
+import java.io.IOException;
+
 public interface IUserService {
 
     @Nullable
@@ -11,7 +13,7 @@ public interface IUserService {
 
     void setCurrentUser(@Nullable final User currentUser);
 
-    boolean create(@NotNull final String userName, @NotNull final String password);
+    boolean create(@NotNull final String userName, @NotNull final String password) throws IOException;
 
     @Nullable
     User userVerify(@NotNull final String userName, @NotNull final String password);

@@ -1,19 +1,22 @@
 package org.niks.repository;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
+import java.io.IOException;
 import java.util.*;
 
-public final class UserRepository implements IUserRepository {
-    private final Map<String, User> userMap = new HashMap<>();
+public final class UserRepository implements IUserRepository, ISerialization<User> {
+    private Map<String, User> userMap = new HashMap<>();
 
     @NotNull
-    public UserRepository() {
+    public UserRepository() throws IOException  {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
+
     }
 
     @NotNull
@@ -26,9 +29,10 @@ public final class UserRepository implements IUserRepository {
         return Optional.ofNullable(userMap.get(name));
     }
 
-    public boolean save(@NotNull final User user) {
+    public boolean save(@NotNull final User user) throws IOException {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
+            writeJSON(userMap);
             return true;
         } else {
             return false;

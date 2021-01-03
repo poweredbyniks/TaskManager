@@ -43,6 +43,9 @@ public class Bootstrap {
     UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
+    public Bootstrap() throws IOException {
+    }
+
     public void init() {
         commandMap.put(userAuthorizationCommand.getName(), userAuthorizationCommand);
         commandMap.put(userRegistrationCommand.getName(), userRegistrationCommand);

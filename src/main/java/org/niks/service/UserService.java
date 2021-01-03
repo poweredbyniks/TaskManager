@@ -7,6 +7,7 @@ import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.IUserRepository;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +28,7 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public boolean create(@NotNull final String userName, @NotNull final String password) {
+    public boolean create(@NotNull final String userName, @NotNull final String password) throws IOException {
         final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
         return userRepository.save(user);
     }
@@ -57,7 +58,7 @@ public final class UserService implements IUserService {
 
     public final long randomNumber() {
         final SecureRandom random = new SecureRandom();
-        return random.nextInt();
+        return random.nextInt(1000);
     }
 
     @NotNull
