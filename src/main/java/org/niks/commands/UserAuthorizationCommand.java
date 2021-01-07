@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
     private final IUserService userService;
+    private final UserEndSessionCommand userEndSessionCommand;
 
     @Override
     public String getName() {
@@ -24,14 +25,13 @@ public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
     }
 
     public void execute(@NotNull final BufferedReader reader) throws IOException {
+        if (userService.getCurrentUser() != null) {
+            userEndSessionCommand.execute(reader);
+        }
         System.out.println("Enter user name");
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        if (userService.getCurrentUser() != null) {
-            System.out.println(userService.getCurrentUser().getUserName() + " logged out");
-            userService.setCurrentUser(null);
-        }
         try {
             final User verifiedUser = userService.userVerify(userName, password);
             if (verifiedUser != null) {

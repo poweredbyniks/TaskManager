@@ -1,22 +1,33 @@
 package org.niks.repository;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 
+import java.io.IOException;
 import java.util.*;
 
-@AllArgsConstructor
-public final class ProjectRepository implements IProjectRepository {
+
+public final class ProjectRepository implements IProjectRepository, ISerialization<Project> {
     private final Map<String, Project> projectMap = new LinkedHashMap<>();
     private final IUserService userService;
+
+    private final String filePath = "/Users/elupokniks/Desktop/ProjectsData.json";
+
+    public ProjectRepository(IUserService userService) throws IOException {
+        this.userService = userService;
+        Project[] projects = readProjectJSON(filePath);
+        for (Project project : projects) {
+            projectMap.put(project.getProjectName(), project);
+        }
+    }
 
     @Nullable
     private User currentUser() {
         return userService.getCurrentUser();
+
     }
 
     @NotNull
@@ -62,5 +73,9 @@ public final class ProjectRepository implements IProjectRepository {
                 projectMap.remove(projectEntry.getKey());
             }
         }
+    }
+
+    public void serialize() throws IOException {
+        writeJSON(projectMap, filePath);
     }
 }

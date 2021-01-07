@@ -1,14 +1,10 @@
 package org.niks.repository;
 
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.niks.entity.Project;
+import org.niks.entity.Task;
 import org.niks.entity.User;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +25,15 @@ public interface ISerialization<T> {
     default User[] readUserJSON(String filePath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(new File(filePath), User[].class);
+    }
+
+    default Project[] readProjectJSON(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File(filePath), Project[].class);
+    }
+    default Task[] readTaskJSON(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File(filePath), Task[].class);
     }
 }
 

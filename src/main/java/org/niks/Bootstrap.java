@@ -36,9 +36,9 @@ public class Bootstrap {
     TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(userService, taskService);
     TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
 
-    UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService);
-    UserEditCommand userEditCommand = new UserEditCommand(userService);
     UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
+    UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService, userEndSessionCommand);
+    UserEditCommand userEditCommand = new UserEditCommand(userService);
     UserInfoCommand userInfoCommand = new UserInfoCommand(userService);
     UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
@@ -75,6 +75,8 @@ public class Bootstrap {
                 if (commandMap.containsKey(input)) {
                     commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
+                    projectRepository.serialize();
+                    taskRepository.serialize();
                     break;
                 }
                 input = reader.readLine();

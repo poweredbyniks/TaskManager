@@ -16,6 +16,7 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     public UserRepository() throws IOException {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
+
         User[] users = readUserJSON(filePath);
         for (User user : users) {
             userMap.put(user.getUserName(), user);
@@ -35,8 +36,6 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     public boolean save(@NotNull final User user) throws IOException {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
-
-
             writeJSON(userMap, filePath);
             return true;
         } else {

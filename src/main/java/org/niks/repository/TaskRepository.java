@@ -7,15 +7,28 @@ import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 
+import java.io.IOException;
 import java.util.*;
 
-@AllArgsConstructor
-public final class TaskRepository implements ITaskRepository {
+
+public final class TaskRepository implements ITaskRepository, ISerialization<Task> {
 
     private final IUserService userService;
     private final IProjectRepository projectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
+    private final String filePath = "/Users/elupokniks/Desktop/TasksData.json";
+
+    public TaskRepository(IUserService userService, IProjectRepository projectRepository) throws IOException {
+        this.userService = userService;
+        this.projectRepository = projectRepository;
+
+
+        final Task[] tasks = readTaskJSON(filePath);
+        for (Task task : tasks) {
+            taskMap.put(task.getTaskName(), task);
+        }
+    }
 
     @Nullable
     private User currentUser() {
@@ -62,5 +75,9 @@ public final class TaskRepository implements ITaskRepository {
                 taskMap.remove(taskEntry.getKey());
             }
         }
+    }
+
+    public void serialize() throws IOException {
+        writeJSON(taskMap, filePath);
     }
 }
