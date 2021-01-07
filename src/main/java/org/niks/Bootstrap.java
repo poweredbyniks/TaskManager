@@ -75,8 +75,8 @@ public class Bootstrap {
                 if (commandMap.containsKey(input)) {
                     commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
-                    projectRepository.serialize();
-                    taskRepository.serialize();
+                    projectRepository.readJSON();
+                    taskRepository.readJSON();
                     break;
                 }
                 input = reader.readLine();

@@ -1,11 +1,13 @@
 package org.niks.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -14,11 +16,10 @@ public final class ProjectRepository implements IProjectRepository, ISerializati
     private final Map<String, Project> projectMap = new LinkedHashMap<>();
     private final IUserService userService;
 
-    private final String filePath = "/Users/elupokniks/Desktop/ProjectsData.json";
-
     public ProjectRepository(IUserService userService) throws IOException {
         this.userService = userService;
-        Project[] projects = readProjectJSON(filePath);
+
+        Project[] projects = readJSON();
         for (Project project : projects) {
             projectMap.put(project.getProjectName(), project);
         }
@@ -75,7 +76,9 @@ public final class ProjectRepository implements IProjectRepository, ISerializati
         }
     }
 
-    public void serialize() throws IOException {
-        writeJSON(projectMap, filePath);
+    @Override
+    public Project[] readJSON() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File("/Users/elupokniks/Desktop/ProjectsData.json"), Project[].class);
     }
 }

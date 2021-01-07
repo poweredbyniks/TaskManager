@@ -1,5 +1,6 @@
 package org.niks.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -7,6 +8,7 @@ import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -17,14 +19,12 @@ public final class TaskRepository implements ITaskRepository, ISerialization<Tas
     private final IProjectRepository projectRepository;
 
     private final Map<String, Task> taskMap = new HashMap<>();
-    private final String filePath = "/Users/elupokniks/Desktop/TasksData.json";
 
     public TaskRepository(IUserService userService, IProjectRepository projectRepository) throws IOException {
         this.userService = userService;
         this.projectRepository = projectRepository;
 
-
-        final Task[] tasks = readTaskJSON(filePath);
+        final Task[] tasks = readJSON();
         for (Task task : tasks) {
             taskMap.put(task.getTaskName(), task);
         }
@@ -77,7 +77,9 @@ public final class TaskRepository implements ITaskRepository, ISerialization<Tas
         }
     }
 
-    public void serialize() throws IOException {
-        writeJSON(taskMap, filePath);
+    @Override
+    public Task[] readJSON() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File("/Users/elupokniks/Desktop/TasksData.json"), Task[].class);
     }
 }

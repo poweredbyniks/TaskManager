@@ -1,10 +1,12 @@
 package org.niks.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.service.UserService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -17,7 +19,7 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
 
-        User[] users = readUserJSON(filePath);
+        User[] users = readJSON();
         for (User user : users) {
             userMap.put(user.getUserName(), user);
         }
@@ -29,7 +31,7 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     }
 
     @NotNull
-    public Optional<User> findOne(@NotNull final String name) throws NoSuchElementException{
+    public Optional<User> findOne(@NotNull final String name) throws NoSuchElementException {
         return Optional.ofNullable(userMap.get(name));
     }
 
@@ -41,6 +43,12 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
         } else {
             return false;
         }
+    }
+
+    @Override
+    public User[] readJSON() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File(filePath), User[].class);
     }
 
     public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {
