@@ -22,7 +22,7 @@ public final class UserEndSessionCommand implements ICommandWithoutUserCheck {
 
     @Override
     public void execute(@NotNull final BufferedReader reader) {
+        System.out.println(userService.getCurrentUser().getUserName() + " logged out");
         userService.setCurrentUser(null);
     }
-
 }

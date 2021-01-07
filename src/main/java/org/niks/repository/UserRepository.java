@@ -1,6 +1,5 @@
 package org.niks.repository;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
@@ -10,13 +9,17 @@ import java.io.IOException;
 import java.util.*;
 
 public final class UserRepository implements IUserRepository, ISerialization<User> {
-    private Map<String, User> userMap = new HashMap<>();
+    private final Map<String, User> userMap = new HashMap<>();
+    private final String filePath = "/Users/elupokniks/Desktop/UsersData.json";
 
     @NotNull
-    public UserRepository() throws IOException  {
+    public UserRepository() throws IOException {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
-
+        User[] users = readUserJSON(filePath);
+        for (User user : users) {
+            userMap.put(user.getUserName(), user);
+        }
     }
 
     @NotNull
@@ -25,14 +28,16 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     }
 
     @NotNull
-    public Optional<User> findOne(@NotNull final String name) {
+    public Optional<User> findOne(@NotNull final String name) throws NoSuchElementException{
         return Optional.ofNullable(userMap.get(name));
     }
 
     public boolean save(@NotNull final User user) throws IOException {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
-            writeJSON(userMap);
+
+
+            writeJSON(userMap, filePath);
             return true;
         } else {
             return false;

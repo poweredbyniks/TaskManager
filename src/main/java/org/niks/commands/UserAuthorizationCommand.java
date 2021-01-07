@@ -7,6 +7,7 @@ import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
@@ -31,12 +32,16 @@ public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
             System.out.println(userService.getCurrentUser().getUserName() + " logged out");
             userService.setCurrentUser(null);
         }
-        final User verifiedUser = userService.userVerify(userName, password);
-        if (verifiedUser != null) {
-            System.out.println("Welcome " + userName);
-            userService.setCurrentUser(verifiedUser);
-        } else {
-            System.out.println("Wrong user name or password");
+        try {
+            final User verifiedUser = userService.userVerify(userName, password);
+            if (verifiedUser != null) {
+                System.out.println("Welcome " + userName);
+                userService.setCurrentUser(verifiedUser);
+            } else {
+                System.out.println("Wrong user name or password");
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("User not found");
         }
     }
 }

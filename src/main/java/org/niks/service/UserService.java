@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 public final class UserService implements IUserService {
@@ -34,7 +35,8 @@ public final class UserService implements IUserService {
     }
 
     @Nullable
-    public User userVerify(@NotNull final String userName, @NotNull final String password) {
+    public User userVerify(@NotNull final String userName, @NotNull final String password) throws NoSuchElementException {
+
         if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
             return userRepository.findOne(userName).get();
         } else {
@@ -57,6 +59,7 @@ public final class UserService implements IUserService {
     }
 
     public final long randomNumber() {
+        //deserialized user number + 1
         final SecureRandom random = new SecureRandom();
         return random.nextInt(1000);
     }
