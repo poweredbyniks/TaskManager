@@ -1,5 +1,6 @@
 package org.niks;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.niks.commands.*;
 import org.niks.repository.ProjectRepository;
 import org.niks.repository.TaskRepository;
@@ -75,8 +76,12 @@ public class Bootstrap {
                 if (commandMap.containsKey(input)) {
                     commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
-                    projectRepository.readJSON();
-                    taskRepository.readJSON();
+                    try {
+                        projectRepository.readJSON();
+                        taskRepository.readJSON();
+                    } catch (MismatchedInputException e) {
+                        System.out.println("No data found");
+                    }
                     break;
                 }
                 input = reader.readLine();

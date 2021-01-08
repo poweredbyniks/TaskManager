@@ -1,6 +1,7 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
@@ -18,10 +19,13 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     public UserRepository() throws IOException {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
-
-        User[] users = readJSON();
-        for (User user : users) {
-            userMap.put(user.getUserName(), user);
+        try { //move to another place
+            User[] users = readJSON();
+            for (User user : users) {
+                userMap.put(user.getUserName(), user);
+            }
+        } catch (MismatchedInputException e){
+            System.out.println("No user data found");
         }
     }
 
