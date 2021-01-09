@@ -36,6 +36,7 @@ public class Bootstrap {
     TaskListCommand taskListCommand = new TaskListCommand(userService, taskService);
     TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(userService, taskService);
     TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
+    ProjectTaskSaveCommand projectTaskSaveCommand = new ProjectTaskSaveCommand(userService, projectService, taskService);
 
     UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
     UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService, userEndSessionCommand);
@@ -63,6 +64,8 @@ public class Bootstrap {
         commandMap.put(userPasswordUpdateCommand.getName(), userPasswordUpdateCommand);
         commandMap.put(projectSearchCommand.getName(), projectSearchCommand);
         commandMap.put(taskSearchCommand.getName(), taskSearchCommand);
+        commandMap.put(projectTaskSaveCommand.getName(), projectTaskSaveCommand);
+
         commandExecution();
     }
 

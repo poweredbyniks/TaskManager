@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-public final class ProjectRepository implements IProjectRepository, ISerialization<Project> {
+public final class ProjectRepository extends Serialization<Project> implements IProjectRepository {
     private final Map<String, Project> projectMap = new LinkedHashMap<>();
     private final IUserService userService;
 

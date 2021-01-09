@@ -8,6 +8,7 @@ import org.niks.entity.Task;
 import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public final class TaskService implements ITaskService {
         final List<Task> taskList = taskList();
         final List<Task> foundTaskList = new ArrayList<>();
         for (Task task : taskList) {
-            String sourceToLowerCase = source.toLowerCase();
+            final String sourceToLowerCase = source.toLowerCase();
             if (task.getTaskName().toLowerCase().contains(sourceToLowerCase) ||
                     task.getTaskDescription().toLowerCase().contains(sourceToLowerCase)) {
                 foundTaskList.add(task);
@@ -66,5 +67,9 @@ public final class TaskService implements ITaskService {
     @NotNull
     public List<Task> taskList() {
         return taskRepository.findAll();
+    }
+
+    public void serialize() throws IOException {
+        taskRepository.serialize();
     }
 }

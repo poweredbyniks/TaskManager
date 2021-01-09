@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-public final class TaskRepository implements ITaskRepository, ISerialization<Task> {
+public final class TaskRepository extends Serialization<Task> implements ITaskRepository {
 
     private final IUserService userService;
     private final IProjectRepository projectRepository;

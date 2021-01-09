@@ -6,6 +6,7 @@ import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.repository.IProjectRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> list(@NotNull final String order){
+    public List<Project> list(@NotNull final String order) {
         final List<Project> projectList = projectList();
         projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
         return projectList;
@@ -61,5 +62,9 @@ public final class ProjectService implements IProjectService {
     @NotNull
     public List<Project> projectList() {
         return projectRepository.findAll();
+    }
+
+    public void serialize() throws IOException {
+        projectRepository.serialize();
     }
 }

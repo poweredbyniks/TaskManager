@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ITaskService {
@@ -24,4 +25,6 @@ public interface ITaskService {
 
     @NotNull
     List<Project> projectList();
+
+    void serialize() throws IOException;
 }

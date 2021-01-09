@@ -1,7 +1,6 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
@@ -11,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public final class UserRepository implements IUserRepository, ISerialization<User> {
+public final class UserRepository extends Serialization<User> implements IUserRepository {
     private final Map<String, User> userMap = new HashMap<>();
 
     @NotNull

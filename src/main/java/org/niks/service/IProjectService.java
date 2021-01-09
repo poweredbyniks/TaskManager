@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IProjectService {
@@ -22,4 +23,6 @@ public interface IProjectService {
 
     @NotNull
     List<Project> projectSearch(@NotNull final String source);
+
+    void serialize() throws IOException;
 }

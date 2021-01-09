@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface IProjectRepository {
     void remove(@NotNull final String name);
 
     void removeAll();
+
+    void serialize() throws IOException;
 }
