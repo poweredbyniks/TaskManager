@@ -16,12 +16,15 @@ public final class ProjectRepository implements IProjectRepository, ISerializati
     private final Map<String, Project> projectMap = new LinkedHashMap<>();
     private final IUserService userService;
 
-    public ProjectRepository(IUserService userService) throws IOException {
+    public ProjectRepository(IUserService userService) {
         this.userService = userService;
-
-        Project[] projects = readJSON();
-        for (Project project : projects) {
-            projectMap.put(project.getProjectName(), project);
+        try {
+            Project[] projects = readJSON();
+            for (Project project : projects) {
+                projectMap.put(project.getProjectName(), project);
+            }
+        } catch (IOException e) {
+            System.out.println("No project data found");
         }
     }
 
@@ -79,6 +82,10 @@ public final class ProjectRepository implements IProjectRepository, ISerializati
     @Override
     public Project[] readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File("/Users/elupokniks/Desktop/ProjectsData.json"), Project[].class);
+        return mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class);
+    }
+
+    public void serialize() throws IOException {
+        writeJSON(projectMap, FilePath.PROJECT_FILE_PATH);
     }
 }

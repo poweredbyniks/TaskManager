@@ -13,18 +13,17 @@ import java.util.*;
 
 public final class UserRepository implements IUserRepository, ISerialization<User> {
     private final Map<String, User> userMap = new HashMap<>();
-    private final String filePath = "/Users/elupokniks/Desktop/UsersData.json";
 
     @NotNull
-    public UserRepository() throws IOException {
+    public UserRepository() {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
-        try { //move to another place
+        try {
             User[] users = readJSON();
             for (User user : users) {
                 userMap.put(user.getUserName(), user);
             }
-        } catch (MismatchedInputException e){
+        } catch (IOException e) {
             System.out.println("No user data found");
         }
     }
@@ -42,7 +41,7 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     public boolean save(@NotNull final User user) throws IOException {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
-            writeJSON(userMap, filePath);
+            writeJSON(userMap, FilePath.USER_FILE_PATH);
             return true;
         } else {
             return false;
@@ -52,7 +51,7 @@ public final class UserRepository implements IUserRepository, ISerialization<Use
     @Override
     public User[] readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(filePath), User[].class);
+        return mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class);
     }
 
     public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {

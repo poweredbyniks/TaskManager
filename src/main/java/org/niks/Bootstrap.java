@@ -44,8 +44,6 @@ public class Bootstrap {
     UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
     UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
-    public Bootstrap() throws IOException {
-    }
 
     public void init() {
         commandMap.put(userAuthorizationCommand.getName(), userAuthorizationCommand);
@@ -77,8 +75,8 @@ public class Bootstrap {
                     commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
                     try {
-                        projectRepository.readJSON();
-                        taskRepository.readJSON();
+                        projectRepository.serialize();
+                        taskRepository.serialize();
                     } catch (MismatchedInputException e) {
                         System.out.println("No data found");
                     }
