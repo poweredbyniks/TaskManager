@@ -25,5 +25,5 @@ public interface IUserService {
 
     void passwordEdit(@NotNull final String newPassword);
 
-    long randomNumber();
+    long userID();
 }

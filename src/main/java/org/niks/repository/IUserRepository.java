@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository {
-    @NotNull List<User> findAll(@NotNull final List<String> names);
+    @NotNull List<User> findAll();
 
     @NotNull Optional<User> findOne(@NotNull String name);
 

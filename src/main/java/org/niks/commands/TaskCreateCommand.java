@@ -74,6 +74,6 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
 
     public static long randomNumber() {
         final SecureRandom random = new SecureRandom();
-        return random.nextInt();
+        return (random.nextInt(Integer.MAX_VALUE));
     }
 }

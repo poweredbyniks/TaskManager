@@ -23,7 +23,7 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
         this.userService = userService;
         this.projectRepository = projectRepository;
         try {
-            final Task[] tasks = readJSON();
+            final List<Task> tasks = readJSON();
             for (Task task : tasks) {
                 taskMap.put(task.getTaskName(), task);
             }
@@ -80,9 +80,9 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     }
 
     @Override
-    public Task[] readJSON() throws IOException {
+    public List<Task> readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class);
+        return Arrays.asList(mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class));
     }
 
     public void serialize() throws IOException {

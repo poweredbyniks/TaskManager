@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.*;
 
 public final class UserRepository extends Serialization<User> implements IUserRepository {
-    private final Map<String, User> userMap = new HashMap<>();
+    private final Map<String, User> userMap = new LinkedHashMap<>();
 
     @NotNull
     public UserRepository() {
         final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
         userMap.put(admin.getUserName(), admin);
         try {
-            User[] users = readJSON();
+            List<User> users = readJSON();
             for (User user : users) {
                 userMap.put(user.getUserName(), user);
             }
@@ -28,7 +28,7 @@ public final class UserRepository extends Serialization<User> implements IUserRe
     }
 
     @NotNull
-    public List<User> findAll(@NotNull final List<String> names) {
+    public List<User> findAll() {
         return new ArrayList<>(userMap.values());
     }
 
@@ -48,9 +48,9 @@ public final class UserRepository extends Serialization<User> implements IUserRe
     }
 
     @Override
-    public User[] readJSON() throws IOException {
+    public List<User> readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class);
+        return Arrays.asList(mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class));
     }
 
     public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {

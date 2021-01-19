@@ -19,6 +19,6 @@ public abstract class Serialization<T> {
         mapper.writeValue(new File(filePath), list);
     }
 
-    public abstract T[] readJSON() throws IOException;
+    public abstract List<T> readJSON() throws IOException;
 }
 

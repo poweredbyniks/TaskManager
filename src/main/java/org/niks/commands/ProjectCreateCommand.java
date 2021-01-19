@@ -63,7 +63,7 @@ public final class ProjectCreateCommand extends CommandWithUserCheck {
 
     public long randomNumber() {
         final SecureRandom random = new SecureRandom();
-        return random.nextInt();
+        return Math.abs(random.nextInt(Integer.MAX_VALUE));
     }
 }
 

@@ -19,7 +19,7 @@ public final class ProjectRepository extends Serialization<Project> implements I
     public ProjectRepository(IUserService userService) {
         this.userService = userService;
         try {
-            Project[] projects = readJSON();
+            List<Project> projects = readJSON();
             for (Project project : projects) {
                 projectMap.put(project.getProjectName(), project);
             }
@@ -80,9 +80,9 @@ public final class ProjectRepository extends Serialization<Project> implements I
     }
 
     @Override
-    public Project[] readJSON() throws IOException {
+    public List<Project> readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class);
+        return Arrays.asList(mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class));
     }
 
     public void serialize() throws IOException {

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public final class UserService implements IUserService {
     }
 
     public boolean create(@NotNull final String userName, @NotNull final String password) throws IOException {
-        final User user = new User(AccessRoles.USER, randomNumber(), userName, hash(password));
+        final User user = new User(AccessRoles.USER, userID(), userName, hash(password));
         return userRepository.save(user);
     }
 
@@ -58,10 +58,9 @@ public final class UserService implements IUserService {
         userRepository.passwordUpdate(hashPassword, currentUser);
     }
 
-    public final long randomNumber() {
-        //deserialized user number + 1
-        final SecureRandom random = new SecureRandom();
-        return random.nextInt(1000);
+    public final long userID() {
+        List<User> users = userRepository.findAll();
+        return users.get(users.size() - 1).getUserID() + 1;
     }
 
     @NotNull
@@ -72,8 +71,8 @@ public final class UserService implements IUserService {
             md.update(USER_SALT.getBytes(StandardCharsets.UTF_8));
             final byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
             final StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) {
+                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             hashPassword = sb.toString();
         } catch (NoSuchAlgorithmException | NullPointerException e) {

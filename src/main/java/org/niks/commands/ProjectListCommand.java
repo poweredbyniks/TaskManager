@@ -51,6 +51,7 @@ public final class ProjectListCommand extends CommandWithUserCheck {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()
+                    + "\nStatus: " + project.getProjectStatus()
                     + "\nDescription: " + project.getProjectDescription()
                     + "\nStart date: " + dateFormat.format(project.getStartDate())
                     + "\nFinish date: " + dateFormat.format(project.getFinishDate()));
@@ -58,6 +59,7 @@ public final class ProjectListCommand extends CommandWithUserCheck {
                 for (Task task : project.getTaskList()) {
                     System.out.println("Tasks:"
                             + "\nTask name: " + task.getTaskName()
+                            + "\nTask status: " + task.getTaskStatus()
                             + "\nTask description: " + task.getTaskDescription()
                             + "\nStart date: " + dateFormat.format(task.getStartDate())
                             + "\nFinish date: " + dateFormat.format(task.getFinishDate()));
