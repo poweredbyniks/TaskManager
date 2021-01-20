@@ -24,8 +24,7 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
         try {
-
-            projectService.findExactMatch(projectName).setProjectStatus(Status.valueOf(newStatus.toUpperCase()));
+            projectService.findExactMatch(projectName).withProjectStatus((Status.valueOf(newStatus.toUpperCase())));
             System.out.println("Status of the " + projectName + " is changed to " + newStatus);
         } catch (IllegalArgumentException e) {
             System.out.println("Try again and chose status: \nplanned\nworking\ndone");
