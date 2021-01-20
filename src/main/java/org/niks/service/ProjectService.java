@@ -7,8 +7,8 @@ import org.niks.entity.Project;
 import org.niks.repository.IProjectRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public final class ProjectService implements IProjectService {
@@ -47,16 +47,12 @@ public final class ProjectService implements IProjectService {
 
     @NotNull
     public List<Project> projectSearch(@NotNull final String source) {
-        final String sourceToLowerCase = source.toLowerCase();
         final List<Project> projectList = projectList();
-        final List<Project> foundProjectList = new ArrayList<>();
-        for (Project project : projectList) {
-            if (project.getProjectName().toLowerCase().contains(sourceToLowerCase) ||
-                    project.getProjectDescription().toLowerCase().contains(sourceToLowerCase)) {
-                foundProjectList.add(project);
-            }
-        }
-        return foundProjectList;
+        return projectList
+                .stream()
+                .filter(project -> project.getProjectName().toLowerCase().contains(source.toLowerCase()) ||
+                        project.getProjectDescription().toLowerCase().contains(source.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @NotNull

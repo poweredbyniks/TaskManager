@@ -11,6 +11,7 @@ import org.niks.repository.ITaskRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public final class TaskService implements ITaskService {
@@ -48,15 +49,11 @@ public final class TaskService implements ITaskService {
     @NotNull
     public List<Task> taskSearch(@NotNull final String source) {
         final List<Task> taskList = taskList();
-        final List<Task> foundTaskList = new ArrayList<>();
-        for (Task task : taskList) {
-            final String sourceToLowerCase = source.toLowerCase();
-            if (task.getTaskName().toLowerCase().contains(sourceToLowerCase) ||
-                    task.getTaskDescription().toLowerCase().contains(sourceToLowerCase)) {
-                foundTaskList.add(task);
-            }
-        }
-        return foundTaskList;
+        return taskList
+                .stream()
+                .filter(task -> task.getTaskName().toLowerCase().contains(source.toLowerCase()) ||
+                        task.getTaskDescription().toLowerCase().contains(source.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @NotNull
