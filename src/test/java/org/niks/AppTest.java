@@ -117,6 +117,16 @@ class AppTest {
         App.main(new String[0]);
         Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
     }
+
+    @Test
+    public void tempTest(){
+        String testUserEditCommand = "user-login\nnewUser\n123\nchange-status-p\nd\n\n\u001a";
+        System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(os));
+        App.main(new String[0]);
+        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
+    }
 }
 
 

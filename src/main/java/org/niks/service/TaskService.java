@@ -9,7 +9,6 @@ import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,11 @@ public final class TaskService implements ITaskService {
     }
 
     public Task findExactMatch(String name) {
-        return taskRepository.findOne(name).get();
+        Task task = null;
+        if (taskRepository.findOne(name).isPresent()) {
+            task = taskRepository.findOne(name).get();
+        }
+        return task;
     }
 
     public void serialize() throws IOException {

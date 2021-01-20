@@ -22,8 +22,12 @@ public class TaskStatusChangeCommand extends CommandWithUserCheck {
         String taskName = reader.readLine();
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
-        taskService.findExactMatch(taskName).setTaskStatus(Status.valueOf(newStatus.toUpperCase()));
-        System.out.println("Status of the " + taskName + " is changed to " + newStatus);
+        try {
+            taskService.findExactMatch(taskName).setTaskStatus(Status.valueOf(newStatus.toUpperCase()));
+            System.out.println("Status of the " + taskName + " is changed to " + newStatus);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Try again and chose status: \nplanned\nworking\ndone");
+        }
     }
 
     @Override

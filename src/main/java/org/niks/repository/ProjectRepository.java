@@ -1,6 +1,7 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
@@ -43,12 +44,12 @@ public final class ProjectRepository extends Serialization<Project> implements I
     }
 
     @NotNull
-    public Optional<Project> findOne(@NotNull final String name) {
-        Project project = null;
-        if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
-            project = projectMap.get(name);
+    public Optional<Project> findOne(@NotNull final String name) throws NoSuchElementException {
+        Optional<Project> project = Optional.empty();
+        if (project.get().getUserID() == currentUser().getUserID()) {
+            project = Optional.ofNullable(projectMap.get(name));
         }
-        return Optional.ofNullable(project);
+        return project;
     }
 
     public boolean save(@NotNull final Project project) {

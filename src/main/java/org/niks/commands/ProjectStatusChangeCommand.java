@@ -7,6 +7,7 @@ import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public class ProjectStatusChangeCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
@@ -22,9 +23,15 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
         String projectName = reader.readLine();
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
-        projectService.findExactMatch(projectName).setProjectStatus(Status.valueOf(newStatus.toUpperCase()));
-        System.out.println("Status of the " + projectName + " is changed to " + newStatus);
+        try {
 
+            projectService.findExactMatch(projectName).setProjectStatus(Status.valueOf(newStatus.toUpperCase()));
+            System.out.println("Status of the " + projectName + " is changed to " + newStatus);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Try again and chose status: \nplanned\nworking\ndone");
+        } catch (NoSuchElementException n){
+            System.out.println("Project not found");
+        }
     }
 
     @Override

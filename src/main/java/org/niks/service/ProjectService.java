@@ -8,6 +8,7 @@ import org.niks.repository.IProjectRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -60,8 +61,12 @@ public final class ProjectService implements IProjectService {
         return projectRepository.findAll();
     }
 
-    public Project findExactMatch(String name) {
-        return projectRepository.findOne(name).get();
+    public Project findExactMatch(String name) throws NoSuchElementException {
+        Project project = null;
+        if (projectRepository.findOne(name).isPresent()) {
+            project = projectRepository.findOne(name).get();
+        }
+        return project;
     }
 
     public void serialize() throws IOException {

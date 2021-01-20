@@ -48,7 +48,11 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
 
     @NotNull
     public Optional<Task> findOne(@NotNull final String name) {
-        return Optional.ofNullable(taskMap.get(name));
+        Optional<Task> task = Optional.empty();
+        if (task.get().getUserID() == currentUser().getUserID()) {
+            task = Optional.ofNullable(taskMap.get(name));
+        }
+        return task;
     }
 
     public boolean save(@NotNull final Task task) {
