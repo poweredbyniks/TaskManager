@@ -66,6 +66,10 @@ public final class TaskService implements ITaskService {
         return taskRepository.findAll();
     }
 
+    public Task findExactMatch(String name) {
+        return taskRepository.findOne(name).get();
+    }
+
     public void serialize() throws IOException {
         taskRepository.serialize();
     }

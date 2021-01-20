@@ -60,6 +60,10 @@ public final class ProjectService implements IProjectService {
         return projectRepository.findAll();
     }
 
+    public Project findExactMatch(String name) {
+        return projectRepository.findOne(name).get();
+    }
+
     public void serialize() throws IOException {
         projectRepository.serialize();
     }

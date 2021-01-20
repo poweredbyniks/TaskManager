@@ -1,9 +1,7 @@
 package org.niks.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.NonFinal;
 
 import java.util.Date;
 
@@ -18,6 +16,8 @@ public class Task {
     Date startDate;
     Date finishDate;
     long userID;
+    @NonFinal
+    @Setter
     Status taskStatus;
     Date creationDate;
 }

@@ -26,5 +26,7 @@ public interface ITaskService {
     @NotNull
     List<Project> projectList();
 
+    public Task findExactMatch(String name);
+
     void serialize() throws IOException;
 }

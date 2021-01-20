@@ -1,7 +1,14 @@
 package org.niks.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Status {
-    PLANNED,
-    IN_PROGRESS,
-    DONE
+    PLANNED("planned"),
+    WORKING("working"),
+    DONE("done");
+    private String status;
+
 }

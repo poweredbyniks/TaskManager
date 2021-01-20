@@ -1,6 +1,7 @@
 package org.niks.entity;
 
 import lombok.*;
+import lombok.experimental.NonFinal;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class Project {
     Date finishDate;
     List<Task> taskList;
     long userID;
+    @NonFinal
+    @Setter
     Status projectStatus;
     Date creationDate;
 }
