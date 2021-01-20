@@ -48,14 +48,14 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
 
     @NotNull
     public Optional<Task> findOne(@NotNull final String name) {
-        Optional<Task> task = Optional.empty();
-        if (task.get().getUserID() == currentUser().getUserID()) {
-            task = Optional.ofNullable(taskMap.get(name));
+        Optional<Task> taskOptional = Optional.empty();
+        if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
+            taskOptional = Optional.ofNullable(taskMap.get(name));
         }
-        return task;
+        return taskOptional;
     }
 
-    public boolean save(@NotNull final Task task) {
+    public boolean save(@NotNull final Task task) throws NoSuchElementException {
         taskMap.put(task.getTaskName(), task);
         projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
         return true;

@@ -1,6 +1,7 @@
 package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
+import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
@@ -24,12 +25,13 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
         try {
-            projectService.findExactMatch(projectName).withProjectStatus((Status.valueOf(newStatus.toUpperCase())));
+            projectService.create(projectService.findExactMatch(projectName)
+                    .withProjectStatus(Status.valueOf(newStatus.toUpperCase())));
             System.out.println("Status of the " + projectName + " is changed to " + newStatus);
         } catch (IllegalArgumentException e) {
             System.out.println("Try again and chose status: \nplanned\nworking\ndone");
-        } catch (NoSuchElementException n){
-            System.out.println("Project not found");
+        } catch (NoSuchElementException n) {
+            System.out.println("Task not found");
         }
     }
 

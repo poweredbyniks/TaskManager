@@ -2,11 +2,13 @@ package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Status;
+import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public class TaskStatusChangeCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
@@ -23,10 +25,13 @@ public class TaskStatusChangeCommand extends CommandWithUserCheck {
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
         try {
-            taskService.findExactMatch(taskName).withTaskStatus(Status.valueOf(newStatus.toUpperCase()));
+            taskService.create(taskService.findExactMatch(taskName)
+                    .withTaskStatus(Status.valueOf(newStatus.toUpperCase())));
             System.out.println("Status of the " + taskName + " is changed to " + newStatus);
         } catch (IllegalArgumentException e) {
             System.out.println("Try again and chose status: \nplanned\nworking\ndone");
+        } catch (NoSuchElementException n) {
+            System.out.println("Task not found");
         }
     }
 

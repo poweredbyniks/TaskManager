@@ -120,7 +120,7 @@ class AppTest {
 
     @Test
     public void tempTest(){
-        String testUserEditCommand = "user-login\nnewUser\n123\nchange-status-p\nd\n\n\u001a";
+        String testUserEditCommand = "user-login\nnewUser\n123\nchange-status-p\nsecondProject\nworking\nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));

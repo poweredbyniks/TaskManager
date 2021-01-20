@@ -45,11 +45,11 @@ public final class ProjectRepository extends Serialization<Project> implements I
 
     @NotNull
     public Optional<Project> findOne(@NotNull final String name) throws NoSuchElementException {
-        Optional<Project> project = Optional.empty();
-        if (project.get().getUserID() == currentUser().getUserID()) {
-            project = Optional.ofNullable(projectMap.get(name));
+        Optional<Project> projectOptional = Optional.empty();
+        if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
+            projectOptional = Optional.ofNullable(projectMap.get(name));
         }
-        return project;
+        return projectOptional;
     }
 
     public boolean save(@NotNull final Project project) {

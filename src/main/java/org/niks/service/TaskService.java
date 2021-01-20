@@ -10,6 +10,7 @@ import org.niks.repository.ITaskRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -65,7 +66,7 @@ public final class TaskService implements ITaskService {
         return taskRepository.findAll();
     }
 
-    public Task findExactMatch(String name) {
+    public Task findExactMatch(String name) throws NoSuchElementException {
         Task task = null;
         if (taskRepository.findOne(name).isPresent()) {
             task = taskRepository.findOne(name).get();
