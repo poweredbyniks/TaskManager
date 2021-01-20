@@ -10,6 +10,7 @@ import org.niks.service.IUserService;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public final class ProjectRepository extends Serialization<Project> implements IProjectRepository {
@@ -19,10 +20,7 @@ public final class ProjectRepository extends Serialization<Project> implements I
     public ProjectRepository(IUserService userService) {
         this.userService = userService;
         try {
-            List<Project> projects = readJSON();
-            for (Project project : projects) {
-                projectMap.put(project.getProjectName(), project);
-            }
+            projectMap.putAll(readJSON().stream().collect(Collectors.toMap(Project::getProjectName, project -> project)));
         } catch (IOException e) {
             System.out.println("No project data found");
         }
@@ -31,17 +29,16 @@ public final class ProjectRepository extends Serialization<Project> implements I
     @Nullable
     private User currentUser() {
         return userService.getCurrentUser();
-
     }
 
     @NotNull
     public List<Project> findAll() {
         @NotNull final List<Project> projectList = new ArrayList<>();
-        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
-                projectList.add(projectEntry.getValue());
+        projectMap.forEach((s, project) -> {
+            if (project.getUserID() == currentUser().getUserID()) {
+                projectList.add(project);
             }
-        }
+        });
         return projectList;
     }
 
@@ -64,19 +61,19 @@ public final class ProjectRepository extends Serialization<Project> implements I
     }
 
     public void remove(@NotNull final String name) {
-        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
+        projectMap.forEach((s, project) -> {
+            if (project.getUserID() == currentUser().getUserID()) {
                 projectMap.remove(name);
             }
-        }
+        });
     }
 
     public void removeAll() {
-        for (Map.Entry<String, Project> projectEntry : projectMap.entrySet()) {
-            if (projectEntry.getValue().getUserID() == currentUser().getUserID()) {
-                projectMap.remove(projectEntry.getKey());
+        projectMap.forEach((s, project) -> {
+            if (project.getUserID() == currentUser().getUserID()) {
+                projectMap.remove(project.getProjectName());
             }
-        }
+        });
     }
 
     @Override

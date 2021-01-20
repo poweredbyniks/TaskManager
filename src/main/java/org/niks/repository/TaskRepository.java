@@ -10,6 +10,7 @@ import org.niks.service.IUserService;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public final class TaskRepository extends Serialization<Task> implements ITaskRepository {
@@ -23,10 +24,7 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
         this.userService = userService;
         this.projectRepository = projectRepository;
         try {
-            final List<Task> tasks = readJSON();
-            for (Task task : tasks) {
-                taskMap.put(task.getTaskName(), task);
-            }
+            taskMap.putAll(readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task)));
         } catch (IOException e) {
             System.out.println("No task data found");
         }
@@ -40,11 +38,11 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     @NotNull
     public List<Task> findAll() {
         final List<Task> taskList = new ArrayList<>();
-        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
-                taskList.add(taskEntry.getValue());
+        taskMap.forEach((s, task) -> {
+            if (task.getUserID() == currentUser().getUserID()) {
+                taskList.add(task);
             }
-        }
+        });
         return taskList;
     }
 
@@ -64,19 +62,19 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     }
 
     public void remove(@NotNull final String name) {
-        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
+        taskMap.forEach((s, task) -> {
+            if (task.getUserID() == currentUser().getUserID()) {
                 taskMap.remove(name);
             }
-        }
+        });
     }
 
     public void removeAll() {
-        for (Map.Entry<String, Task> taskEntry : taskMap.entrySet()) {
-            if (taskEntry.getValue().getUserID() == currentUser().getUserID()) {
-                taskMap.remove(taskEntry.getKey());
+        taskMap.forEach((s, task) -> {
+            if (task.getUserID() == currentUser().getUserID()) {
+                taskMap.remove(task);
             }
-        }
+        });
     }
 
     @Override

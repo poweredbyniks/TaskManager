@@ -4,24 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
-import org.niks.service.UserService;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class UserRepository extends Serialization<User> implements IUserRepository {
     private final Map<String, User> userMap = new LinkedHashMap<>();
 
     @NotNull
     public UserRepository() {
-        final User admin = new User(AccessRoles.ADMIN, 1, "niks", UserService.hash("123"));
-        userMap.put(admin.getUserName(), admin);
         try {
-            List<User> users = readJSON();
-            for (User user : users) {
-                userMap.put(user.getUserName(), user);
-            }
+            userMap.putAll(readJSON().stream().collect(Collectors.toMap(User::getUserName, user -> user)));
         } catch (IOException e) {
             System.out.println("No user data found");
         }

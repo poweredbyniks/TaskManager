@@ -23,6 +23,7 @@ public class ProjectTaskSaveCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) throws IOException {
         projectService.serialize();
         taskService.serialize();
+        System.out.println("Saved!");
     }
 
     @Override
