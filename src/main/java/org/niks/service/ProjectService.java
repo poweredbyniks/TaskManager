@@ -8,7 +8,6 @@ import org.niks.repository.IProjectRepository;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
