@@ -44,18 +44,15 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
             }
         });
         return taskList;
+
     }
 
     @NotNull
     public Optional<Task> findOne(@NotNull final String name) {
-        Optional<Task> taskOptional = Optional.empty();
-        if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
-            taskOptional = Optional.ofNullable(taskMap.get(name));
-        }
-        return taskOptional;
+        return Optional.ofNullable(taskMap.get(name));
     }
 
-    public boolean save(@NotNull final Task task) throws NoSuchElementException {
+    public boolean save(@NotNull final Task task) {
         taskMap.put(task.getTaskName(), task);
         projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
         return true;
@@ -66,24 +63,19 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     }
 
     public void remove(@NotNull final String name) {
-        taskMap.forEach((s, task) -> {
-            if (task.getUserID() == currentUser().getUserID()) {
-                taskMap.remove(name);
-            }
-        });
+        if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
+            taskMap.remove(name);
+        }
     }
 
     public void removeAll() {
-        taskMap.forEach((s, task) -> {
-            if (task.getUserID() == currentUser().getUserID()) {
-                taskMap.remove(task);
-            }
-        });
+        taskMap.entrySet().removeIf(stringTaskEntry ->
+                stringTaskEntry.getValue().getUserID() == currentUser().getUserID());
     }
 
     @Override
     public List<Task> readJSON() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        @NotNull final ObjectMapper mapper = new ObjectMapper();
         return Arrays.asList(mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class));
     }
 

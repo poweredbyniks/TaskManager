@@ -25,13 +25,13 @@ public class TaskStatusChangeCommand extends CommandWithUserCheck {
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
         try {
-            taskService.create(taskService.findExactMatch(taskName)
-                    .withTaskStatus(Status.valueOf(newStatus.toUpperCase())));
-            System.out.println("Status of the " + taskName + " is changed to " + newStatus);
+            if (taskService.findExactMatch(taskName) != null) {
+                taskService.create(taskService.findExactMatch(taskName)
+                        .withTaskStatus(Status.valueOf(newStatus.toUpperCase())));
+                System.out.println("Status of the " + taskName + " is changed to " + newStatus);
+            }
         } catch (IllegalArgumentException e) {
             System.out.println("Try again and chose status: \nplanned\nworking\ndone");
-        } catch (NoSuchElementException n) {
-            System.out.println("Task not found");
         }
     }
 

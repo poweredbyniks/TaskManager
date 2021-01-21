@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public final class UserRepository extends Serialization<User> implements IUserRepository {
-    private final Map<String, User> userMap = new LinkedHashMap<>();
+    private final Map<String, User> userMap = new HashMap<>();
 
     @NotNull
     public UserRepository() {

@@ -1,7 +1,6 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 public final class ProjectRepository extends Serialization<Project> implements IProjectRepository {
-    private final Map<String, Project> projectMap = new LinkedHashMap<>();
+    private final Map<String, Project> projectMap = new HashMap<>();
     private final IUserService userService;
 
     public ProjectRepository(IUserService userService) {
@@ -39,17 +38,14 @@ public final class ProjectRepository extends Serialization<Project> implements I
             if (project.getUserID() == currentUser().getUserID()) {
                 projectList.add(project);
             }
+
         });
         return projectList;
     }
 
     @NotNull
-    public Optional<Project> findOne(@NotNull final String name) throws NoSuchElementException {
-        Optional<Project> projectOptional = Optional.empty();
-        if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
-            projectOptional = Optional.ofNullable(projectMap.get(name));
-        }
-        return projectOptional;
+    public Optional<Project> findOne(@NotNull final String name) {
+        return Optional.ofNullable(projectMap.get(name));
     }
 
     public boolean save(@NotNull final Project project) {
@@ -62,24 +58,19 @@ public final class ProjectRepository extends Serialization<Project> implements I
     }
 
     public void remove(@NotNull final String name) {
-        projectMap.forEach((s, project) -> {
-            if (project.getUserID() == currentUser().getUserID()) {
-                projectMap.remove(name);
-            }
-        });
+        if (projectMap.get(name).getUserID() == currentUser().getUserID()) {
+            projectMap.remove(name);
+        }
     }
 
     public void removeAll() {
-        projectMap.forEach((s, project) -> {
-            if (project.getUserID() == currentUser().getUserID()) {
-                projectMap.remove(project.getProjectName());
-            }
-        });
+        projectMap.entrySet().removeIf(stringProjectEntry ->
+                stringProjectEntry.getValue().getUserID() == currentUser().getUserID());
     }
 
     @Override
     public List<Project> readJSON() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        @NotNull final ObjectMapper mapper = new ObjectMapper();
         return Arrays.asList(mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class));
     }
 

@@ -25,13 +25,15 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
         System.out.println("Choose status: \nplanned\nworking\ndone");
         String newStatus = reader.readLine();
         try {
-            projectService.create(projectService.findExactMatch(projectName)
-                    .withProjectStatus(Status.valueOf(newStatus.toUpperCase())));
-            System.out.println("Status of the " + projectName + " is changed to " + newStatus);
+            if (projectService.findExactMatch(projectName) != null) {
+                projectService.create(projectService.findExactMatch(projectName)
+                        .withProjectStatus(Status.valueOf(newStatus.toUpperCase())));
+                System.out.println("Status of the " + projectName + " is changed to " + newStatus);
+            } else {
+                System.out.println("Project not found");
+            }
         } catch (IllegalArgumentException e) {
             System.out.println("Try again and chose status: \nplanned\nworking\ndone");
-        } catch (NoSuchElementException n) {
-            System.out.println("Task not found");
         }
     }
 

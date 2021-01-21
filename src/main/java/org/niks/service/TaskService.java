@@ -66,7 +66,7 @@ public final class TaskService implements ITaskService {
         return taskRepository.findAll();
     }
 
-    public Task findExactMatch(String name) throws NoSuchElementException {
+    public Task findExactMatch(@NotNull final String name) throws NoSuchElementException {
         Task task = null;
         if (taskRepository.findOne(name).isPresent()) {
             task = taskRepository.findOne(name).get();

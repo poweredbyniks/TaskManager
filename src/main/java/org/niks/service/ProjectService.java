@@ -61,7 +61,7 @@ public final class ProjectService implements IProjectService {
         return projectRepository.findAll();
     }
 
-    public Project findExactMatch(String name) throws NoSuchElementException {
+    public Project findExactMatch(@NotNull final String name) {
         Project project = null;
         if (projectRepository.findOne(name).isPresent()) {
             project = projectRepository.findOne(name).get();
