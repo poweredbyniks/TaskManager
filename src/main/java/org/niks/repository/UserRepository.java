@@ -11,16 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public final class UserRepository extends Serialization<User> implements IUserRepository {
-    private final Map<String, User> userMap = new HashMap<>();
-
-    @NotNull
-    public UserRepository() {
-        try {
-            userMap.putAll(readJSON().stream().collect(Collectors.toMap(User::getUserName, user -> user)));
-        } catch (IOException e) {
-            System.out.println("No user data found");
-        }
-    }
+    private final Map<String, User> userMap = readJSON().stream().collect(Collectors.toMap(User::getUserName, user -> user));
 
     @NotNull
     public List<User> findAll() {
@@ -43,9 +34,15 @@ public final class UserRepository extends Serialization<User> implements IUserRe
     }
 
     @Override
-    public List<User> readJSON() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return Arrays.asList(mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class));
+    public List<User> readJSON() {
+        List<User> list = new ArrayList<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            list = Arrays.asList(mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class));
+        } catch (IOException e) {
+            System.out.println("No user data found");
+        }
+        return list;
     }
 
     public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {

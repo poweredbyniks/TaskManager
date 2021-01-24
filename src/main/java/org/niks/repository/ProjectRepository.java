@@ -1,6 +1,7 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
@@ -14,16 +15,11 @@ import java.util.stream.Collectors;
 
 
 public final class ProjectRepository extends Serialization<Project> implements IProjectRepository {
-    private final Map<String, Project> projectMap = new HashMap<>();
+    private final Map<String, Project> projectMap = readJSON().stream().collect(Collectors.toMap(Project::getProjectName, project -> project));
     private final IUserService userService;
 
     public ProjectRepository(IUserService userService) {
         this.userService = userService;
-        try {
-            projectMap.putAll(readJSON().stream().collect(Collectors.toMap(Project::getProjectName, project -> project)));
-        } catch (IOException e) {
-            System.out.println("No project data found");
-        }
     }
 
     @Nullable
@@ -69,9 +65,15 @@ public final class ProjectRepository extends Serialization<Project> implements I
     }
 
     @Override
-    public List<Project> readJSON() throws IOException {
-        @NotNull final ObjectMapper mapper = new ObjectMapper();
-        return Arrays.asList(mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class));
+    public List<Project> readJSON() {
+        List<Project> list = new ArrayList<>();
+        try {
+            @NotNull final ObjectMapper mapper = new ObjectMapper();
+            list = Arrays.asList(mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class));
+        } catch (IOException e) {
+            System.out.println("No project data found");
+        }
+        return list;
     }
 
     public void serialize() throws IOException {

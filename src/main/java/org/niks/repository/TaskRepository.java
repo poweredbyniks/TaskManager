@@ -18,16 +18,11 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     private final IUserService userService;
     private final IProjectRepository projectRepository;
 
-    private final Map<String, Task> taskMap = new HashMap<>();
+    private final Map<String, Task> taskMap = readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task));
 
     public TaskRepository(IUserService userService, IProjectRepository projectRepository) {
         this.userService = userService;
         this.projectRepository = projectRepository;
-        try {
-            taskMap.putAll(readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task)));
-        } catch (IOException e) {
-            System.out.println("No task data found");
-        }
     }
 
     @Nullable
@@ -74,9 +69,15 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     }
 
     @Override
-    public List<Task> readJSON() throws IOException {
-        @NotNull final ObjectMapper mapper = new ObjectMapper();
-        return Arrays.asList(mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class));
+    public List<Task> readJSON() {
+        List<Task> list = new ArrayList<>();
+        try {
+            @NotNull final ObjectMapper mapper = new ObjectMapper();
+            list = Arrays.asList(mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class));
+        } catch (IOException e) {
+            System.out.println("No task data found");
+        }
+        return list;
     }
 
     public void serialize() throws IOException {
