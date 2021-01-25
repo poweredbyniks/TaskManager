@@ -12,7 +12,7 @@ public final class UserEndSessionCommand implements ICommandWithoutUserCheck {
 
     @Override
     public String getName() {
-        return "user-exit";
+        return "log out";
     }
 
     @Override

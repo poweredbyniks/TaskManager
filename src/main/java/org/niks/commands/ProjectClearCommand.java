@@ -16,7 +16,7 @@ public final class ProjectClearCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "project-clear";
+        return "clear-p";
     }
 
     @Override
@@ -27,6 +27,6 @@ public final class ProjectClearCommand extends CommandWithUserCheck {
     @Override
     public void inner(@NotNull final BufferedReader reader) {
         projectService.clear();
-        System.out.println("Project list is plain empty");
+        System.out.println("Project list was cleared");
     }
 }

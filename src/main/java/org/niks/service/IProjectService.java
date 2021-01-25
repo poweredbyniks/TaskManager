@@ -24,7 +24,7 @@ public interface IProjectService {
     @NotNull
     List<Project> projectSearch(@NotNull final String source);
 
-    Project findExactMatch(String name);
+    Project findExactMatch(@NotNull final String name);
 
     void serialize() throws IOException;
 }

@@ -1,14 +1,12 @@
 package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 public class ProjectStatusChangeCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
@@ -19,11 +17,11 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
     }
 
     @Override
-    protected void inner(@NotNull BufferedReader reader) throws IOException {
+    protected void inner(@NotNull final BufferedReader reader) throws IOException {
         System.out.println("Choose a project to change the status");
-        String projectName = reader.readLine();
+        final String projectName = reader.readLine();
         System.out.println("Choose status: \nplanned\nworking\ndone");
-        String newStatus = reader.readLine();
+        final String newStatus = reader.readLine();
         try {
             if (projectService.findExactMatch(projectName) != null) {
                 projectService.create(projectService.findExactMatch(projectName)

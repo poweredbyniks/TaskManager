@@ -37,7 +37,7 @@ public final class UserRepository extends Serialization<User> implements IUserRe
     public List<User> readJSON() {
         List<User> list = new ArrayList<>();
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             list = Arrays.asList(mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class));
         } catch (IOException e) {
             System.out.println("No user data found");

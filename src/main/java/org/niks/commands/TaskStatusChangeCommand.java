@@ -2,13 +2,11 @@ package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Status;
-import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 public class TaskStatusChangeCommand extends CommandWithUserCheck {
     private final ITaskService taskService;
@@ -21,9 +19,9 @@ public class TaskStatusChangeCommand extends CommandWithUserCheck {
     @Override
     protected void inner(@NotNull BufferedReader reader) throws IOException {
         System.out.println("Choose a task to change the status");
-        String taskName = reader.readLine();
+        final String taskName = reader.readLine();
         System.out.println("Choose status: \nplanned\nworking\ndone");
-        String newStatus = reader.readLine();
+        final String newStatus = reader.readLine();
         try {
             if (taskService.findExactMatch(taskName) != null) {
                 taskService.create(taskService.findExactMatch(taskName)

@@ -24,7 +24,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT, os.toString(), "Incorrect project-list ordered by creation date output");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT, os.toString(),
+                "Incorrect project-list ordered by creation date output");
     }
 
     @Test
@@ -34,7 +35,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE, os.toString(), "Incorrect project-list output ordered by start date");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE, os.toString(),
+                "Incorrect project-list output ordered by start date");
     }
 
     @Test
@@ -44,7 +46,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE, os.toString(), "Incorrect project-list output ordered by start date");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE, os.toString(),
+                "Incorrect project-list output ordered by start date");
     }
 
     @Test
@@ -54,7 +57,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_STATUS, os.toString(), "Incorrect project-list output ordered by status");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_OUTPUT_ORDERED_BY_STATUS, os.toString(),
+                "Incorrect project-list output ordered by status");
     }
 
 
@@ -65,7 +69,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(), "Incorrect project-list with task output");
+        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(),
+                "Incorrect project-list with task output");
     }
 
     @Test
@@ -75,17 +80,20 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.TASK_LIST_OUTPUT, os.toString(), "Incorrect task-list output");
+        Assertions.assertEquals(TestOutputs.TASK_LIST_OUTPUT, os.toString(),
+                "Incorrect task-list output");
     }
 
     @Test
     public void testProjectIsolation() {
-        String projectListCommand = "user-login\nnewUser\n123\nuser-login\nsecondUser\n321\nproject-list\n\nexit\n\u001a";
+        String projectListCommand = "user-login\nnewUser\n123\nuser-login\nsecondUser\n321" +
+                "\nproject-list\n\nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_ISOLATION_OUTPUT, os.toString(), "Incorrect project user isolation output");
+        Assertions.assertEquals(TestOutputs.PROJECT_ISOLATION_OUTPUT, os.toString(),
+                "Incorrect project user isolation output");
     }
 
     @Test
@@ -95,7 +103,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.USER_NAME_EDIT_COMMAND, os.toString(), "Incorrect user-edit output");
+        Assertions.assertEquals(TestOutputs.USER_NAME_EDIT_COMMAND, os.toString(),
+                "Incorrect user-edit output");
     }
 
     @Test
@@ -105,7 +114,8 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_SEARCH_OUTPUT, os.toString(), "Incorrect project search output");
+        Assertions.assertEquals(TestOutputs.PROJECT_SEARCH_OUTPUT, os.toString(),
+                "Incorrect project search output");
     }
 
     @Test
@@ -115,17 +125,19 @@ class AppTest {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
+        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(),
+                "Incorrect task search output");
     }
 
     @Test
     public void tempTest(){
-        String testUserEditCommand = "user-login\nnewUser\n123\nchange-status-p\nnewProject\nworking\nexit\n\u001a";
+        String testUserEditCommand = "login\nnewUser\n123\nchange-status-p\nnewProject\nworking\nexit\n\u001a";
         System.setIn(new ByteArrayInputStream(testUserEditCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
         App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(), "Incorrect task search output");
+        Assertions.assertEquals(TestOutputs.TASK_SEARCH_OUTPUT, os.toString(),
+                "Incorrect task search output");
     }
 }
 

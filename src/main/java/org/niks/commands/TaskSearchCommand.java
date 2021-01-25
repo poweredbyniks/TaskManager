@@ -19,7 +19,7 @@ public class TaskSearchCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "task-search";
+        return "search-t";
     }
 
     @Override

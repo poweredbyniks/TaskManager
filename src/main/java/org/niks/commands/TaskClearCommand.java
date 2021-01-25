@@ -16,7 +16,7 @@ public final class TaskClearCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "task-clear";
+        return "clear-t";
     }
 
     @Override

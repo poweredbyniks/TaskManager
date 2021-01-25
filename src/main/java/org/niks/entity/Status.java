@@ -9,6 +9,6 @@ public enum Status {
     PLANNED("planned"),
     WORKING("working"),
     DONE("done");
-    private String status;
+    private final String status;
 
 }

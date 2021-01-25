@@ -14,7 +14,7 @@ public final class UserEditCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "user-edit";
+        return "edit-u";
     }
 
     @Override

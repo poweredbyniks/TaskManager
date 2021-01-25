@@ -19,9 +19,8 @@ public final class HelpCommand implements ICommandWithoutUserCheck {
     }
 
     public void execute(@NotNull final BufferedReader reader) {
-        for (Map.Entry<String, Command> commandMap : commandMap.entrySet()) {
-            System.out.println(commandMap.getKey() + " : " + commandMap.getValue().getDescription());
-        }
+        commandMap.forEach((s, command) -> System.out.println(command.getName()
+                + " : " + command.getDescription()));
     }
 }
 

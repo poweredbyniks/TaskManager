@@ -15,7 +15,7 @@ public final class UserRegistrationCommand implements ICommandWithoutUserCheck {
 
     @Override
     public String getName() {
-        return "user-reg";
+        return "reg-u";
     }
 
     @Override

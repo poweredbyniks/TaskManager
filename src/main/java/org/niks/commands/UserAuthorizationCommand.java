@@ -16,7 +16,7 @@ public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
 
     @Override
     public String getName() {
-        return "user-login";
+        return "login";
     }
 
     @Override
@@ -32,16 +32,13 @@ public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        try {
-            final User verifiedUser = userService.userVerify(userName, password);
-            if (verifiedUser != null) {
-                System.out.println("Welcome " + userName);
-                userService.setCurrentUser(verifiedUser);
-            } else {
-                System.out.println("Wrong user name or password");
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("User not found");
+        final User verifiedUser = userService.userVerify(userName, password);
+        if (verifiedUser != null) {
+            System.out.println("Welcome " + userName);
+            userService.setCurrentUser(verifiedUser);
+        } else {
+            System.out.println("Wrong user name or password");
         }
     }
 }
+

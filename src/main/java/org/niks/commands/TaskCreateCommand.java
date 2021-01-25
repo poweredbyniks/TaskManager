@@ -26,7 +26,7 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "task-create";
+        return "create-t";
     }
 
     @Override

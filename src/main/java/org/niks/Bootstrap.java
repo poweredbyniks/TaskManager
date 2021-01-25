@@ -16,36 +16,36 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-    UserRepository userRepository = new UserRepository();
-    UserService userService = new UserService(userRepository);
-    ProjectRepository projectRepository = new ProjectRepository(userService);
-    TaskRepository taskRepository = new TaskRepository(userService, projectRepository);
-    ProjectService projectService = new ProjectService(projectRepository);
-    TaskService taskService = new TaskService(taskRepository, projectRepository);
+    private final UserRepository userRepository = new UserRepository();
+    private final UserService userService = new UserService(userRepository);
+    private final ProjectRepository projectRepository = new ProjectRepository(userService);
+    private final TaskRepository taskRepository = new TaskRepository(userService, projectRepository);
+    private final ProjectService projectService = new ProjectService(projectRepository);
+    private final TaskService taskService = new TaskService(taskRepository, projectRepository);
 
-    public Map<String, Command> commandMap = new LinkedHashMap<>();
-    HelpCommand helpCommand = new HelpCommand(commandMap);
-    ProjectClearCommand projectClearCommand = new ProjectClearCommand(userService, projectService);
-    ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(userService, projectService);
-    ProjectListCommand projectListCommand = new ProjectListCommand(userService, projectService);
-    ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(userService, projectService);
-    ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, projectService);
+    private final Map<String, Command> commandMap = new LinkedHashMap<>();
+    private final HelpCommand helpCommand = new HelpCommand(commandMap);
+    private final ProjectClearCommand projectClearCommand = new ProjectClearCommand(userService, projectService);
+    private final ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(userService, projectService);
+    private final ProjectListCommand projectListCommand = new ProjectListCommand(userService, projectService);
+    private final ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(userService, projectService);
+    private final ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, projectService);
 
-    TaskClearCommand taskClearCommand = new TaskClearCommand(userService, taskService);
-    TaskCreateCommand taskCreateCommand = new TaskCreateCommand(userService, taskService);
-    TaskListCommand taskListCommand = new TaskListCommand(userService, taskService);
-    TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(userService, taskService);
-    TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
-    TaskStatusChangeCommand taskStatusChangeCommand = new TaskStatusChangeCommand(userService, taskService);
-    ProjectTaskSaveCommand projectTaskSaveCommand = new ProjectTaskSaveCommand(userService, projectService, taskService);
-    ProjectStatusChangeCommand projectStatusChangeCommand = new ProjectStatusChangeCommand(userService, projectService);
+    private final TaskClearCommand taskClearCommand = new TaskClearCommand(userService, taskService);
+    private final TaskCreateCommand taskCreateCommand = new TaskCreateCommand(userService, taskService);
+    private final TaskListCommand taskListCommand = new TaskListCommand(userService, taskService);
+    private final TaskRemoveCommand taskRemoveCommand = new TaskRemoveCommand(userService, taskService);
+    private final TaskSearchCommand taskSearchCommand = new TaskSearchCommand(userService, taskService);
+    private final TaskStatusChangeCommand taskStatusChangeCommand = new TaskStatusChangeCommand(userService, taskService);
+    private final ProjectTaskSaveCommand projectTaskSaveCommand = new ProjectTaskSaveCommand(userService, projectService, taskService);
+    private final ProjectStatusChangeCommand projectStatusChangeCommand = new ProjectStatusChangeCommand(userService, projectService);
 
-    UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
-    UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService, userEndSessionCommand);
-    UserEditCommand userEditCommand = new UserEditCommand(userService);
-    UserInfoCommand userInfoCommand = new UserInfoCommand(userService);
-    UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
-    UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
+    private final UserEndSessionCommand userEndSessionCommand = new UserEndSessionCommand(userService);
+    private final UserAuthorizationCommand userAuthorizationCommand = new UserAuthorizationCommand(userService, userEndSessionCommand);
+    private final UserEditCommand userEditCommand = new UserEditCommand(userService);
+    private final UserInfoCommand userInfoCommand = new UserInfoCommand(userService);
+    private final UserPasswordEditCommand userPasswordUpdateCommand = new UserPasswordEditCommand(userService);
+    private final UserRegistrationCommand userRegistrationCommand = new UserRegistrationCommand(userService);
 
 
     public void init() {

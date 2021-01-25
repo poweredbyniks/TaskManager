@@ -13,9 +13,9 @@ import java.util.Map;
 public abstract class Serialization<T> {
 
     public void writeJSON(Map<String, T> map, String filePath) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        final ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        List<T> list = new ArrayList<>(map.values());
+        final List<T> list = new ArrayList<>(map.values());
         mapper.writeValue(new File(filePath), list);
     }
 

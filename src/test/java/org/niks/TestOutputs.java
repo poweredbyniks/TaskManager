@@ -4,24 +4,26 @@ public class TestOutputs {
     public static final String HELP_OUTPUT =
             "Welcome to the Task Manager.\n" +
                     "Sign up, please\nType help for instructions\n" +
-                    "user-login : User authorization\n" +
-                    "user-reg : Registration of a new user\n" +
+                    "login : User authorization\n" +
+                    "reg-u : Registration of a new user\n" +
                     "help : Help command\n" +
-                    "project-create : Creation of a project\n" +
-                    "project-list : List of the existing projects\n" +
-                    "project-remove : Removes a project\n" +
-                    "project-clear : Removes all projects\n" +
-                    "task-create : Creation of a task\n" +
-                    "task-list : List of the existing tasks\n" +
-                    "task-remove : Removes a task\n" +
-                    "task-clear : Removes all tasks\n" +
-                    "user-edit : Edit user name\n" +
-                    "user-exit : Log out\n" +
-                    "user-info : User info: user ID, user name\n" +
-                    "password-edit : Edit current password\n" +
-                    "project-search : Find desired project by name or description\n" +
-                    "task-search : Find desired task by name or description\n" +
-                    "save : Save created projects and tasks\n";
+                    "create-p : Creation of a project\n" +
+                    "list-p : List of the existing projects\n" +
+                    "remove-p : Removes a project\n" +
+                    "clear-p : Removes all projects\n" +
+                    "create-t : Creation of a task\n" +
+                    "list-t : List of the existing tasks\n" +
+                    "remove-t : Remove a task\n" +
+                    "clear-t : Removes all tasks\n" +
+                    "edit-u : Edit user name\n" +
+                    "log out : Log out\n" +
+                    "info-u : User info: user ID, user name\n" +
+                    "password-edit-u : Edit current password\n" +
+                    "search-p : Find desired project by name or description\n" +
+                    "search-t : Find desired task by name or description\n" +
+                    "save : Save created projects and tasks\n" +
+                    "change-status-p : Change project status\n" +
+                    "change-status-t : Change task status\n";
 
     public static final String PROJECT_LIST_OUTPUT =
             "Welcome to the Task Manager.\n" +

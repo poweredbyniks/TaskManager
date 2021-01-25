@@ -18,7 +18,7 @@ public final class ProjectRemoveCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "project-remove";
+        return "remove-p";
     }
 
     @Override

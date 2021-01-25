@@ -23,7 +23,7 @@ public final class ProjectListCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "project-list";
+        return "list-p";
     }
 
     @Override
@@ -47,7 +47,7 @@ public final class ProjectListCommand extends CommandWithUserCheck {
         }
     }
 
-    private void writeList(List<Project> projectList) {
+    private void writeList(@NotNull final List<Project> projectList) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Project project : projectList) {
             System.out.println("Project Name: " + project.getProjectName()

@@ -19,7 +19,7 @@ public interface IUserService {
     User userVerify(@NotNull final String userName, @NotNull final String password);
 
     @NotNull
-    User userInfo(@NotNull final String userName);
+    User userInfo();
 
     void userNameEdit(@NotNull final String newUserName);
 

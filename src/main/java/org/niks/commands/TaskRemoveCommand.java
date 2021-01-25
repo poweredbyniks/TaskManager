@@ -17,12 +17,12 @@ public final class TaskRemoveCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "task-remove";
+        return "remove-t";
     }
 
     @Override
     public String getDescription() {
-        return "Removes a task";
+        return "Remove a task";
     }
 
     @Override

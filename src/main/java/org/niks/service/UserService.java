@@ -36,17 +36,18 @@ public final class UserService implements IUserService {
 
     @Nullable
     public User userVerify(@NotNull final String userName, @NotNull final String password) throws NoSuchElementException {
-
-        if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
-            return userRepository.findOne(userName).get();
-        } else {
-            return null;
+        User user = null;
+        if ((userRepository.findOne(userName).isPresent())) {
+            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
+                user = userRepository.findOne(userName).get();
+            }
         }
+        return user;
     }
 
     @NotNull
-    public User userInfo(@NotNull final String userName) {
-        return userRepository.findOne(userName).get();
+    public User userInfo() {
+        return getCurrentUser();
     }
 
     public void userNameEdit(@NotNull final String newUserName) {
@@ -59,7 +60,7 @@ public final class UserService implements IUserService {
     }
 
     public final long userID() {
-        List<User> users = userRepository.findAll();
+        final List<User> users = userRepository.findAll();
         return users.get(users.size() - 1).getUserID() + 1;
     }
 

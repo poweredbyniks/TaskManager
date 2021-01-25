@@ -20,7 +20,7 @@ public class ProjectSearchCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "project-search";
+        return "search-p";
     }
 
     @Override

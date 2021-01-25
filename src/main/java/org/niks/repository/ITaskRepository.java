@@ -12,11 +12,11 @@ public interface ITaskRepository {
 
     @NotNull Optional<Task> findOne(@NotNull final String name);
 
-    boolean save(@NotNull Task entity);
+    boolean save(@NotNull final Task entity);
 
-    boolean update(@NotNull Task entity);
+    boolean update(@NotNull final Task entity);
 
-    void remove(@NotNull String name);
+    void remove(@NotNull final String name);
 
     void removeAll();
 

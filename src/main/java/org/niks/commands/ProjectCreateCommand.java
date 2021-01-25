@@ -26,7 +26,7 @@ public final class ProjectCreateCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "project-create";
+        return "create-p";
     }
 
     @Override

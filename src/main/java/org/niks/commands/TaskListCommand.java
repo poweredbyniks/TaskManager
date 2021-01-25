@@ -20,7 +20,7 @@ public final class TaskListCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "task-list";
+        return "list-t";
     }
 
     @Override
@@ -44,7 +44,7 @@ public final class TaskListCommand extends CommandWithUserCheck {
         }
     }
 
-    private void writeList(List<Task> taskList) {
+    private void writeList(@NotNull final List<Task> taskList) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskList) {
             System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName()

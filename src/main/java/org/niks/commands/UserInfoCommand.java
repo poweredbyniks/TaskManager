@@ -13,7 +13,7 @@ public final class UserInfoCommand extends CommandWithUserCheck {
 
     @Override
     public String getName() {
-        return "user-info";
+        return "info-u";
     }
 
     @Override
@@ -23,8 +23,7 @@ public final class UserInfoCommand extends CommandWithUserCheck {
 
     @Override
     public void inner(@NotNull final BufferedReader reader) {
-        final User user = userService.userInfo(userService.getCurrentUser().getUserName());
-        System.out.println("User ID is: " + user.getUserID()
-                + "\nUser name is: " + user.getUserName());
+        System.out.println("User ID is: " + userService.userInfo().getUserID()
+                + "\nUser name is: " + userService.userInfo().getUserName());
     }
 }

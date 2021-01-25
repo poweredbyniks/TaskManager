@@ -68,7 +68,7 @@ public final class ProjectRepository extends Serialization<Project> implements I
     public List<Project> readJSON() {
         List<Project> list = new ArrayList<>();
         try {
-            @NotNull final ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             list = Arrays.asList(mapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class));
         } catch (IOException e) {
             System.out.println("No project data found");
