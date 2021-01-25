@@ -47,8 +47,8 @@ public final class TaskListCommand extends CommandWithUserCheck {
     private void writeList(@NotNull final List<Task> taskList) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Task task : taskList) {
-            System.out.println("Task " + task.getTaskName() + " in the project " + task.getProjectName()
-                    + "\nTask status: " + task.getTaskStatus()
+            System.out.println("\nTASK " + task.getTaskName() + " in the project " + task.getProjectName()
+                    + "\nTask status: " + task.getTaskStatus().getStatus()
                     + "\nStart date: " + dateFormat.format(task.getStartDate())
                     + "\nFinish date: " + dateFormat.format(task.getFinishDate()));
         }
