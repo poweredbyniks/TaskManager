@@ -68,10 +68,13 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
                                 Status.PLANNED,
                                 new Date());
                         taskService.create(task);
+
                         System.out.println("Task " + task.getTaskName() + " created and added to the project "
                                 + task.getProjectName());
+                        break;
                     } else {
                         System.out.println("No such existing project");
+                        break;
                     }
                 }
             }
