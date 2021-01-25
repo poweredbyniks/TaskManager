@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Value
 public class Project {
+    long userID;
     long projectID;
     String projectName;
     String projectDescription;
@@ -17,27 +18,27 @@ public class Project {
     Date startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     Date finishDate;
-    long userID;
+
     @With
     Status projectStatus;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     Date creationDate;
 
     @JsonCreator
-    public Project(@JsonProperty("projectID") long projectID,
+    public Project(@JsonProperty("userID") long userID,
+                   @JsonProperty("projectID") long projectID,
                    @JsonProperty("projectName") String projectName,
                    @JsonProperty("projectDescription") String projectDescription,
                    @JsonProperty("startDate") Date startDate,
                    @JsonProperty("finishDate") Date finishDate,
-                   @JsonProperty("userID") long userID,
                    @JsonProperty("projectStatus") Status projectStatus,
                    @JsonProperty("creationDate") Date creationDate) {
+        this.userID = userID;
         this.projectID = projectID;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
         this.startDate = startDate;
         this.finishDate = finishDate;
-        this.userID = userID;
         this.projectStatus = projectStatus;
         this.creationDate = creationDate;
     }

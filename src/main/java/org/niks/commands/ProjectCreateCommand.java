@@ -50,9 +50,15 @@ public final class ProjectCreateCommand extends CommandWithUserCheck {
         final String finishDate = reader.readLine();
         try {
             if (!projectName.equals("")) {
-                final Project project = new Project(randomNumber(), projectName, projectDescription,
-                        dateFormat.parse(startDate), dateFormat.parse(finishDate),
-                        currentUser.getUserID(), Status.PLANNED, new Date());
+                final Project project = new Project(
+                        currentUser.getUserID(),
+                        randomNumber(),
+                        projectName,
+                        projectDescription,
+                        dateFormat.parse(startDate),
+                        dateFormat.parse(finishDate),
+                        Status.PLANNED,
+                        new Date());
                 projectService.create(project);
                 System.out.println("Project " + project.getProjectName() + " created");
             } else {
