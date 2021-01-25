@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public final class ProjectListCommand extends CommandWithUserCheck {
@@ -61,12 +62,10 @@ public final class ProjectListCommand extends CommandWithUserCheck {
                     + "\nStart date: " + dateFormat.format(project.getStartDate())
                     + "\nFinish date: " + dateFormat.format(project.getFinishDate()));
 
-            List<Task> list = new ArrayList<>();
-            taskService.list().forEach((task -> {
-                if (task.getProjectID() == project.getProjectID()) {
-                    list.add(task);
-                }
-            }));
+            List<Task> list = taskService.list().stream()
+                    .filter(task -> task.getProjectID() == project.getProjectID())
+                    .collect(Collectors.toList());
+
             if (list.size() != 0) {
                 list.forEach((task -> System.out.println("Tasks:"
                         + "\nTASK name: " + task.getTaskName()

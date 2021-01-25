@@ -32,13 +32,9 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
 
     @NotNull
     public List<Task> findAll() {
-        final List<Task> taskList = new ArrayList<>();
-        taskMap.forEach((s, task) -> {
-            if (task.getUserID() == currentUser().getUserID()) {
-                taskList.add(task);
-            }
-        });
-        return taskList;
+        return taskMap.values().stream()
+                .filter(task -> task.getUserID() == currentUser().getUserID())
+                .collect(Collectors.toList());
     }
 
     @NotNull
