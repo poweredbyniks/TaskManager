@@ -33,14 +33,18 @@ public final class UserRegistrationCommand implements ICommandWithoutUserCheck {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        if (!userName.equals("")) {
-            if (userService.create(userName, password)) {
-                System.out.println("User " + userName + " created");
+        if(password.length() >= 3) {
+            if (!userName.equals("")) {
+                if (userService.create(userName, password)) {
+                    System.out.println("User " + userName + " created");
+                } else {
+                    System.out.println("User " + userName + " already exists");
+                }
             } else {
-                System.out.println("User " + userName + " already exists");
+                System.out.println("Enter valid user name and try again");
             }
         } else {
-            System.out.println("Enter valid user name and try again");
+            System.out.println("Password length must be at least 3 characters");
         }
     }
 }

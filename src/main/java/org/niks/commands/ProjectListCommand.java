@@ -5,20 +5,24 @@ import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.service.IProjectService;
+import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public final class ProjectListCommand extends CommandWithUserCheck {
     private final IProjectService projectService;
+    private final ITaskService taskService;
 
-    public ProjectListCommand(IUserService userService, IProjectService projectService) {
+    public ProjectListCommand(IUserService userService, IProjectService projectService, ITaskService taskService) {
         super(userService);
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -50,20 +54,26 @@ public final class ProjectListCommand extends CommandWithUserCheck {
     private void writeList(@NotNull final List<Project> projectList) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Project project : projectList) {
-            System.out.println("Project Name: " + project.getProjectName()
+            System.out.println("Project Name: "
+                    + project.getProjectName()
                     + "\nStatus: " + project.getProjectStatus()
                     + "\nDescription: " + project.getProjectDescription()
                     + "\nStart date: " + dateFormat.format(project.getStartDate())
                     + "\nFinish date: " + dateFormat.format(project.getFinishDate()));
-            if (project.getTaskList().size() != 0) {
-                for (Task task : project.getTaskList()) {
-                    System.out.println("Tasks:"
-                            + "\nTask name: " + task.getTaskName()
-                            + "\nTask status: " + task.getTaskStatus()
-                            + "\nTask description: " + task.getTaskDescription()
-                            + "\nStart date: " + dateFormat.format(task.getStartDate())
-                            + "\nFinish date: " + dateFormat.format(task.getFinishDate()));
+
+            List<Task> list = new ArrayList<>();
+            taskService.list().forEach((task -> {
+                if (task.getProjectID() == project.getProjectID()) {
+                    list.add(task);
                 }
+            }));
+            if (list.size() != 0) {
+                list.forEach((task -> System.out.println("Tasks:"
+                        + "\nTask name: " + task.getTaskName()
+                        + "\nTask status: " + task.getTaskStatus()
+                        + "\nTask description: " + task.getTaskDescription()
+                        + "\nStart date: " + dateFormat.format(task.getStartDate())
+                        + "\nFinish date: " + dateFormat.format(task.getFinishDate()))));
             } else {
                 System.out.println("Task list is empty");
             }

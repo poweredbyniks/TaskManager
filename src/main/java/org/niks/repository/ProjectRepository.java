@@ -29,7 +29,7 @@ public final class ProjectRepository extends Serialization<Project> implements I
 
     @NotNull
     public List<Project> findAll() {
-        @NotNull final List<Project> projectList = new ArrayList<>();
+        final List<Project> projectList = new ArrayList<>();
         projectMap.forEach((s, project) -> {
             if (project.getUserID() == currentUser().getUserID()) {
                 projectList.add(project);

@@ -27,7 +27,7 @@ public class Bootstrap {
     private final HelpCommand helpCommand = new HelpCommand(commandMap);
     private final ProjectClearCommand projectClearCommand = new ProjectClearCommand(userService, projectService);
     private final ProjectCreateCommand projectCreateCommand = new ProjectCreateCommand(userService, projectService);
-    private final ProjectListCommand projectListCommand = new ProjectListCommand(userService, projectService);
+    private final ProjectListCommand projectListCommand = new ProjectListCommand(userService, projectService, taskService);
     private final ProjectRemoveCommand projectRemoveCommand = new ProjectRemoveCommand(userService, projectService);
     private final ProjectSearchCommand projectSearchCommand = new ProjectSearchCommand(userService, projectService);
 

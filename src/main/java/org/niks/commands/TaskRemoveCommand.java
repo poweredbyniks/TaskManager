@@ -31,7 +31,7 @@ public final class TaskRemoveCommand extends CommandWithUserCheck {
             System.out.println("Enter task name to remove");
             final String taskToRemove = reader.readLine();
             taskService.remove(taskToRemove);
-            System.out.println("Task " + taskToRemove + "removed");
+            System.out.println("Task " + taskToRemove + " removed");
         } catch (IOException e) {
             e.printStackTrace();
         }

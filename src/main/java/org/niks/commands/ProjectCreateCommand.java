@@ -3,6 +3,7 @@ package org.niks.commands;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
+import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 
 public final class ProjectCreateCommand extends CommandWithUserCheck {
@@ -49,7 +51,7 @@ public final class ProjectCreateCommand extends CommandWithUserCheck {
         try {
             if (!projectName.equals("")) {
                 final Project project = new Project(randomNumber(), projectName, projectDescription,
-                        dateFormat.parse(startDate), dateFormat.parse(finishDate), new ArrayList<>(),
+                        dateFormat.parse(startDate), dateFormat.parse(finishDate),
                         currentUser.getUserID(), Status.PLANNED, new Date());
                 projectService.create(project);
                 System.out.println("Project " + project.getProjectName() + " created");

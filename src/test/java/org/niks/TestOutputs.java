@@ -31,97 +31,33 @@ public class TestOutputs {
                     "Type help for instructions\n" +
                     "Enter user name\n" +
                     "Enter password\n" +
-                    "Welcome newUser\n" +
+                    "Welcome test\n" +
                     "Order by:\n" +
                     "creation date\n" +
                     "start date\n" +
                     "finish date\n" +
                     "status\n" +
                     "Ordered by creation date\n" +
-                    "Project Name: secondProject\n" +
+                    "Project Name: feed a cat\n" +
                     "Status: PLANNED\n" +
-                    "Description: secondDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Task list is empty\n" +
-                    "Project Name: thirdProject\n" +
-                    "Status: PLANNED\n" +
-                    "Description: thirdDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Task list is empty\n" +
-                    "Project Name: newProject\n" +
-                    "Status: PLANNED\n" +
-                    "Description: Project description\n" +
-                    "Start date: 30.10.2020\n" +
-                    "Finish date: 31.10.2020\n" +
+                    "Description: royal canin\n" +
+                    "Start date: 24.01.2021\n" +
+                    "Finish date: 24.01.2021\n" +
                     "Tasks:\n" +
-                    "Task name: Task\n" +
+                    "Task name: pour water\n" +
                     "Task status: PLANNED\n" +
-                    "Task description: Description\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
+                    "Task description: \n" +
+                    "Start date: 24.01.2021\n" +
+                    "Finish date: 25.01.2021\n" +
                     "Tasks:\n" +
-                    "Task name: secondTask\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: secondDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Tasks:\n" +
-                    "Task name: thirdTask\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: thirdDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n";
+                    "Task name: pour water\n" +
+                    "Task status: WORKING\n" +
+                    "Task description: \n" +
+                    "Start date: 24.01.2021\n" +
+                    "Finish date: 25.01.2021\n";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE =
-            "Welcome to the Task Manager.\n" +
-                    "Sign up, please\n" +
-                    "Type help for instructions\n" +
-                    "Enter user name\n" +
-                    "Enter password\n" +
-                    "Welcome newUser\n" +
-                    "Order by:\n" +
-                    "creation date\n" +
-                    "start date\n" +
-                    "finish date\n" +
-                    "status\n" +
-                    "Ordered by finish date\n" +
-                    "Project Name: newProject\n" +
-                    "Status: PLANNED\n" +
-                    "Description: Project description\n" +
-                    "Start date: 30.10.2020\n" +
-                    "Finish date: 31.10.2020\n" +
-                    "Tasks:\n" +
-                    "Task name: Task\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: Description\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Tasks:\n" +
-                    "Task name: secondTask\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: secondDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Tasks:\n" +
-                    "Task name: thirdTask\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: thirdDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Project Name: secondProject\n" +
-                    "Status: PLANNED\n" +
-                    "Description: secondDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Task list is empty\n" +
-                    "Project Name: thirdProject\n" +
-                    "Status: PLANNED\n" +
-                    "Description: thirdDescription\n" +
-                    "Start date: 25.11.2020\n" +
-                    "Finish date: 26.11.2020\n" +
-                    "Task list is empty\n";
+            "";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE = "Welcome to the Task Manager.\n" +
             "Sign up, please\n" +

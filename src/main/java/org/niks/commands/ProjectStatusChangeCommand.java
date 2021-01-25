@@ -26,6 +26,7 @@ public class ProjectStatusChangeCommand extends CommandWithUserCheck {
             if (projectService.findExactMatch(projectName) != null) {
                 projectService.create(projectService.findExactMatch(projectName)
                         .withProjectStatus(Status.valueOf(newStatus.toUpperCase())));
+                projectService.remove(projectName);
                 System.out.println("Status of the " + projectName + " is changed to " + newStatus);
             } else {
                 System.out.println("Project not found");

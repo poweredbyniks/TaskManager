@@ -26,11 +26,11 @@ public final class UserPasswordEditCommand extends CommandWithUserCheck {
     public void inner(@NotNull final BufferedReader reader) throws IOException {
         System.out.println("Enter new password");
         final String newPassword = reader.readLine();
-        if (!newPassword.equals("")) {
+        if (newPassword.length() >= 3) {
             userService.passwordEdit(newPassword);
             System.out.println("Password updated");
         } else {
-            System.out.println("Enter valid password and try again");
+            System.out.println("Password length must be at least 3 characters");
         }
     }
 }

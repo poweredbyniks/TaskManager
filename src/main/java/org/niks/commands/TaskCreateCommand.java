@@ -56,7 +56,7 @@ public final class TaskCreateCommand extends CommandWithUserCheck {
             if (!taskName.equals("")) {
                 for (Project project : projectList) {
                     if (project.getProjectName().equals(projectName)) {
-                        final Task task = new Task(randomNumber(), taskName, projectName, taskDescription,
+                        final Task task = new Task(randomNumber(), project.getProjectID(), taskName, projectName, taskDescription,
                                 dateFormat.parse(startDate), dateFormat.parse(finishDate), currentUser.getUserID(),
                                 Status.PLANNED, new Date());
                         taskService.create(task);

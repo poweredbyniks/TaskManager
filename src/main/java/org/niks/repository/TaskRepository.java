@@ -39,7 +39,6 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
             }
         });
         return taskList;
-
     }
 
     @NotNull
@@ -49,7 +48,6 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
 
     public boolean save(@NotNull final Task task) {
         taskMap.put(task.getTaskName(), task);
-        projectRepository.findOne(task.getProjectName()).get().getTaskList().add(task);
         return true;
     }
 
@@ -58,8 +56,10 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
     }
 
     public void remove(@NotNull final String name) {
-        if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
-            taskMap.remove(name);
+        if (findOne(name).isPresent()) {
+            if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
+                taskMap.remove(name);
+            }
         }
     }
 

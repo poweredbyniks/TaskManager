@@ -68,6 +68,10 @@ public final class ProjectService implements IProjectService {
         return project;
     }
 
+    public void update(Project project) {
+        projectRepository.update(project);
+    }
+
     public void serialize() throws IOException {
         projectRepository.serialize();
     }

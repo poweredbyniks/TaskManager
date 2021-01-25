@@ -19,7 +19,7 @@ class AppTest {
 
     @Test
     public void testProjectList() {
-        String projectListCommand = "user-login\nnewUser\n123\nproject-list\ncreation date\n exit\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\ncreation date\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -30,7 +30,7 @@ class AppTest {
 
     @Test
     public void testProjectListOrderedByStartDate() {
-        String projectListCommand = "user-login\nnewUser\n123\nproject-list\nstart date\n exit\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\nstart date\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
