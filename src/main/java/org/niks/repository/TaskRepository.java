@@ -16,13 +16,11 @@ import java.util.stream.Collectors;
 public final class TaskRepository extends Serialization<Task> implements ITaskRepository {
 
     private final IUserService userService;
-    private final IProjectRepository projectRepository;
 
     private final Map<String, Task> taskMap = readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task));
 
-    public TaskRepository(IUserService userService, IProjectRepository projectRepository) {
+    public TaskRepository(IUserService userService) {
         this.userService = userService;
-        this.projectRepository = projectRepository;
     }
 
     @Nullable

@@ -19,7 +19,7 @@ public class Bootstrap {
     private final UserRepository userRepository = new UserRepository();
     private final UserService userService = new UserService(userRepository);
     private final ProjectRepository projectRepository = new ProjectRepository(userService);
-    private final TaskRepository taskRepository = new TaskRepository(userService, projectRepository);
+    private final TaskRepository taskRepository = new TaskRepository(userService);
     private final ProjectService projectService = new ProjectService(projectRepository);
     private final TaskService taskService = new TaskService(taskRepository, projectRepository);
 
@@ -81,8 +81,8 @@ public class Bootstrap {
                     commandMap.get(input).execute(reader);
                 } else if (input.equals("exit")) {
                     try {
-                        projectRepository.serialize();
-                        taskRepository.serialize();
+                        projectService.serialize();
+                        taskService.serialize();
                     } catch (MismatchedInputException e) {
                         System.out.println("No data found");
                     }
