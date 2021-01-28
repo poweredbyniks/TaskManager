@@ -9,7 +9,7 @@ class AppTest {
 
     @Test
     public void testHelp() {
-        String helpCommand = "help\n exit\n\u001a";
+        String helpCommand = "login\ntest\n123\nhelp\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(helpCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -19,7 +19,7 @@ class AppTest {
 
     @Test
     public void testProjectList() {
-        String projectListCommand = "login\ntest\n123\nlist-p\ncreation date\n\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\ncreation date\n\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -41,7 +41,7 @@ class AppTest {
 
     @Test
     public void testProjectListOrderedByFinishDate() {
-        String projectListCommand = "user-login\nnewUser\n123\nproject-list\nfinish date\n exit\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\nfinish date\n exit\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -52,7 +52,7 @@ class AppTest {
 
     @Test
     public void testProjectListOrderedByStatus() {
-        String projectListCommand = "user-login\nnewUser\n123\nproject-list\nstatus\n exit\n\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\nstatus\n exit\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -63,19 +63,8 @@ class AppTest {
 
 
     @Test
-    public void testProjectListWithTask() {
-        String projectListCommand = "user-login\nnewUser\n123\nproject-list\ncreation date\nsave\nexit\n \u001a";
-        System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(os));
-        App.main(new String[0]);
-        Assertions.assertEquals(TestOutputs.PROJECT_LIST_WITH_TASK_OUTPUT, os.toString(),
-                "Incorrect project-list with task output");
-    }
-
-    @Test
     public void testTaskList() {
-        String projectListCommand = "user-reg\nnewUser\n123\ntask-list\nexit\n\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-t\n\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));
@@ -86,8 +75,7 @@ class AppTest {
 
     @Test
     public void testProjectIsolation() {
-        String projectListCommand = "user-login\nnewUser\n123\nuser-login\nsecondUser\n321" +
-                "\nproject-list\n\nexit\n\u001a";
+        String projectListCommand = "login\ntest\n123\nlist-p\n\n\u001a";
         System.setIn(new ByteArrayInputStream(projectListCommand.getBytes()));
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         System.setOut(new PrintStream(os));

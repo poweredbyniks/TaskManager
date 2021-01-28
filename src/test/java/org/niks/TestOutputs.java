@@ -1,6 +1,76 @@
 package org.niks;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
+import org.niks.entity.Project;
+import org.niks.entity.Task;
+import org.niks.repository.FilePath;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TestOutputs {
+    public static String readProjectJSON() {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        StringBuilder s = new StringBuilder();
+        try {
+            final ObjectMapper projectMapper = new ObjectMapper();
+            Project[] projectsArray = projectMapper.readValue(new File(FilePath.PROJECT_FILE_PATH), Project[].class);
+            @NotNull final ObjectMapper taskMapper = new ObjectMapper();
+            Task[] tasksArray = taskMapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class);
+            List<Project> projectList = new ArrayList<>();
+
+
+            for (Project project : projectsArray) {
+                if (project.getUserID() == 4) {
+                    projectList.add(project);
+                }
+            }
+            List<Task> taskList = new ArrayList<>();
+            for (Project project : projectList) {
+                s.append("\n\nPROJECT name: ")
+                        .append(project.getProjectName())
+                        .append("\nStatus: ")
+                        .append(project.getProjectStatus().getStatus())
+                        .append("\nDescription: ")
+                        .append(project.getProjectDescription())
+                        .append("\nStart date: ")
+                        .append(dateFormat.format(project.getStartDate()))
+                        .append("\nFinish date: ")
+                        .append(dateFormat.format(project.getFinishDate()));
+
+                taskList = Arrays.stream(tasksArray)
+                        .filter(task -> task.getProjectID() == project.getProjectID())
+                        .collect(Collectors.toList());
+
+                if (taskList.size() != 0) {
+                    taskList.forEach((task -> s.append("\nTasks:" + "\nTASK name: ")
+                            .append(task.getTaskName())
+                            .append("\nTask status: ")
+                            .append(task.getTaskStatus().getStatus())
+                            .append("\nTask description: ")
+                            .append(task.getTaskDescription())
+                            .append("\nStart date: ")
+                            .append(dateFormat.format(task.getStartDate()))
+                            .append("\nFinish date: ")
+                            .append(dateFormat.format(task.getFinishDate()))));
+                } else {
+                    s.append("\nTask list is empty");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s.toString();
+    }
+
+    public static String s = readProjectJSON();
+
     public static final String HELP_OUTPUT =
             "Welcome to the Task Manager.\n" +
                     "Sign up, please\nType help for instructions\n" +
@@ -37,68 +107,131 @@ public class TestOutputs {
                     "start date\n" +
                     "finish date\n" +
                     "status\n" +
-                    "Ordered by creation date\n" +
-                    "Project Name: feed a cat\n" +
-                    "Status: PLANNED\n" +
-                    "Description: royal canin\n" +
-                    "Start date: 24.01.2021\n" +
-                    "Finish date: 24.01.2021\n" +
-                    "Tasks:\n" +
-                    "Task name: pour water\n" +
-                    "Task status: PLANNED\n" +
-                    "Task description: \n" +
-                    "Start date: 24.01.2021\n" +
-                    "Finish date: 25.01.2021\n" +
-                    "Tasks:\n" +
-                    "Task name: pour water\n" +
-                    "Task status: WORKING\n" +
-                    "Task description: \n" +
-                    "Start date: 24.01.2021\n" +
-                    "Finish date: 25.01.2021\n";
+                    "Ordered by creation date" + s + "\n";
+//                    "PROJECT name: cat\n" +
+//                    "Status: planned\n" +
+//                    "Description: lovely\n" +
+//                    "Start date: 26.01.2021\n" +
+//                    "Finish date: 27.01.2021\n" +
+//                    "Tasks:\n" +
+//                    "TASK name: water\n" +
+//                    "Task status: working\n" +
+//                    "Task description: \n" +
+//                    "Start date: 27.01.2021\n" +
+//                    "Finish date: 27.01.2021\n" +
+//                    "\n" +
+//                    "PROJECT name: coffee\n" +
+//                    "Status: planned\n" +
+//                    "Description: latte\n" +
+//                    "Start date: 27.03.2021\n" +
+//                    "Finish date: 28.03.2021\n" +
+//                    "Task list is empty\n" +
+//                    "\n" +
+//                    "PROJECT name: buy milk\n" +
+//                    "Status: planned\n" +
+//                    "Description: \n" +
+//                    "Start date: 19.01.2021\n" +
+//                    "Finish date: 23.01.2021\n" +
+//                    "Task list is empty\n" +
+//                    "\n" +
+//                    "PROJECT name: buy new mac\n" +
+//                    "Status: planned\n" +
+//                    "Description: \n" +
+//                    "Start date: 29.03.2021\n" +
+//                    "Finish date: 29.03.2021\n" +
+//                    "Task list is empty\n";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE =
-            "";
+            "Welcome to the Task Manager.\n" +
+                    "Sign up, please\n" +
+                    "Type help for instructions\n" +
+                    "Enter user name\n" +
+                    "Enter password\n" +
+                    "Welcome test\n" +
+                    "Order by:\n" +
+                    "creation date\n" +
+                    "start date\n" +
+                    "finish date\n" +
+                    "status\n" +
+                    "Ordered by start date\n" +
+                    "\n" +
+                    "PROJECT name: buy milk\n" +
+                    "Status: planned\n" +
+                    "Description: \n" +
+                    "Start date: 19.01.2021\n" +
+                    "Finish date: 23.01.2021\n" +
+                    "Task list is empty\n" +
+                    "\n" +
+                    "PROJECT name: cat\n" +
+                    "Status: planned\n" +
+                    "Description: lovely\n" +
+                    "Start date: 26.01.2021\n" +
+                    "Finish date: 27.01.2021\n" +
+                    "Tasks:\n" +
+                    "TASK name: water\n" +
+                    "Task status: working\n" +
+                    "Task description: \n" +
+                    "Start date: 27.01.2021\n" +
+                    "Finish date: 27.01.2021\n" +
+                    "\n" +
+                    "PROJECT name: coffee\n" +
+                    "Status: planned\n" +
+                    "Description: latte\n" +
+                    "Start date: 27.03.2021\n" +
+                    "Finish date: 28.03.2021\n" +
+                    "Task list is empty\n" +
+                    "\n" +
+                    "PROJECT name: buy new mac\n" +
+                    "Status: planned\n" +
+                    "Description: \n" +
+                    "Start date: 29.03.2021\n" +
+                    "Finish date: 29.03.2021\n" +
+                    "Task list is empty\n";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_FINISH_DATE = "Welcome to the Task Manager.\n" +
             "Sign up, please\n" +
             "Type help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
-            "Welcome newUser\n" +
+            "Welcome test\n" +
             "Order by:\n" +
             "creation date\n" +
             "start date\n" +
             "finish date\n" +
             "status\n" +
             "Ordered by finish date\n" +
-            "Project Name: newProject\n" +
-            "Description: Project description\n" +
-            "Start date: 30.10.2020\n" +
-            "Finish date: 31.10.2020\n" +
-            "Tasks:\n" +
-            "Task name: Task\n" +
-            "Task description: Description\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Tasks:\n" +
-            "Task name: secondTask\n" +
-            "Task description: secondDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Tasks:\n" +
-            "Task name: thirdTask\n" +
-            "Task description: thirdDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Project Name: secondProject\n" +
-            "Description: secondDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
+            "\n" +
+            "PROJECT name: buy milk\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 19.01.2021\n" +
+            "Finish date: 23.01.2021\n" +
             "Task list is empty\n" +
-            "Project Name: thirdProject\n" +
-            "Description: thirdDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
+            "\n" +
+            "PROJECT name: cat\n" +
+            "Status: planned\n" +
+            "Description: lovely\n" +
+            "Start date: 26.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
+            "Tasks:\n" +
+            "TASK name: water\n" +
+            "Task status: working\n" +
+            "Task description: \n" +
+            "Start date: 27.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
+            "\n" +
+            "PROJECT name: coffee\n" +
+            "Status: planned\n" +
+            "Description: latte\n" +
+            "Start date: 27.03.2021\n" +
+            "Finish date: 28.03.2021\n" +
+            "Task list is empty\n" +
+            "\n" +
+            "PROJECT name: buy new mac\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 29.03.2021\n" +
+            "Finish date: 29.03.2021\n" +
             "Task list is empty\n";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_STATUS = "Welcome to the Task Manager.\n" +
@@ -106,159 +239,109 @@ public class TestOutputs {
             "Type help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
-            "Welcome newUser\n" +
+            "Welcome test\n" +
             "Order by:\n" +
             "creation date\n" +
             "start date\n" +
             "finish date\n" +
             "status\n" +
             "Ordered by status\n" +
-            "Project Name: newProject\n" +
-            "Description: Project description\n" +
-            "Start date: 30.10.2020\n" +
-            "Finish date: 31.10.2020\n" +
+            "\n" +
+            "PROJECT name: cat\n" +
+            "Status: planned\n" +
+            "Description: lovely\n" +
+            "Start date: 26.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
             "Tasks:\n" +
-            "Task name: Task\n" +
-            "Task description: Description\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Tasks:\n" +
-            "Task name: secondTask\n" +
-            "Task description: secondDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Tasks:\n" +
-            "Task name: thirdTask\n" +
-            "Task description: thirdDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
-            "Project Name: secondProject\n" +
-            "Description: secondDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
+            "TASK name: water\n" +
+            "Task status: working\n" +
+            "Task description: \n" +
+            "Start date: 27.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
+            "\n" +
+            "PROJECT name: coffee\n" +
+            "Status: planned\n" +
+            "Description: latte\n" +
+            "Start date: 27.03.2021\n" +
+            "Finish date: 28.03.2021\n" +
             "Task list is empty\n" +
-            "Project Name: thirdProject\n" +
-            "Description: thirdDescription\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n" +
+            "\n" +
+            "PROJECT name: buy milk\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 19.01.2021\n" +
+            "Finish date: 23.01.2021\n" +
+            "Task list is empty\n" +
+            "\n" +
+            "PROJECT name: buy new mac\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 29.03.2021\n" +
+            "Finish date: 29.03.2021\n" +
             "Task list is empty\n";
 
-    public static final String PROJECT_LIST_WITH_TASK_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
+    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\n" +
+            "Sign up, please\n" +
+            "Type help for instructions\n" +
             "Enter user name\n" +
             "Enter password\n" +
-            "User newUser created\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "Welcome newUser\n" +
-            "Enter project name\n" +
-            "Enter project description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Project newProject created\n" +
-            "Enter project to include to\n" +
-            "Enter task name\n" +
-            "Enter task description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Task newTask created and added to the project newProject\n" +
+            "Welcome test\n" +
             "Order by:\n" +
             "creation date\n" +
             "start date\n" +
             "finish date\n" +
             "status\n" +
             "Ordered by creation date\n" +
-            "Project Name: newProject\n" +
-            "Description: Project description\n" +
-            "Start date: 30.10.2020\n" +
-            "Finish date: 31.10.2020\n" +
+            "\n" +
+            "TASK water in the project cat\n" +
+            "Task status: working\n" +
+            "Start date: 27.01.2021\n" +
+            "Finish date: 27.01.2021\n";
+
+    public static final String PROJECT_ISOLATION_OUTPUT = "Welcome to the Task Manager.\n" +
+            "Sign up, please\n" +
+            "Type help for instructions\n" +
+            "Enter user name\n" +
+            "Enter password\n" +
+            "Welcome test\n" +
+            "Order by:\n" +
+            "creation date\n" +
+            "start date\n" +
+            "finish date\n" +
+            "status\n" +
+            "Ordered by creation date\n" +
+            "\n" +
+            "PROJECT name: cat\n" +
+            "Status: planned\n" +
+            "Description: lovely\n" +
+            "Start date: 26.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
             "Tasks:\n" +
-            "Task name: newTask\n" +
-            "Task description: feed a cat\n" +
-            "Start date: 25.11.2020\n" +
-            "Finish date: 26.11.2020\n";
-
-
-    public static final String TASK_CREATE_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "User newUser created\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "Welcome newUser\n" +
-            "Enter project name\n" +
-            "Enter project description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Project newProject created\n" +
-            "Enter project to include to\n" +
-            "Enter task name\n" +
-            "Enter task description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Task newTask created and added to the project newProject\n";
-
-    public static final String TASK_LIST_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "User newUser created\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "Welcome newUser\n" +
-            "Enter project name\n" +
-            "Enter project description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Project newProject created\n" +
-            "Enter project to include to\n" +
-            "Enter task name\n" +
-            "Enter task description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Task newTask created and added to the project newProject\n" +
-            "Order by:\n" +
-            "creation date\n" +
-            "start date\n" +
-            "finish date\n" +
-            "status\n" +
-            "Ordered by creation date\n" +
-            "Task newTask in the project newProject\n" +
-            "Start date: 30.11.2020\n" +
-            "Finish date: 01.12.2020\n";
-
-    public static final String PROJECT_ISOLATION_OUTPUT = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "User newUser created\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "Welcome newUser\n" +
-            "Enter project name\n" +
-            "Enter project description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Project newProject created\n" +
-            "newUser logged out\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "User secondUser created\n" +
-            "Enter user name\n" +
-            "Enter password\n" +
-            "Welcome secondUser\n" +
-            "Enter project name\n" +
-            "Enter project description\n" +
-            "Enter starting date dd.MM.yyyy\n" +
-            "Enter finishing date dd.MM.yyyy\n" +
-            "Project secondProject created\n" +
-            "Order by:\n" +
-            "creation date\n" +
-            "start date\n" +
-            "finish date\n" +
-            "status\n" +
-            "Ordered by creation date\n" +
-            "Project Name: secondProject\n" +
-            "Description: Project description\n" +
-            "Start date: 29.12.2020\n" +
-            "Finish date: 30.12.2020\n" +
+            "TASK name: water\n" +
+            "Task status: working\n" +
+            "Task description: \n" +
+            "Start date: 27.01.2021\n" +
+            "Finish date: 27.01.2021\n" +
+            "\n" +
+            "PROJECT name: coffee\n" +
+            "Status: planned\n" +
+            "Description: latte\n" +
+            "Start date: 27.03.2021\n" +
+            "Finish date: 28.03.2021\n" +
+            "Task list is empty\n" +
+            "\n" +
+            "PROJECT name: buy milk\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 19.01.2021\n" +
+            "Finish date: 23.01.2021\n" +
+            "Task list is empty\n" +
+            "\n" +
+            "PROJECT name: buy new mac\n" +
+            "Status: planned\n" +
+            "Description: \n" +
+            "Start date: 29.03.2021\n" +
+            "Finish date: 29.03.2021\n" +
             "Task list is empty\n";
 
     public static final String USER_NAME_EDIT_COMMAND = "Welcome to the Task Manager.\nSign up, please\nType help for instructions\n" +

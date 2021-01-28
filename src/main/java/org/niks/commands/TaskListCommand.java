@@ -30,17 +30,21 @@ public final class TaskListCommand extends CommandWithUserCheck {
 
     @Override
     public void inner(@NotNull final BufferedReader reader) throws IOException {
-        System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
-        final String outputOrder = reader.readLine();
-        final String order = outputOrder.replace(" ", "_").toUpperCase();
-        if (order.equals("")) {
-            System.out.println("Ordered by creation date");
-            final List<Task> taskList = taskService.list();
-            writeList(taskList);
-        } else {
-            System.out.println("Ordered by " + order);
-            final List<Task> taskList = taskService.list(order);
-            writeList(taskList);
+        try {
+            System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
+            final String outputOrder = reader.readLine();
+            final String order = outputOrder.replace(" ", "_").toUpperCase();
+            if (order.equals("")) {
+                System.out.println("Ordered by creation date");
+                final List<Task> taskList = taskService.list();
+                writeList(taskList);
+            } else {
+                System.out.println("Ordered by " + order);
+                final List<Task> taskList = taskService.list(order);
+                writeList(taskList);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Try again and choose order: \ncreation date\nstart date\nfinish date\nstatus");
         }
     }
 

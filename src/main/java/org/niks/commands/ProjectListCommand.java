@@ -11,7 +11,6 @@ import org.niks.service.IUserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,17 +37,21 @@ public final class ProjectListCommand extends CommandWithUserCheck {
 
     @Override
     public void inner(@NotNull final BufferedReader reader) throws IOException {
-        System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
-        final String outputOrder = reader.readLine();
-        final String order = outputOrder.replace(" ", "_").toUpperCase();
-        if (order.equals("")) {
-            System.out.println("Ordered by creation date");
-            final List<Project> projectList = projectService.list();
-            writeList(projectList);
-        } else {
-            System.out.println("Ordered by " + outputOrder);
-            final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
-            writeList(projectList);
+        try {
+            System.out.println("Order by:\ncreation date\nstart date\nfinish date\nstatus");
+            final String outputOrder = reader.readLine();
+            final String order = outputOrder.replace(" ", "_").toUpperCase();
+            if (order.equals("")) {
+                System.out.println("Ordered by creation date");
+                final List<Project> projectList = projectService.list();
+                writeList(projectList);
+            } else {
+                System.out.println("Ordered by " + outputOrder);
+                final List<Project> projectList = projectService.list(ProjectSort.valueOf(order));
+                writeList(projectList);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Try again and choose order: \ncreation date\nstart date\nfinish date\nstatus");
         }
     }
 
