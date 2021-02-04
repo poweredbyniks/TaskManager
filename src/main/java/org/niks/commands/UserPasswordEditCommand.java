@@ -2,9 +2,11 @@ package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IUserService;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+
 
 public final class UserPasswordEditCommand extends CommandWithUserCheck {
 

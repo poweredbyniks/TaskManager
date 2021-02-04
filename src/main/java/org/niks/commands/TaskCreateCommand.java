@@ -7,6 +7,8 @@ import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 public final class TaskCreateCommand extends CommandWithUserCheck {
+
     private final ITaskService taskService;
 
     public TaskCreateCommand(IUserService userService, ITaskService taskService) {

@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+
 @AllArgsConstructor
 public class UserAuthorizationCommand implements ICommandWithoutUserCheck {
+
     private final IUserService userService;
     private final UserEndSessionCommand userEndSessionCommand;
 

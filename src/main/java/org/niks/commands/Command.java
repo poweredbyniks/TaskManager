@@ -1,12 +1,12 @@
 package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Bean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public interface Command {
-
     String getName();
 
     String getDescription();

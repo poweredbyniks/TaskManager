@@ -3,6 +3,7 @@ package org.niks;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.niks.entity.Project;
+import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 

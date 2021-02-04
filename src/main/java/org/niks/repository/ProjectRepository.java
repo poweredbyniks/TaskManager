@@ -1,23 +1,26 @@
 package org.niks.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+@Repository
 public final class ProjectRepository extends Serialization<Project> implements IProjectRepository {
     private final Map<String, Project> projectMap = readJSON().stream().collect(Collectors.toMap(Project::getProjectName, project -> project));
+
     private final IUserService userService;
 
+    @Autowired
     public ProjectRepository(IUserService userService) {
         this.userService = userService;
     }

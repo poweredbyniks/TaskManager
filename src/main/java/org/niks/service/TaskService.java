@@ -7,15 +7,26 @@ import org.niks.entity.Project;
 import org.niks.entity.Task;
 import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Service
+
 public final class TaskService implements ITaskService {
+
     private final ITaskRepository taskRepository;
     private final IProjectRepository projectRepository;
+
+    @Autowired
+    public TaskService(ITaskRepository taskRepository, IProjectRepository projectRepository) {
+        this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
+    }
 
     public void create(@NotNull final Task task) {
         taskRepository.save(task);
@@ -56,11 +67,6 @@ public final class TaskService implements ITaskService {
     }
 
     @NotNull
-    public List<Project> projectList() {
-        return projectRepository.findAll();
-    }
-
-    @NotNull
     public List<Task> taskList() {
         return taskRepository.findAll();
     }
@@ -71,6 +77,11 @@ public final class TaskService implements ITaskService {
             task = taskRepository.findOne(name).get();
         }
         return task;
+    }
+
+    @NotNull
+    public List<Project> projectList() {
+        return projectRepository.findAll();
     }
 
     public void serialize() throws IOException {

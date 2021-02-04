@@ -5,18 +5,28 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.repository.IProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Service
+
 public final class ProjectService implements IProjectService {
+
+    @Autowired
+    public ProjectService(IProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
     private final IProjectRepository projectRepository;
 
     public void create(@NotNull final Project project) {
         projectRepository.save(project);
     }
+
 
     @NotNull
     public List<Project> list() {
@@ -55,11 +65,6 @@ public final class ProjectService implements IProjectService {
                 .collect(Collectors.toList());
     }
 
-    @NotNull
-    public List<Project> projectList() {
-        return projectRepository.findAll();
-    }
-
     public Project findExactMatch(@NotNull final String name) {
         Project project = null;
         if (projectRepository.findOne(name).isPresent()) {
@@ -70,6 +75,11 @@ public final class ProjectService implements IProjectService {
 
     public void update(Project project) {
         projectRepository.update(project);
+    }
+
+    @NotNull
+    public List<Project> projectList() {
+        return projectRepository.findAll();
     }
 
     public void serialize() throws IOException {

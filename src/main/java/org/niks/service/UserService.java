@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.IUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,11 +16,18 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RequiredArgsConstructor
+@Service
 public final class UserService implements IUserService {
+
     private final IUserRepository userRepository;
+
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
+
+    @Autowired
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Nullable
     public User getCurrentUser() {

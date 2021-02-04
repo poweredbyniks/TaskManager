@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 import org.niks.AccessRoles;
+import org.springframework.stereotype.Component;
 
 @Value
 public class User {

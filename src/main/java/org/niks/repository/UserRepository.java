@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public final class UserRepository extends Serialization<User> implements IUserRepository {
     private final Map<String, User> userMap = readJSON().stream().collect(Collectors.toMap(User::getUserName, user -> user));
 

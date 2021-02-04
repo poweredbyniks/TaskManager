@@ -6,23 +6,25 @@ import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+@Repository
 public final class TaskRepository extends Serialization<Task> implements ITaskRepository {
 
     private final IUserService userService;
-    private final IProjectRepository projectRepository;
-
     private final Map<String, Task> taskMap = readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task));
 
-    public TaskRepository(IUserService userService, IProjectRepository projectRepository) {
+    @Autowired
+    public TaskRepository(IUserService userService) {
         this.userService = userService;
-        this.projectRepository = projectRepository;
+
     }
 
     @Nullable

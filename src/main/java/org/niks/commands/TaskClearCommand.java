@@ -3,10 +3,14 @@ package org.niks.commands;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.ITaskService;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 
+
 public final class TaskClearCommand extends CommandWithUserCheck {
+
     private final ITaskService taskService;
 
     public TaskClearCommand(IUserService userService, ITaskService taskService) {

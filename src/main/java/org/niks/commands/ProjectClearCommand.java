@@ -3,10 +3,14 @@ package org.niks.commands;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 
+
 public final class ProjectClearCommand extends CommandWithUserCheck {
+
     private final IProjectService projectService;
 
     public ProjectClearCommand(IUserService userService, IProjectService projectService) {

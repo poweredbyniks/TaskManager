@@ -31,7 +31,7 @@ public class TestOutputs {
                     projectList.add(project);
                 }
             }
-            List<Task> taskList = new ArrayList<>();
+            List<Task> taskList;
             for (Project project : projectList) {
                 s.append("\n\nPROJECT name: ")
                         .append(project.getProjectName())
@@ -108,38 +108,6 @@ public class TestOutputs {
                     "finish date\n" +
                     "status\n" +
                     "Ordered by creation date" + s + "\n";
-//                    "PROJECT name: cat\n" +
-//                    "Status: planned\n" +
-//                    "Description: lovely\n" +
-//                    "Start date: 26.01.2021\n" +
-//                    "Finish date: 27.01.2021\n" +
-//                    "Tasks:\n" +
-//                    "TASK name: water\n" +
-//                    "Task status: working\n" +
-//                    "Task description: \n" +
-//                    "Start date: 27.01.2021\n" +
-//                    "Finish date: 27.01.2021\n" +
-//                    "\n" +
-//                    "PROJECT name: coffee\n" +
-//                    "Status: planned\n" +
-//                    "Description: latte\n" +
-//                    "Start date: 27.03.2021\n" +
-//                    "Finish date: 28.03.2021\n" +
-//                    "Task list is empty\n" +
-//                    "\n" +
-//                    "PROJECT name: buy milk\n" +
-//                    "Status: planned\n" +
-//                    "Description: \n" +
-//                    "Start date: 19.01.2021\n" +
-//                    "Finish date: 23.01.2021\n" +
-//                    "Task list is empty\n" +
-//                    "\n" +
-//                    "PROJECT name: buy new mac\n" +
-//                    "Status: planned\n" +
-//                    "Description: \n" +
-//                    "Start date: 29.03.2021\n" +
-//                    "Finish date: 29.03.2021\n" +
-//                    "Task list is empty\n";
 
     public static final String PROJECT_LIST_OUTPUT_ORDERED_BY_START_DATE =
             "Welcome to the Task Manager.\n" +

@@ -3,8 +3,10 @@ package org.niks.commands;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+
 
 public final class UserInfoCommand extends CommandWithUserCheck {
     public UserInfoCommand(IUserService userService) {

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 
 @Value
+
 public class Project {
     long userID;
     long projectID;

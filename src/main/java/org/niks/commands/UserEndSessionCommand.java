@@ -3,11 +3,15 @@ package org.niks.commands;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 
+
 @AllArgsConstructor
 public final class UserEndSessionCommand implements ICommandWithoutUserCheck {
+
     private final IUserService userService;
 
     @Override

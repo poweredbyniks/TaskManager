@@ -2,11 +2,15 @@ package org.niks.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+
 public final class UserRegistrationCommand implements ICommandWithoutUserCheck {
+
     private final IUserService userService;
 
     public UserRegistrationCommand(IUserService userService) {
@@ -33,7 +37,7 @@ public final class UserRegistrationCommand implements ICommandWithoutUserCheck {
         final String userName = reader.readLine();
         System.out.println("Enter password");
         final String password = reader.readLine();
-        if(password.length() >= 3) {
+        if (password.length() >= 3) {
             if (!userName.equals("")) {
                 if (userService.create(userName, password)) {
                     System.out.println("User " + userName + " created");

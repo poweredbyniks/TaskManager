@@ -4,11 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Status;
 import org.niks.service.IProjectService;
 import org.niks.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ProjectStatusChangeCommand extends CommandWithUserCheck {
+
     private final IProjectService projectService;
 
     public ProjectStatusChangeCommand(IUserService userService, IProjectService projectService) {
