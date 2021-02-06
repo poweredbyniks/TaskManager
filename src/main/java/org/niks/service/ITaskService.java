@@ -1,6 +1,7 @@
 package org.niks.service;
 
 import org.jetbrains.annotations.NotNull;
+import org.niks.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 
@@ -12,6 +13,9 @@ public interface ITaskService {
 
     @NotNull
     List<Task> list();
+
+    @NotNull
+    List<Task> list(@NotNull final TaskSort order);
 
     @NotNull
     List<Task> list(@NotNull final String order);
@@ -27,6 +31,8 @@ public interface ITaskService {
     List<Project> projectList();
 
     public Task findExactMatch(@NotNull final String name);
+
+    void update(@NotNull final Project project);
 
     void serialize() throws IOException;
 }

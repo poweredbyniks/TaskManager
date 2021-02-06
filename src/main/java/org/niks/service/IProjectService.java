@@ -15,7 +15,10 @@ public interface IProjectService {
     List<Project> list();
 
     @NotNull
-    List<Project> list(ProjectSort order);
+    List<Project> list(@NotNull final String order);
+
+    @NotNull
+    List<Project> list(@NotNull final ProjectSort order);
 
     void remove(@NotNull final String projectToRemove);
 
@@ -26,7 +29,7 @@ public interface IProjectService {
 
     Project findExactMatch(@NotNull final String name);
 
-    void update(Project project);
+    void update(@NotNull final Project project);
 
     void serialize() throws IOException;
 }

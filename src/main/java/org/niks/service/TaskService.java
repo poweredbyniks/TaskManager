@@ -1,6 +1,5 @@
 package org.niks.service;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.TaskSort;
 import org.niks.entity.Project;
@@ -8,7 +7,6 @@ import org.niks.entity.Task;
 import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
 public final class TaskService implements ITaskService {
 
     private final ITaskRepository taskRepository;

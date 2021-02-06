@@ -1,6 +1,5 @@
 package org.niks.service;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
 public final class ProjectService implements IProjectService {
 
     @Autowired
@@ -73,7 +71,7 @@ public final class ProjectService implements IProjectService {
         return project;
     }
 
-    public void update(Project project) {
+    public void update(@NotNull final Project project) {
         projectRepository.update(project);
     }
 

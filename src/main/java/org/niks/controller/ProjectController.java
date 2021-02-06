@@ -2,20 +2,18 @@ package org.niks.controller;
 
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
-import org.niks.service.ProjectService;
+import org.niks.service.IProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
+    private final IProjectService projectService;
 
-    private final ProjectService projectService;
-
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(IProjectService projectService) {
         this.projectService = projectService;
     }
 
@@ -24,33 +22,28 @@ public class ProjectController {
         projectService.create(project);
     }
 
-    @GetMapping("/list")
-    public List<Project> projectList() {
-        return projectService.projectList();
-    }
-
-    @GetMapping("/listStringOrdered")
-    public List<Project> projectList(String order) {
+    @GetMapping("/listOrderedString")
+    public List<Project> list(String order) {
         return projectService.list(order);
     }
 
-    @GetMapping("/listComparatorOrdered")
-    public List<Project> projectList(ProjectSort order) {
+    @GetMapping("/listOrderedComparator")
+    public List<Project> list(ProjectSort order) {
         return projectService.list(order);
     }
 
     @DeleteMapping("/remove")
-    public void removeProject(String name) {
+    public void remove(String name) {
         projectService.remove(name);
     }
 
     @DeleteMapping("/clear")
-    public void clearProject() {
+    public void clear() {
         projectService.clear();
     }
 
     @GetMapping("/search")
-    public List<Project> projectSearch(String source) {
+    public List<Project> search(String source) {
         return projectService.projectSearch(source);
     }
 
@@ -58,5 +51,4 @@ public class ProjectController {
     public Project findExactMatch(String name) {
         return projectService.findExactMatch(name);
     }
-
 }
