@@ -29,6 +29,7 @@ public final class UserRepository extends Serialization<User> implements IUserRe
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
             writeJSON(userMap, FilePath.USER_FILE_PATH);
+
             return true;
         } else {
             return false;

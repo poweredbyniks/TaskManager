@@ -30,7 +30,7 @@ public interface ITaskService {
     @NotNull
     List<Project> projectList();
 
-    public Task findExactMatch(@NotNull final String name);
+    Task findExactMatch(@NotNull final String name);
 
     void update(@NotNull final Project project);
 

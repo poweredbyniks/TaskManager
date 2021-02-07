@@ -81,6 +81,10 @@ public final class TaskService implements ITaskService {
         return projectRepository.findAll();
     }
 
+    public void update(@NotNull final Project project) {
+
+    }
+
     public void serialize() throws IOException {
         taskRepository.serialize();
     }
