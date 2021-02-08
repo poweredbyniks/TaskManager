@@ -7,7 +7,6 @@ import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
