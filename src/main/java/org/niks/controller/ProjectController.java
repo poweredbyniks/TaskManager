@@ -16,7 +16,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/project")
+    @PostMapping("/projects")
     public String create(@RequestBody String projectName, @RequestBody String projectDescription,
                          @RequestBody String startDate, @RequestBody String finishDate) {
         projectService.create(projectName, projectDescription,
@@ -39,5 +39,4 @@ public class ProjectController {
         projectService.remove(name);
         return name + " removed";
     }
-
 }
