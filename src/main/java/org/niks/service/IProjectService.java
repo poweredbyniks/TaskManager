@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IProjectService {
-    void create(@NotNull final Project project);
+    void create(@NotNull final String projectName, String projectDescription, String startDate,
+                String finishDate);
 
     @NotNull
     List<Project> list();

@@ -3,28 +3,53 @@ package org.niks.service;
 import org.jetbrains.annotations.NotNull;
 import org.niks.ProjectSort;
 import org.niks.entity.Project;
+import org.niks.entity.Status;
+import org.niks.entity.User;
 import org.niks.repository.IProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public final class ProjectService implements IProjectService {
 
+    private final IUserService userService;
+    private final IProjectRepository projectRepository;
+
     @Autowired
-    public ProjectService(IProjectRepository projectRepository) {
+    public ProjectService(IUserService userService, IProjectRepository projectRepository) {
+        this.userService = userService;
         this.projectRepository = projectRepository;
     }
 
-    private final IProjectRepository projectRepository;
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    public void create(@NotNull final Project project) {
-        projectRepository.save(project);
+    public void create(@NotNull final String projectName, String projectDescription, String startDate,
+                       String finishDate) {
+        final User currentUser = userService.getCurrentUser();
+
+        try {
+            Project project = new Project(
+                    currentUser.getUserID(),
+                    randomNumber(),
+                    projectName,
+                    projectDescription,
+                    dateFormat.parse(startDate),
+                    dateFormat.parse(finishDate),
+                    Status.PLANNED,
+                    new Date());
+            projectRepository.save(project);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
-
 
     @NotNull
     public List<Project> list() {
@@ -82,5 +107,10 @@ public final class ProjectService implements IProjectService {
 
     public void serialize() throws IOException {
         projectRepository.serialize();
+    }
+
+    public long randomNumber() {
+        final SecureRandom random = new SecureRandom();
+        return Math.abs(random.nextInt(Integer.MAX_VALUE));
     }
 }
