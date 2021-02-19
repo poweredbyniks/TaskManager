@@ -14,8 +14,6 @@ public interface IUserRepository {
 
     boolean save(@NotNull User user);
 
-    boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user);
-
     boolean passwordUpdate(@NotNull final String password, @NotNull final User user);
 
     void remove(@NotNull final String name);

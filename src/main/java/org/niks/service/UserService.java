@@ -56,10 +56,6 @@ public final class UserService implements IUserService {
         return getCurrentUser();
     }
 
-    public void userNameEdit(@NotNull final String newUserName) {
-        userRepository.userNameUpdate(newUserName, currentUser);
-    }
-
     public void passwordEdit(@NotNull final String newPassword) {
         final String hashPassword = hash(newPassword);
         userRepository.passwordUpdate(hashPassword, currentUser);
@@ -71,7 +67,7 @@ public final class UserService implements IUserService {
     }
 
     @NotNull
-    public static String hash(@NotNull final String password) {
+    private static String hash(@NotNull final String password) {
         String hashPassword = "";
         try {
             final MessageDigest md = MessageDigest.getInstance("SHA-512");

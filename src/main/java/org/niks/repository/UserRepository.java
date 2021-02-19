@@ -51,12 +51,6 @@ public final class UserRepository extends Serialization<User> implements IUserRe
         return list;
     }
 
-    public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {
-        final User userNameUpdateUser = new User(AccessRoles.USER, user.getUserID(), newUserName, user.getPasswordHash());
-        userMap.remove(user.getUserName());
-        userMap.put(userNameUpdateUser.getUserName(), userNameUpdateUser);
-        return true;
-    }
 
     public boolean passwordUpdate(@NotNull final String password, @NotNull final User user) {
         final User passwordUpdateUser = new User(AccessRoles.USER, user.getUserID(), user.getUserName(), password);

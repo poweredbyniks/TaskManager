@@ -21,8 +21,6 @@ public interface IUserService {
     @NotNull
     User userInfo();
 
-    void userNameEdit(@NotNull final String newUserName);
-
     void passwordEdit(@NotNull final String newPassword);
 
 }
