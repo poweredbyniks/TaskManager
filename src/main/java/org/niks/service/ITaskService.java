@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ITaskService {
-    void create(@NotNull final Task task);
+    void create(@NotNull final String taskName, @NotNull final String projectName,
+                @NotNull final String taskDescription, @NotNull final String startDate,
+                @NotNull final String finishDate);
 
     @NotNull
     List<Task> list();

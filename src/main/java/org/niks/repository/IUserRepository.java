@@ -12,7 +12,7 @@ public interface IUserRepository {
 
     @NotNull Optional<User> findOne(@NotNull String name);
 
-    boolean save(@NotNull User user) throws IOException;
+    boolean save(@NotNull User user);
 
     boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user);
 

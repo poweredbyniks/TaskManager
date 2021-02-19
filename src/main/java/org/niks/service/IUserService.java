@@ -13,7 +13,7 @@ public interface IUserService {
 
     void setCurrentUser(@Nullable final User currentUser);
 
-    boolean create(@NotNull final String userName, @NotNull final String password) throws IOException;
+    boolean create(@NotNull final String userName, @NotNull final String password);
 
     @Nullable
     User userVerify(@NotNull final String userName, @NotNull final String password);
@@ -25,5 +25,4 @@ public interface IUserService {
 
     void passwordEdit(@NotNull final String newPassword);
 
-    long userID();
 }

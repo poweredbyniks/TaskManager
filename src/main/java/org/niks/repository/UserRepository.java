@@ -25,11 +25,14 @@ public final class UserRepository extends Serialization<User> implements IUserRe
         return Optional.ofNullable(userMap.get(name));
     }
 
-    public boolean save(@NotNull final User user) throws IOException {
+    public boolean save(@NotNull final User user) {
         if (!userMap.containsKey(user.getUserName())) {
             userMap.put(user.getUserName(), user);
-            writeJSON(userMap, FilePath.USER_FILE_PATH);
-
+            try {
+                writeJSON(userMap, FilePath.USER_FILE_PATH);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         } else {
             return false;

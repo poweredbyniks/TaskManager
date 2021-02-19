@@ -23,13 +23,13 @@ public final class ProjectService implements IProjectService {
     private final IUserService userService;
     private final IProjectRepository projectRepository;
 
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
     @Autowired
     public ProjectService(IUserService userService, IProjectRepository projectRepository) {
         this.userService = userService;
         this.projectRepository = projectRepository;
     }
-
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public void create(@NotNull final String projectName, String projectDescription, String startDate,
                        String finishDate) {

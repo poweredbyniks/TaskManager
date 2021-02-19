@@ -2,6 +2,7 @@ package org.niks.controller;
 
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,11 @@ public class ProjectController {
     }
 
     @PostMapping("/projects")
-    public String create(@RequestBody String projectName, @RequestBody String projectDescription,
-                         @RequestBody String startDate, @RequestBody String finishDate) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void create(@RequestBody String projectName, @RequestBody String projectDescription,
+                       @RequestBody String startDate, @RequestBody String finishDate) {
         projectService.create(projectName, projectDescription,
                 startDate, finishDate);
-        return "Project " + projectName + " created";
     }
 
     @GetMapping("/projects")
@@ -29,14 +30,14 @@ public class ProjectController {
         return projectService.list();
     }
 
-    @GetMapping("projects/{name}")
-    public String projectDescription(@PathVariable String name) {
-        return projectService.findExactMatch(name).getProjectDescription();
+    @GetMapping("/projects/{name}")
+    public Project findProject(@PathVariable String name) {
+        return projectService.findExactMatch(name);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/projects/{name}")
-    public String remove(@PathVariable String name) {
+    public void remove(@PathVariable String name) {
         projectService.remove(name);
-        return name + " removed";
     }
 }

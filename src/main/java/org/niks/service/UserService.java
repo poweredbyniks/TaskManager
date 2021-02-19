@@ -8,7 +8,6 @@ import org.niks.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,7 +18,6 @@ import java.util.NoSuchElementException;
 public final class UserService implements IUserService {
 
     private final IUserRepository userRepository;
-
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
 
@@ -37,7 +35,7 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public boolean create(@NotNull final String userName, @NotNull final String password) throws IOException {
+    public boolean create(@NotNull final String userName, @NotNull final String password) {
         final User user = new User(AccessRoles.USER, userID(), userName, hash(password));
         return userRepository.save(user);
     }
@@ -67,7 +65,7 @@ public final class UserService implements IUserService {
         userRepository.passwordUpdate(hashPassword, currentUser);
     }
 
-    public final long userID() {
+    private long userID() {
         final List<User> users = userRepository.findAll();
         return users.get(users.size() - 1).getUserID() + 1;
     }
