@@ -13,10 +13,10 @@ public interface IUserService {
 
     void setCurrentUser(@Nullable final User currentUser);
 
-    boolean create(@NotNull final String userName, @NotNull final String password);
+    boolean create(@NotNull final User user);
 
     @Nullable
-    User userVerify(@NotNull final String userName, @NotNull final String password);
+    User userVerify(@NotNull User user);
 
     @NotNull
     User userInfo();

@@ -1,5 +1,6 @@
 package org.niks.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,13 @@ public class ProjectController {
 
     @PostMapping("/projects")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestBody String projectName, @RequestBody String projectDescription,
-                       @RequestBody String startDate, @RequestBody String finishDate) {
-        projectService.create(projectName, projectDescription,
-                startDate, finishDate);
+    public void create(@RequestBody Project project) {
+        projectService.create(project);
     }
 
     @GetMapping("/projects")
-    public List<Project> list() {
-        return projectService.list();
+    public List<Project> list(@RequestParam(value = "order", required = false) @NotNull final String order) {
+        return projectService.list(order);
     }
 
     @GetMapping("/projects/{name}")

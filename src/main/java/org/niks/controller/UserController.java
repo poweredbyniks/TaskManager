@@ -1,5 +1,6 @@
 package org.niks.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.http.HttpStatus;
@@ -18,17 +19,19 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public User userVerify(@RequestBody String name, @RequestBody String password) {
-        return userService.userVerify(name, password);
+
+    public User userVerify(@RequestBody User user) {
+        return userService.userVerify(user);
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestBody String userName, @RequestBody String password) {
-        userService.create(userName, password);
+    public void create(@RequestBody User user) {
+        userService.create(user);
     }
 
     @GetMapping("/users/account/info")
+    @NotNull
     public User findUser() {
         return userService.userInfo();
     }

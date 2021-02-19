@@ -35,17 +35,16 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public boolean create(@NotNull final String userName, @NotNull final String password) {
-        final User user = new User(AccessRoles.USER, userID(), userName, hash(password));
+    public boolean create(@NotNull final User user) {
         return userRepository.save(user);
     }
 
-    @Nullable
-    public User userVerify(@NotNull final String userName, @NotNull final String password) throws NoSuchElementException {
-        User user = null;
-        if ((userRepository.findOne(userName).isPresent())) {
-            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
-                user = userRepository.findOne(userName).get();
+    @NotNull
+    public User userVerify(@NotNull User user) throws NoSuchElementException {
+                if ((userRepository.findOne(user.getUserName()).isPresent())) {
+            if (hash(user.getPasswordHash()).
+                    equals(userRepository.findOne(user.getUserName()).get().getPasswordHash())) {
+                user = userRepository.findOne(user.getUserName()).get();
             }
         }
         return user;

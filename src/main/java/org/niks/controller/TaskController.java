@@ -1,5 +1,6 @@
 package org.niks.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/tasks-managment")
+@RequestMapping("/tasks-management")
 public class TaskController {
 
     private final ITaskService taskService;
@@ -21,20 +22,19 @@ public class TaskController {
 
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestBody String taskName, @RequestBody String projectName,
-                       @RequestBody String taskDescription, @RequestBody String startDate,
-                       @RequestBody String finishDate) {
-        taskService.create(taskName, projectName, taskDescription, startDate, finishDate);
-
+    public void create(Task task) {
+        taskService.create(task);
     }
 
     @GetMapping("/tasks")
-    public List<Task> list() {
-        return taskService.list();
+    @NotNull
+    public List<Task> list(@RequestParam(value = "order", required = false) @NotNull final String order) {
+        return taskService.list(order);
     }
 
     @GetMapping("/tasks/{name}")
-    public Task findTask(@PathVariable String name) {
+    @NotNull
+    public Task findTask(@PathVariable @NotNull final String name) {
         return taskService.findExactMatch(name);
     }
 
