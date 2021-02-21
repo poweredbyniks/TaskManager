@@ -31,5 +31,5 @@ public interface IProjectService {
 
     void update(@NotNull final Project project);
 
-    void serialize() throws IOException;
+//    void serialize() throws IOException;
 }

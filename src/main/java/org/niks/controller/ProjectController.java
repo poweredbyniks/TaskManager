@@ -35,6 +35,12 @@ public class ProjectController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("projects")
+    public void update(@RequestBody Project project) {
+        projectService.update(project);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/projects/{name}")
     public void remove(@PathVariable String name) {
         projectService.remove(name);

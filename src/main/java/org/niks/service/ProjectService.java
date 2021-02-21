@@ -72,6 +72,7 @@ public final class ProjectService implements IProjectService {
     }
 
     public void update(@NotNull final Project project) {
+
         projectRepository.update(project);
     }
 
@@ -80,12 +81,8 @@ public final class ProjectService implements IProjectService {
         return projectRepository.findAll();
     }
 
-    public void serialize() throws IOException {
-        projectRepository.serialize();
-    }
+//    public void serialize() throws IOException {
+//        projectRepository.serialize();
+//    }
 
-    public long randomNumber() {
-        final SecureRandom random = new SecureRandom();
-        return Math.abs(random.nextInt(Integer.MAX_VALUE));
-    }
 }

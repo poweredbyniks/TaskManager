@@ -12,13 +12,13 @@ public interface IProjectRepository {
 
     @NotNull Optional<Project> findOne(@NotNull final String name);
 
-    boolean save(@NotNull final Project entity);
+    void save(@NotNull final Project entity);
 
-    boolean update(@NotNull final Project entity);
+    void update(@NotNull final Project entity);
 
     void remove(@NotNull final String name);
 
     void removeAll();
 
-    void serialize() throws IOException;
+//    void serialize() throws IOException;
 }

@@ -9,7 +9,6 @@ import java.util.Date;
 
 
 @Value
-
 public class Project {
     long userID;
     long projectID;
