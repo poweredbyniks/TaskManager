@@ -9,8 +9,6 @@ import org.niks.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,16 +81,7 @@ public final class TaskService implements ITaskService {
         return projectRepository.findAll();
     }
 
-    public void update(@NotNull final Project project) {
-
-    }
-
-    public void serialize() throws IOException {
-        taskRepository.serialize();
-    }
-
-    public static long randomNumber() {
-        final SecureRandom random = new SecureRandom();
-        return (random.nextInt(Integer.MAX_VALUE));
+    public void update(@NotNull final Task task) {
+        taskRepository.update(task);
     }
 }

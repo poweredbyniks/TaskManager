@@ -32,7 +32,6 @@ public interface ITaskService {
 
     Task findExactMatch(@NotNull final String name);
 
-    void update(@NotNull final Project project);
+    void update(@NotNull final Task task);
 
-    void serialize() throws IOException;
 }

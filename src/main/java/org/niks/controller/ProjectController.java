@@ -1,6 +1,5 @@
 package org.niks.controller;
 
-import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public List<Project> list(@RequestParam(value = "order", required = false) @NotNull final String order) {
+    public List<Project> list(@RequestParam(value = "order", required = false) String order) {
         return projectService.list(order);
     }
 

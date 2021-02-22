@@ -1,29 +1,27 @@
 package org.niks.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.niks.entity.Status;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.IOException;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
-public final class TaskRepository extends Serialization<Task> implements ITaskRepository {
+public final class TaskRepository implements ITaskRepository {
 
     private final IUserService userService;
-    private final Map<String, Task> taskMap = readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task));
+    private static final Connection connection = DBConnection.connection;
 
     @Autowired
     public TaskRepository(IUserService userService) {
         this.userService = userService;
-
     }
 
     @Nullable
@@ -33,51 +31,116 @@ public final class TaskRepository extends Serialization<Task> implements ITaskRe
 
     @NotNull
     public List<Task> findAll() {
-        return taskMap.values().stream()
-                .filter(task -> task.getUserID() == currentUser().getUserID())
-                .collect(Collectors.toList());
-    }
-
-    @NotNull
-    public Optional<Task> findOne(@NotNull final String name) {
-        return Optional.ofNullable(taskMap.get(name));
-    }
-
-    public boolean save(@NotNull final Task task) {
-        taskMap.put(task.getTaskName(), task);
-        return true;
-    }
-
-    public boolean update(@NotNull final Task task) {
-        return false;
-    }
-
-    public void remove(@NotNull final String name) {
-        if (findOne(name).isPresent()) {
-            if (taskMap.get(name).getUserID() == currentUser().getUserID()) {
-                taskMap.remove(name);
-            }
-        }
-    }
-
-    public void removeAll() {
-        taskMap.entrySet().removeIf(stringTaskEntry ->
-                stringTaskEntry.getValue().getUserID() == currentUser().getUserID());
-    }
-
-    @Override
-    public List<Task> readJSON() {
-        List<Task> list = new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
         try {
-            @NotNull final ObjectMapper mapper = new ObjectMapper();
-            list = Arrays.asList(mapper.readValue(new File(FilePath.TASK_FILE_PATH), Task[].class));
-        } catch (IOException e) {
-            System.out.println("No task data found");
+            Statement statement = connection.createStatement();
+            String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
+                    currentUser().getUserID());
+            ResultSet resultSet = statement.executeQuery(SQL);
+            while (resultSet.next()) {
+                Task task = new Task(
+                        resultSet.getLong("taskID"),
+                        resultSet.getLong("userID"),
+                        resultSet.getLong("projectID"),
+                        resultSet.getString("taskName"),
+                        resultSet.getString("projectName"),
+                        resultSet.getString("projectDescription"),
+                        resultSet.getDate("startDate"),
+                        resultSet.getDate("finishDate"),
+                        Status.valueOf(resultSet.getString("taskStatus")),
+                        resultSet.getDate("creationDate")
+                );
+                list.add(task);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return list;
     }
 
-    public void serialize() throws IOException {
-        writeJSON(taskMap, FilePath.TASK_FILE_PATH);
+    @NotNull
+    public Optional<Task> findOne(@NotNull final String name) {
+        Task task = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM projects WHERE userID = %s");
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            task = new Task(
+                    resultSet.getLong("taskID"),
+                    resultSet.getLong("userID"),
+                    resultSet.getLong("projectID"),
+                    resultSet.getString("taskName"),
+                    resultSet.getString("projectName"),
+                    resultSet.getString("projectDescription"),
+                    resultSet.getDate("startDate"),
+                    resultSet.getDate("finishDate"),
+                    Status.valueOf(resultSet.getString("taskStatus")),
+                    resultSet.getDate("creationDate")
+            );
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return Optional.ofNullable(task);
+    }
+
+    public void save(@NotNull final Task task) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setLong(1, task.getTaskID());
+            statement.setLong(2, task.getUserID());
+            statement.setLong(3, task.getProjectID());
+            statement.setString(4, task.getTaskName());
+            statement.setString(5, task.getProjectName());
+            statement.setString(6, task.getTaskDescription());
+            statement.setDate(7, (Date) task.getStartDate());
+            statement.setDate(8, (Date) task.getFinishDate());
+            statement.setString(9, task.getTaskStatus().toString()); //override toString() in status?
+            statement.setDate(10, (Date) task.getCreationDate());
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+    public void update(@NotNull final Task task) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
+                            "taskDescription = ?, startDate = ?, finishDate = ?, status = ?, creationDate = ?");
+            statement.setString(1, task.getTaskName());
+            statement.setString(2, task.getProjectName());
+            statement.setString(3, task.getTaskDescription());
+            statement.setDate(4, (Date) task.getStartDate());
+            statement.setDate(5, (Date) task.getFinishDate());
+            statement.setString(6, String.valueOf(task.getTaskStatus()));
+            statement.setDate(7, (Date) task.getCreationDate());
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void remove(@NotNull final String name) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("DELETE FROM tasks WHERE taskName LIKE ?");
+            statement.setString(1, name);
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void removeAll() {
+        try {
+            Statement statement = connection.createStatement();
+            String SQL = String.format("DELETE FROM tasks WHERE userID = %s",
+                    currentUser().getUserID());
+            statement.executeUpdate(SQL);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

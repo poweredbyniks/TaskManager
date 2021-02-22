@@ -28,7 +28,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     @NotNull
-    public List<Task> list(@RequestParam(value = "order", required = false) @NotNull final String order) {
+    public List<Task> list(@RequestParam(value = "order", required = false) String order) {
         return taskService.list(order);
     }
 
