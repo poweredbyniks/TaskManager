@@ -7,8 +7,6 @@ import org.niks.repository.IProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -39,7 +39,7 @@ public final class UserService implements IUserService {
 
     @NotNull
     public User userVerify(@NotNull User user) throws NoSuchElementException {
-                if ((userRepository.findOne(user.getUserName()).isPresent())) {
+        if ((userRepository.findOne(user.getUserName()).isPresent())) {
             if (hash(user.getPasswordHash()).
                     equals(userRepository.findOne(user.getUserName()).get().getPasswordHash())) {
                 user = userRepository.findOne(user.getUserName()).get();
@@ -55,7 +55,7 @@ public final class UserService implements IUserService {
 
     public void passwordEdit(@NotNull final String newPassword) {
         final String hashPassword = hash(newPassword);
-        userRepository.passwordUpdate(hashPassword);
+        userRepository.passwordUpdate(hashPassword, currentUser.getUserID());
     }
 
     @NotNull

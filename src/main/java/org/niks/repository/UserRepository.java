@@ -3,7 +3,6 @@ package org.niks.repository;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
-import org.niks.service.IUserService;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,11 +11,6 @@ import java.util.*;
 @Repository
 public final class UserRepository implements IUserRepository {
     private final static Connection connectionPool = DBConnection.getConnection();
-    private final IUserService userService;
-
-    public UserRepository(IUserService userService) {
-        this.userService = userService;
-    }
 
     @NotNull
     public List<User> findAll() {
@@ -75,8 +69,7 @@ public final class UserRepository implements IUserRepository {
         }
     }
 
-    public void passwordUpdate(@NotNull final String password) {
-        long userID = userService.getCurrentUser().getUserID();
+    public void passwordUpdate(@NotNull final String password, final long userID) {
         try {
             PreparedStatement statement =
                     connectionPool.prepareStatement("UPDATE users SET passwordHash = ? WHERE userID = ?");

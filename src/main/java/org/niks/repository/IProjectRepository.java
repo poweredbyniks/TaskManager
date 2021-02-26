@@ -3,7 +3,6 @@ package org.niks.repository;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

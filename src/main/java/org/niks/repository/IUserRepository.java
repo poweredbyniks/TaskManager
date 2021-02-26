@@ -13,7 +13,7 @@ public interface IUserRepository {
 
     void save(@NotNull final User user);
 
-    void passwordUpdate(@NotNull final String password);
+    void passwordUpdate(@NotNull final String password, final long userID);
 
     void remove(@NotNull final String name);
 
