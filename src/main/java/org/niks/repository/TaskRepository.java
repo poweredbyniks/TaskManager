@@ -17,7 +17,7 @@ import java.util.*;
 public final class TaskRepository implements ITaskRepository {
 
     private final IUserService userService;
-    private static final Connection connection = DBConnection.connection;
+    private static final Connection connectionPool = DBConnection.getConnection();
 
     @Autowired
     public TaskRepository(IUserService userService) {
@@ -33,7 +33,7 @@ public final class TaskRepository implements ITaskRepository {
     public List<Task> findAll() {
         ArrayList<Task> list = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = connectionPool.createStatement();
             String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             ResultSet resultSet = statement.executeQuery(SQL);
@@ -62,7 +62,7 @@ public final class TaskRepository implements ITaskRepository {
     public Optional<Task> findOne(@NotNull final String name) {
         Task task = null;
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM projects WHERE userID = %s");
+            PreparedStatement statement = connectionPool.prepareStatement("SELECT * FROM projects WHERE userID = %s");
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             task = new Task(
@@ -86,7 +86,7 @@ public final class TaskRepository implements ITaskRepository {
     public void save(@NotNull final Task task) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    connectionPool.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setLong(1, task.getTaskID());
             statement.setLong(2, task.getUserID());
             statement.setLong(3, task.getProjectID());
@@ -107,7 +107,7 @@ public final class TaskRepository implements ITaskRepository {
     public void update(@NotNull final Task task) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
+                    connectionPool.prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
                             "taskDescription = ?, startDate = ?, finishDate = ?, status = ?, creationDate = ?");
             statement.setString(1, task.getTaskName());
             statement.setString(2, task.getProjectName());
@@ -125,7 +125,7 @@ public final class TaskRepository implements ITaskRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("DELETE FROM tasks WHERE taskName LIKE ?");
+                    connectionPool.prepareStatement("DELETE FROM tasks WHERE taskName LIKE ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -135,7 +135,7 @@ public final class TaskRepository implements ITaskRepository {
 
     public void removeAll() {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = connectionPool.createStatement();
             String SQL = String.format("DELETE FROM tasks WHERE userID = %s",
                     currentUser().getUserID());
             statement.executeUpdate(SQL);

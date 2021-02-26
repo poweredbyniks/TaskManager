@@ -17,7 +17,7 @@ import java.util.*;
 public final class ProjectRepository implements IProjectRepository {
 
     private final IUserService userService;
-    private static final Connection connection = DBConnection.connection;
+    private static final Connection connectionPool = DBConnection.getConnection();
 
     @Autowired
     public ProjectRepository(IUserService userService) {
@@ -33,7 +33,7 @@ public final class ProjectRepository implements IProjectRepository {
     public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = connectionPool.createStatement();
             String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             ResultSet resultSet = statement.executeQuery(SQL);
@@ -61,7 +61,7 @@ public final class ProjectRepository implements IProjectRepository {
         Project project = null;
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("SELECT * FROM projects WHERE projectName LIKE ?");
+                    connectionPool.prepareStatement("SELECT * FROM projects WHERE projectName LIKE ?");
             ResultSet resultSet = statement.executeQuery();
             statement.setString(1, name);
             resultSet.next();
@@ -84,7 +84,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void save(@NotNull final Project project) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    connectionPool.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setLong(1, project.getProjectID());
             statement.setLong(2, project.getUserID());
             statement.setString(3, project.getProjectName());
@@ -102,7 +102,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void update(@NotNull final Project project) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement(
+                    connectionPool.prepareStatement(
                             "UPDATE projects SET projectName = ?, projectDescription = ?, " +
                                     "startDate = ?, finishDate = ?, status = ?, creationDate = ?");
             statement.setString(1, project.getProjectName());
@@ -120,7 +120,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("DELETE FROM projects WHERE projectName LIKE ?");
+                    connectionPool.prepareStatement("DELETE FROM projects WHERE projectName LIKE ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -130,7 +130,7 @@ public final class ProjectRepository implements IProjectRepository {
 
     public void removeAll() {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = connectionPool.createStatement();
             String SQL = String.format("DELETE FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             statement.executeUpdate(SQL);

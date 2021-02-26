@@ -1,26 +1,30 @@
 package org.niks.repository;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
 
-    public static Connection connection;
-    private static final String URL = "jdbc:postgresql://localhost:5432/task_manager_DB";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "niks";
+    private static final HikariDataSource dataSource;
+    private static final HikariConfig config = new HikariConfig();
 
     static {
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/task_manager_DB");
+        config.setUsername("postgres");
+        config.setPassword("niks");
+        dataSource = new HikariDataSource(config);
+    }
+
+    public static Connection getConnection() {
+        Connection connection = null;
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = dataSource.getConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return connection;
     }
 }

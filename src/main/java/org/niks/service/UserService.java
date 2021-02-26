@@ -2,7 +2,6 @@ package org.niks.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -35,8 +33,8 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public boolean create(@NotNull final User user) {
-        return userRepository.save(user);
+    public void create(@NotNull final User user) {
+        userRepository.save(user);
     }
 
     @NotNull
@@ -57,12 +55,7 @@ public final class UserService implements IUserService {
 
     public void passwordEdit(@NotNull final String newPassword) {
         final String hashPassword = hash(newPassword);
-        userRepository.passwordUpdate(hashPassword, currentUser);
-    }
-
-    private long userID() {
-        final List<User> users = userRepository.findAll();
-        return users.get(users.size() - 1).getUserID() + 1;
+        userRepository.passwordUpdate(hashPassword);
     }
 
     @NotNull
