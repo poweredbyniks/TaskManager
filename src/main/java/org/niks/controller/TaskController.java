@@ -27,13 +27,11 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    @NotNull
     public List<Task> list(@RequestParam(value = "order", required = false) String order) {
         return taskService.list(order);
     }
 
     @GetMapping("/tasks/{name}")
-    @NotNull
     public Task findTask(@PathVariable @NotNull final String name) {
         return taskService.findExactMatch(name);
     }

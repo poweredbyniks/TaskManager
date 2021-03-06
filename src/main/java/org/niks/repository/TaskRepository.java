@@ -1,5 +1,6 @@
 package org.niks.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Status;
@@ -17,11 +18,12 @@ import java.util.*;
 public final class TaskRepository implements ITaskRepository {
 
     private final IUserService userService;
-    private static final Connection connectionPool = DBConnection.getConnection();
+    private final HikariDataSource dataSource;
 
     @Autowired
-    public TaskRepository(IUserService userService) {
+    public TaskRepository(IUserService userService, HikariDataSource dataSource) {
         this.userService = userService;
+        this.dataSource = dataSource;
     }
 
     @Nullable
@@ -33,7 +35,7 @@ public final class TaskRepository implements ITaskRepository {
     public List<Task> findAll() {
         ArrayList<Task> list = new ArrayList<>();
         try {
-            Statement statement = connectionPool.createStatement();
+            Statement statement = dataSource.getConnection().createStatement();
             String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             ResultSet resultSet = statement.executeQuery(SQL);
@@ -62,7 +64,7 @@ public final class TaskRepository implements ITaskRepository {
     public Optional<Task> findOne(@NotNull final String name) {
         Task task = null;
         try {
-            PreparedStatement statement = connectionPool.prepareStatement("SELECT * FROM projects WHERE userID = %s");
+            PreparedStatement statement = dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE userID = %s");
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             task = new Task(
@@ -86,7 +88,7 @@ public final class TaskRepository implements ITaskRepository {
     public void save(@NotNull final Task task) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    dataSource.getConnection().prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setLong(1, task.getTaskID());
             statement.setLong(2, task.getUserID());
             statement.setLong(3, task.getProjectID());
@@ -107,7 +109,7 @@ public final class TaskRepository implements ITaskRepository {
     public void update(@NotNull final Task task) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
+                    dataSource.getConnection().prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
                             "taskDescription = ?, startDate = ?, finishDate = ?, status = ?, creationDate = ?");
             statement.setString(1, task.getTaskName());
             statement.setString(2, task.getProjectName());
@@ -125,7 +127,7 @@ public final class TaskRepository implements ITaskRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("DELETE FROM tasks WHERE taskName LIKE ?");
+                    dataSource.getConnection().prepareStatement("DELETE FROM tasks WHERE taskName LIKE ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -135,7 +137,7 @@ public final class TaskRepository implements ITaskRepository {
 
     public void removeAll() {
         try {
-            Statement statement = connectionPool.createStatement();
+            Statement statement = dataSource.getConnection().createStatement();
             String SQL = String.format("DELETE FROM tasks WHERE userID = %s",
                     currentUser().getUserID());
             statement.executeUpdate(SQL);

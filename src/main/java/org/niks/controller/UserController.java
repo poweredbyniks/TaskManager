@@ -1,6 +1,5 @@
 package org.niks.controller;
 
-import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,6 @@ public class UserController {
     }
 
     @GetMapping("/user")
-
     public User userVerify(@RequestBody User user) {
         return userService.userVerify(user);
     }
@@ -31,7 +29,6 @@ public class UserController {
     }
 
     @GetMapping("/users/account/info")
-    @NotNull
     public User findUser() {
         return userService.userInfo();
     }

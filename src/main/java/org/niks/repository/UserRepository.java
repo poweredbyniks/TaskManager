@@ -1,5 +1,6 @@
 package org.niks.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
 import org.niks.AccessRoles;
 import org.niks.entity.User;
@@ -10,13 +11,18 @@ import java.util.*;
 
 @Repository
 public final class UserRepository implements IUserRepository {
-    private final static Connection connectionPool = DBConnection.getConnection();
+
+    private final HikariDataSource dataSource;
+
+    public UserRepository(HikariDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @NotNull
     public List<User> findAll() {
         ArrayList<User> list = new ArrayList<>();
         try {
-            Statement statement = connectionPool.createStatement();
+            Statement statement = dataSource.getConnection().createStatement();
             String SQL = String.format("SELECT * FROM users");
             ResultSet resultSet = statement.executeQuery(SQL);
             while (resultSet.next()) {
@@ -39,7 +45,7 @@ public final class UserRepository implements IUserRepository {
         User user = null;
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("SELECT * FROM users WHERE userName LIKE ?");
+                    dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE userName LIKE ?");
             ResultSet resultSet = statement.executeQuery();
             statement.setString(1, name);
             resultSet.next();
@@ -58,7 +64,7 @@ public final class UserRepository implements IUserRepository {
     public void save(@NotNull final User user) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?)");
+                    dataSource.getConnection().prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?)");
             statement.setString(1, String.valueOf(user.getAccessRoles()));
             statement.setLong(2, user.getUserID());
             statement.setString(3, user.getUserName());
@@ -72,7 +78,7 @@ public final class UserRepository implements IUserRepository {
     public void passwordUpdate(@NotNull final String password, final long userID) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("UPDATE users SET passwordHash = ? WHERE userID = ?");
+                    dataSource.getConnection().prepareStatement("UPDATE users SET passwordHash = ? WHERE userID = ?");
             statement.setString(1, password);
             statement.setLong(2, userID);
             statement.executeUpdate();
@@ -84,7 +90,7 @@ public final class UserRepository implements IUserRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("DELETE FROM users WHERE projectName LIKE ?");
+                    dataSource.getConnection().prepareStatement("DELETE FROM users WHERE projectName LIKE ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {

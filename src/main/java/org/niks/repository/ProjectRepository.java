@@ -1,5 +1,6 @@
 package org.niks.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
@@ -17,11 +18,12 @@ import java.util.*;
 public final class ProjectRepository implements IProjectRepository {
 
     private final IUserService userService;
-    private static final Connection connectionPool = DBConnection.getConnection();
+    private final HikariDataSource dataSource;
 
     @Autowired
-    public ProjectRepository(IUserService userService) {
+    public ProjectRepository(IUserService userService, HikariDataSource dataSource) {
         this.userService = userService;
+        this.dataSource = dataSource;
     }
 
     @Nullable
@@ -33,7 +35,7 @@ public final class ProjectRepository implements IProjectRepository {
     public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
         try {
-            Statement statement = connectionPool.createStatement();
+            Statement statement = dataSource.getConnection().createStatement();
             String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             ResultSet resultSet = statement.executeQuery(SQL);
@@ -61,7 +63,7 @@ public final class ProjectRepository implements IProjectRepository {
         Project project = null;
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("SELECT * FROM projects WHERE projectName LIKE ?");
+                    dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE projectName LIKE ?");
             ResultSet resultSet = statement.executeQuery();
             statement.setString(1, name);
             resultSet.next();
@@ -84,7 +86,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void save(@NotNull final Project project) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    dataSource.getConnection().prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setLong(1, project.getProjectID());
             statement.setLong(2, project.getUserID());
             statement.setString(3, project.getProjectName());
@@ -102,7 +104,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void update(@NotNull final Project project) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement(
+                    dataSource.getConnection().prepareStatement(
                             "UPDATE projects SET projectName = ?, projectDescription = ?, " +
                                     "startDate = ?, finishDate = ?, status = ?, creationDate = ?");
             statement.setString(1, project.getProjectName());
@@ -120,7 +122,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    connectionPool.prepareStatement("DELETE FROM projects WHERE projectName LIKE ?");
+                    dataSource.getConnection().prepareStatement("DELETE FROM projects WHERE projectName LIKE ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -130,7 +132,7 @@ public final class ProjectRepository implements IProjectRepository {
 
     public void removeAll() {
         try {
-            Statement statement = connectionPool.createStatement();
+            Statement statement = dataSource.getConnection().createStatement();
             String SQL = String.format("DELETE FROM projects WHERE userID = %s",
                     currentUser().getUserID());
             statement.executeUpdate(SQL);
