@@ -37,12 +37,13 @@ public final class UserService implements IUserService {
         userRepository.save(user);
     }
 
-    @NotNull
-    public User userVerify(@NotNull User user) throws NoSuchElementException {
-        if ((userRepository.findOne(user.getUserName()).isPresent())) {
-            if (hash(user.getPasswordHash()).
-                    equals(userRepository.findOne(user.getUserName()).get().getPasswordHash())) {
-                user = userRepository.findOne(user.getUserName()).get();
+    @Nullable
+    public User userVerify(@NotNull final String userName,
+                           @NotNull final String password) throws NoSuchElementException {
+        User user = null;
+        if ((userRepository.findOne(userName).isPresent())) {
+            if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
+                user = userRepository.findOne(userName).get();
             }
         }
         return user;

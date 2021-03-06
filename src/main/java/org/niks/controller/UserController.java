@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users-management")
 public class UserController {
 
-    IUserService userService;
+    private final IUserService userService;
 
     public UserController(IUserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/user")
-    public User userVerify(@RequestBody User user) {
-        return userService.userVerify(user);
+    public User userVerify(@RequestHeader(value = "userName") String userName,
+                           @RequestHeader(value = "password") String password) {
+        return userService.userVerify(userName, password);
     }
 
     @PostMapping("/users")

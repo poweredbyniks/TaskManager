@@ -14,7 +14,7 @@ public interface IUserService {
     void create(@NotNull final User user);
 
     @Nullable
-    User userVerify(@NotNull User user);
+    User userVerify(@NotNull final String userName, @NotNull final String password);
 
     @NotNull
     User userInfo();

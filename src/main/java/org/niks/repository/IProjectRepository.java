@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProjectRepository {
-    @NotNull List<Project> findAll();
+    @NotNull List<Project> findAll() throws Exception;
 
     @NotNull Optional<Project> findOne(@NotNull final String name);
 

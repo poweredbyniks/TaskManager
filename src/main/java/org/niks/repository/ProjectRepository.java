@@ -7,6 +7,8 @@ import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,7 @@ public final class ProjectRepository implements IProjectRepository {
 
     private final IUserService userService;
     private final HikariDataSource dataSource;
+    private final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
 
     @Autowired
     public ProjectRepository(IUserService userService, HikariDataSource dataSource) {
@@ -32,13 +35,13 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     @NotNull
-    public List<Project> findAll() {
+    public List<Project> findAll() throws Exception {
         ArrayList<Project> list = new ArrayList<>();
         try {
-            Statement statement = dataSource.getConnection().createStatement();
-            String SQL = String.format("SELECT * FROM projects WHERE userID = %s",
-                    currentUser().getUserID());
-            ResultSet resultSet = statement.executeQuery(SQL);
+            PreparedStatement statement
+                    = dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE userID = ?");
+            statement.setLong(1, currentUser().getUserID());
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Project project = new Project(
                         resultSet.getLong("projectID"),
@@ -53,7 +56,8 @@ public final class ProjectRepository implements IProjectRepository {
                 list.add(project);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error("FindAll exception (Project repo)", new Exception(throwables));
+            throw new Exception("FindAllException (Project repo)", throwables);
         }
         return list;
     }
@@ -63,9 +67,9 @@ public final class ProjectRepository implements IProjectRepository {
         Project project = null;
         try {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE projectName LIKE ?");
-            ResultSet resultSet = statement.executeQuery();
+                    dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE projectName = ?");
             statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             project = new Project(
                     resultSet.getLong("projectID"),
@@ -106,13 +110,14 @@ public final class ProjectRepository implements IProjectRepository {
             PreparedStatement statement =
                     dataSource.getConnection().prepareStatement(
                             "UPDATE projects SET projectName = ?, projectDescription = ?, " +
-                                    "startDate = ?, finishDate = ?, status = ?, creationDate = ?");
+                                    "startDate = ?, finishDate = ?, status = ?, creationDate = ? WHERE projectID = ?");
             statement.setString(1, project.getProjectName());
             statement.setString(2, project.getProjectDescription());
             statement.setString(3, String.valueOf(project.getStartDate()));
             statement.setString(4, String.valueOf(project.getFinishDate()));
             statement.setString(5, String.valueOf(project.getProjectStatus()));
             statement.setString(6, String.valueOf(project.getCreationDate()));
+            statement.setLong(7, project.getProjectID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -122,7 +127,7 @@ public final class ProjectRepository implements IProjectRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("DELETE FROM projects WHERE projectName LIKE ?");
+                    dataSource.getConnection().prepareStatement("DELETE FROM projects WHERE projectName = ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -132,10 +137,10 @@ public final class ProjectRepository implements IProjectRepository {
 
     public void removeAll() {
         try {
-            Statement statement = dataSource.getConnection().createStatement();
-            String SQL = String.format("DELETE FROM projects WHERE userID = %s",
-                    currentUser().getUserID());
-            statement.executeUpdate(SQL);
+            PreparedStatement statement =
+                    dataSource.getConnection().prepareStatement("DELETE FROM projects WHERE userID = ?");
+            statement.setLong(1, currentUser().getUserID());
+            statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

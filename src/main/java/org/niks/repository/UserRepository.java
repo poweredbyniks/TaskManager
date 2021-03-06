@@ -23,7 +23,7 @@ public final class UserRepository implements IUserRepository {
         ArrayList<User> list = new ArrayList<>();
         try {
             Statement statement = dataSource.getConnection().createStatement();
-            String SQL = String.format("SELECT * FROM users");
+            String SQL = ("SELECT * FROM users");
             ResultSet resultSet = statement.executeQuery(SQL);
             while (resultSet.next()) {
                 User user = new User(
@@ -41,11 +41,11 @@ public final class UserRepository implements IUserRepository {
     }
 
     @NotNull
-    public Optional<User> findOne(@NotNull final String name) throws NoSuchElementException {
+    public Optional<User> findOne(@NotNull final String name) {
         User user = null;
         try {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE userName LIKE ?");
+                    dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE userName = ?");
             ResultSet resultSet = statement.executeQuery();
             statement.setString(1, name);
             resultSet.next();
@@ -90,7 +90,7 @@ public final class UserRepository implements IUserRepository {
     public void remove(@NotNull final String name) {
         try {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("DELETE FROM users WHERE projectName LIKE ?");
+                    dataSource.getConnection().prepareStatement("DELETE FROM users WHERE projectName = ?");
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
