@@ -1,16 +1,13 @@
 package org.niks.controller;
 
-import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@Controller
+@RestController
 @RequestMapping("/tasks-management")
 public class TaskController {
 
@@ -22,7 +19,7 @@ public class TaskController {
 
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(Task task) {
+    public void create(@RequestBody Task task) {
         taskService.create(task);
     }
 
@@ -32,8 +29,14 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{name}")
-    public Task findTask(@PathVariable @NotNull final String name) {
+    public Task findTask(@PathVariable String name) {
         return taskService.findExactMatch(name);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("tasks")
+    public void update(@RequestBody Task task) {
+        taskService.update(task);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

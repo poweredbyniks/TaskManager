@@ -3,11 +3,9 @@ package org.niks.controller;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
-@Controller
+@RestController
 @RequestMapping("/users-management")
 public class UserController {
 
@@ -30,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users/account/info")
-    public User findUser() {
+    public User userInfo() {
         return userService.userInfo();
     }
 
@@ -39,5 +37,4 @@ public class UserController {
     public void passwordEdit(@RequestBody String newPassword) {
         userService.passwordEdit(newPassword);
     }
-
 }

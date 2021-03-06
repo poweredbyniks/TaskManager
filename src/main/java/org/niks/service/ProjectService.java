@@ -70,7 +70,6 @@ public final class ProjectService implements IProjectService {
     }
 
     public void update(@NotNull final Project project) {
-
         projectRepository.update(project);
     }
 
@@ -78,9 +77,5 @@ public final class ProjectService implements IProjectService {
     public List<Project> projectList() {
         return projectRepository.findAll();
     }
-
-//    public void serialize() throws IOException {
-//        projectRepository.serialize();
-//    }
 
 }

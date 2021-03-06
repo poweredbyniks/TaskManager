@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProjectRepository {
-    @NotNull List<Project> findAll() throws Exception;
+    @NotNull List<Project> findAll();
 
     @NotNull Optional<Project> findOne(@NotNull final String name);
 
@@ -19,5 +19,4 @@ public interface IProjectRepository {
 
     void removeAll();
 
-//    void serialize() throws IOException;
 }

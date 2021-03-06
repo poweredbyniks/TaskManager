@@ -35,7 +35,7 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     @NotNull
-    public List<Task> findAll() throws Exception {
+    public List<Task> findAll() {
         ArrayList<Task> list = new ArrayList<>();
         try {
             PreparedStatement statement =
@@ -59,7 +59,6 @@ public final class TaskRepository implements ITaskRepository {
             }
         } catch (SQLException throwables) {
             logger.error("FindAll exception (Task repo)", new Exception(throwables));
-            throw new Exception("FindAll exception (Task repo)", throwables);
         }
         return list;
     }

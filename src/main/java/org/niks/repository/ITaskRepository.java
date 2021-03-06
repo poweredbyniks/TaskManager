@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITaskRepository {
-    @NotNull List<Task> findAll() throws Exception;
+    @NotNull List<Task> findAll();
 
     @NotNull Optional<Task> findOne(@NotNull final String name);
 

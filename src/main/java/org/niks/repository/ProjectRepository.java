@@ -35,7 +35,7 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     @NotNull
-    public List<Project> findAll() throws Exception {
+    public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
         try {
             PreparedStatement statement
@@ -56,8 +56,7 @@ public final class ProjectRepository implements IProjectRepository {
                 list.add(project);
             }
         } catch (SQLException throwables) {
-            logger.error("FindAll exception (Project repo)", new Exception(throwables));
-            throw new Exception("FindAllException (Project repo)", throwables);
+            logger.atError().log("FindAll exception (Project repo)", new Exception(throwables));
         }
         return list;
     }
@@ -97,7 +96,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setString(4, project.getProjectDescription());
             statement.setDate(5, (Date) project.getStartDate());
             statement.setDate(6, (Date) project.getFinishDate());
-            statement.setString(7, project.getProjectStatus().toString()); //override toString() in status?
+            statement.setString(7, project.getProjectStatus().toString());
             statement.setDate(8, (Date) project.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
