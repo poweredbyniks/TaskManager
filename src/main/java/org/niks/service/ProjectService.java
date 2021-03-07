@@ -1,7 +1,7 @@
 package org.niks.service;
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.ProjectSort;
+import org.niks.enums.ProjectSort;
 import org.niks.entity.Project;
 import org.niks.repository.IProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

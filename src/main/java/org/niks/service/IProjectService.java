@@ -2,10 +2,9 @@ package org.niks.service;
 
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.ProjectSort;
+import org.niks.enums.ProjectSort;
 import org.niks.entity.Project;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface IProjectService {

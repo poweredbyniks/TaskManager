@@ -1,11 +1,10 @@
 package org.niks.service;
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.TaskSort;
+import org.niks.enums.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ITaskService {

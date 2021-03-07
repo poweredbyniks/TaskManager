@@ -2,8 +2,10 @@ package org.niks.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
-import org.niks.AccessRoles;
+import org.niks.enums.AccessRoles;
 import org.niks.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -13,6 +15,7 @@ import java.util.*;
 public final class UserRepository implements IUserRepository {
 
     private final HikariDataSource dataSource;
+    private final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
 
     public UserRepository(HikariDataSource dataSource) {
         this.dataSource = dataSource;
@@ -35,7 +38,7 @@ public final class UserRepository implements IUserRepository {
                 list.add(user);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("FindAll exception (User repo)", new Exception(throwables));
         }
         return list;
     }
@@ -46,8 +49,8 @@ public final class UserRepository implements IUserRepository {
         try {
             PreparedStatement statement =
                     dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE userName = ?");
-            ResultSet resultSet = statement.executeQuery();
             statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             user = new User(
                     AccessRoles.valueOf(resultSet.getString("accessRoles")),
@@ -56,7 +59,7 @@ public final class UserRepository implements IUserRepository {
                     resultSet.getString("passwordHash")
             );
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("FindOne exception (User repo)", new Exception(throwables));
         }
         return Optional.ofNullable(user);
     }
@@ -71,7 +74,7 @@ public final class UserRepository implements IUserRepository {
             statement.setString(4, user.getPasswordHash());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Save exception (User repo)", new Exception(throwables));
         }
     }
 
@@ -83,7 +86,7 @@ public final class UserRepository implements IUserRepository {
             statement.setLong(2, userID);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("PasswordUpdate exception (User repo)", new Exception(throwables));
         }
     }
 
@@ -94,7 +97,7 @@ public final class UserRepository implements IUserRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Remove exception (User repo)", new Exception(throwables));
         }
     }
 }

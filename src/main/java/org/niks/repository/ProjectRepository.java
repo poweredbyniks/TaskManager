@@ -81,7 +81,7 @@ public final class ProjectRepository implements IProjectRepository {
                     resultSet.getDate("creationDate")
             );
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("FindOne exception (Project repo)", new Exception(throwables));
         }
         return Optional.ofNullable(project);
     }
@@ -100,7 +100,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setDate(8, (Date) project.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Save exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -119,7 +119,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(7, project.getProjectID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Update exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -130,7 +130,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Remove exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -141,7 +141,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("RemoveAll exception (Project repo)", new Exception(throwables));
         }
     }
 }

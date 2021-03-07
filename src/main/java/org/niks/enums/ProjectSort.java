@@ -1,4 +1,4 @@
-package org.niks;
+package org.niks.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

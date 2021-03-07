@@ -3,7 +3,7 @@ package org.niks.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
-import org.niks.AccessRoles;
+import org.niks.enums.AccessRoles;
 
 @Value
 public class User {

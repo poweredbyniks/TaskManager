@@ -1,4 +1,4 @@
-package org.niks;
+package org.niks.enums;
 
 public enum AccessRoles {
     ADMIN,

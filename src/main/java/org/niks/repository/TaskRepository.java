@@ -58,7 +58,7 @@ public final class TaskRepository implements ITaskRepository {
                 list.add(task);
             }
         } catch (SQLException throwables) {
-            logger.error("FindAll exception (Task repo)", new Exception(throwables));
+            logger.atError().log("FindAll exception (Task repo)", new Exception(throwables));
         }
         return list;
     }
@@ -85,7 +85,7 @@ public final class TaskRepository implements ITaskRepository {
                     resultSet.getDate("creationDate")
             );
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("FindOne exception (Task repo)", new Exception(throwables));
         }
         return Optional.ofNullable(task);
     }
@@ -93,7 +93,8 @@ public final class TaskRepository implements ITaskRepository {
     public void save(@NotNull final Task task) {
         try {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    dataSource.getConnection().prepareStatement(
+                            "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setLong(1, task.getTaskID());
             statement.setLong(2, task.getUserID());
             statement.setLong(3, task.getProjectID());
@@ -102,14 +103,13 @@ public final class TaskRepository implements ITaskRepository {
             statement.setString(6, task.getTaskDescription());
             statement.setDate(7, (Date) task.getStartDate());
             statement.setDate(8, (Date) task.getFinishDate());
-            statement.setString(9, task.getTaskStatus().toString()); //override toString() in status?
+            statement.setString(9, task.getTaskStatus().toString());
             statement.setDate(10, (Date) task.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Save exception (Task repo)", new Exception(throwables));
         }
     }
-
 
     public void update(@NotNull final Task task) {
         try {
@@ -127,7 +127,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setLong(8, task.getTaskID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Update exception (Task repo)", new Exception(throwables));
         }
     }
 
@@ -138,7 +138,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("Remove exception (Task repo)", new Exception(throwables));
         }
     }
 
@@ -149,7 +149,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.atError().log("RemoveAll exception (Task repo)", new Exception(throwables));
         }
     }
 }
