@@ -24,18 +24,19 @@ public final class UserRepository implements IUserRepository {
     @NotNull
     public List<User> findAll() {
         ArrayList<User> list = new ArrayList<>();
-        try {
-            Statement statement = dataSource.getConnection().createStatement();
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             String SQL = ("SELECT * FROM users");
-            ResultSet resultSet = statement.executeQuery(SQL);
-            while (resultSet.next()) {
-                User user = new User(
-                        AccessRoles.valueOf(resultSet.getString("accessRoles")),
-                        resultSet.getLong("userID"),
-                        resultSet.getString("userName"),
-                        resultSet.getString("passwordHash")
-                );
-                list.add(user);
+            try (ResultSet resultSet = statement.executeQuery(SQL)) {
+                while (resultSet.next()) {
+                    User user = new User(
+                            AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                            resultSet.getLong("userID"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("passwordHash")
+                    );
+                    list.add(user);
+                }
             }
         } catch (SQLException throwables) {
             logger.atError().log("FindAll exception (User repo)", new Exception(throwables));
@@ -46,18 +47,19 @@ public final class UserRepository implements IUserRepository {
     @NotNull
     public Optional<User> findOne(@NotNull final String name) {
         User user = null;
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE userName = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("SELECT * FROM users WHERE userName = ?")) {
             statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            user = new User(
-                    AccessRoles.valueOf(resultSet.getString("accessRoles")),
-                    resultSet.getLong("userID"),
-                    resultSet.getString("userName"),
-                    resultSet.getString("passwordHash")
-            );
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                user = new User(
+                        AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                        resultSet.getLong("userID"),
+                        resultSet.getString("userName"),
+                        resultSet.getString("passwordHash")
+                );
+            }
         } catch (SQLException throwables) {
             logger.atError().log("FindOne exception (User repo)", new Exception(throwables));
         }
@@ -65,9 +67,9 @@ public final class UserRepository implements IUserRepository {
     }
 
     public void save(@NotNull final User user) {
-        try {
+        try (Connection connection = dataSource.getConnection();) {
             PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?)");
+                    connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?)");
             statement.setString(1, String.valueOf(user.getAccessRoles()));
             statement.setLong(2, user.getUserID());
             statement.setString(3, user.getUserName());
@@ -79,9 +81,11 @@ public final class UserRepository implements IUserRepository {
     }
 
     public void passwordUpdate(@NotNull final String password, final long userID) {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("UPDATE users SET passwordHash = ? WHERE userID = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(
+                             "UPDATE users SET passwordHash = ? WHERE userID = ?")) {
+
             statement.setString(1, password);
             statement.setLong(2, userID);
             statement.executeUpdate();
@@ -91,9 +95,9 @@ public final class UserRepository implements IUserRepository {
     }
 
     public void remove(@NotNull final String name) {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("DELETE FROM users WHERE projectName = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("DELETE FROM users WHERE projectName = ?")) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {

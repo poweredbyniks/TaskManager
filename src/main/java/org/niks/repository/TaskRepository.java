@@ -37,13 +37,43 @@ public final class TaskRepository implements ITaskRepository {
     @NotNull
     public List<Task> findAll() {
         ArrayList<Task> list = new ArrayList<>();
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("SELECT * FROM projects WHERE userID = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("SELECT * FROM projects WHERE userID = ?")) {
             statement.setLong(1, currentUser().getUserID());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Task task = new Task(
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Task task = new Task(
+                            resultSet.getLong("taskID"),
+                            resultSet.getLong("userID"),
+                            resultSet.getLong("projectID"),
+                            resultSet.getString("taskName"),
+                            resultSet.getString("projectName"),
+                            resultSet.getString("projectDescription"),
+                            resultSet.getDate("startDate"),
+                            resultSet.getDate("finishDate"),
+                            Status.valueOf(resultSet.getString("taskStatus")),
+                            resultSet.getDate("creationDate")
+                    );
+                    list.add(task);
+                }
+            }
+        } catch (SQLException throwables) {
+            logger.atError().log("FindAll exception (Task repo)", new Exception(throwables));
+        }
+        return list;
+    }
+
+    @NotNull
+    public Optional<Task> findOne(@NotNull final String name) {
+        Task task = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("SELECT * FROM task WHERE taskName = ?")) {
+            statement.setString(1, name);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                task = new Task(
                         resultSet.getLong("taskID"),
                         resultSet.getLong("userID"),
                         resultSet.getLong("projectID"),
@@ -55,35 +85,7 @@ public final class TaskRepository implements ITaskRepository {
                         Status.valueOf(resultSet.getString("taskStatus")),
                         resultSet.getDate("creationDate")
                 );
-                list.add(task);
             }
-        } catch (SQLException throwables) {
-            logger.atError().log("FindAll exception (Task repo)", new Exception(throwables));
-        }
-        return list;
-    }
-
-    @NotNull
-    public Optional<Task> findOne(@NotNull final String name) {
-        Task task = null;
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("SELECT * FROM task WHERE taskName = ?");
-            statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            task = new Task(
-                    resultSet.getLong("taskID"),
-                    resultSet.getLong("userID"),
-                    resultSet.getLong("projectID"),
-                    resultSet.getString("taskName"),
-                    resultSet.getString("projectName"),
-                    resultSet.getString("projectDescription"),
-                    resultSet.getDate("startDate"),
-                    resultSet.getDate("finishDate"),
-                    Status.valueOf(resultSet.getString("taskStatus")),
-                    resultSet.getDate("creationDate")
-            );
         } catch (SQLException throwables) {
             logger.atError().log("FindOne exception (Task repo)", new Exception(throwables));
         }
@@ -91,10 +93,10 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void save(@NotNull final Task task) {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement(
-                            "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(
+                             "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             statement.setLong(1, task.getTaskID());
             statement.setLong(2, task.getUserID());
             statement.setLong(3, task.getProjectID());
@@ -112,11 +114,11 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void update(@NotNull final Task task) {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
-                            "taskDescription = ?, startDate = ?, finishDate = ?, status = ?, creationDate = ? " +
-                            "WHERE taskID = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("UPDATE tasks SET taskName = ?, projectName = ?" +
+                             "taskDescription = ?, startDate = ?, finishDate = ?, status = ?, creationDate = ? " +
+                             "WHERE taskID = ?")) {
             statement.setString(1, task.getTaskName());
             statement.setString(2, task.getProjectName());
             statement.setString(3, task.getTaskDescription());
@@ -132,9 +134,9 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void remove(@NotNull final String name) {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("DELETE FROM tasks WHERE taskName = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("DELETE FROM tasks WHERE taskName = ?")) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -143,9 +145,9 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void removeAll() {
-        try {
-            PreparedStatement statement =
-                    dataSource.getConnection().prepareStatement("DELETE FROM tasks WHERE userID = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     dataSource.getConnection().prepareStatement("DELETE FROM tasks WHERE userID = ?")) {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
