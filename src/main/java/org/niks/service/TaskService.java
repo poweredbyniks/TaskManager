@@ -9,6 +9,7 @@ import org.niks.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,7 +78,7 @@ public final class TaskService implements ITaskService {
     }
 
     @NotNull
-    public List<Project> projectList() {
+    public List<Project> projectList() throws SQLException {
         return projectRepository.findAll();
     }
 

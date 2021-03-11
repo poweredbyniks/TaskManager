@@ -34,7 +34,7 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     @NotNull
-    public List<Project> findAll() {
+    public List<Project> findAll() throws SQLException {
         ArrayList<Project> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement
@@ -56,14 +56,15 @@ public final class ProjectRepository implements IProjectRepository {
                 }
             }
         } catch (SQLException throwables) {
-            log.atError().log("FindAll exception (Project repo)", new Exception(throwables));
+            log.atError().log("FindAll exception (Project repo)", throwables);
+            throw new SQLException(throwables);
         }
         return list;
     }
 
     @NotNull
-    public Optional<Project> findOne(@NotNull final String name) {
-        Project project = null;
+    public Optional<Project> findOne(@NotNull final String name) throws SQLException {
+        Project project;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement("SELECT * FROM projects WHERE projectName = ?")) {
@@ -82,13 +83,13 @@ public final class ProjectRepository implements IProjectRepository {
                 );
             }
         } catch (SQLException throwables) {
-            log.atError().log("FindOne exception (Project repo)", new Exception(throwables));
+            log.atError().log("FindOne exception (Project repo)", throwables);
+            throw new SQLException(throwables);
         }
-
-        return Optional.ofNullable(project);
+        return Optional.of(project);
     }
 
-    public void save(@NotNull final Project project) {
+    public void save(@NotNull final Project project) throws SQLException {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(
@@ -103,11 +104,12 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setDate(8, (Date) project.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Save exception (Project repo)", new Exception(throwables));
+            log.atError().log("Save exception (Project repo)", throwables);
+            throw new SQLException(throwables);
         }
     }
 
-    public void update(@NotNull final Project project) {
+    public void update(@NotNull final Project project) throws SQLException {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(
@@ -122,18 +124,20 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(7, project.getProjectID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Update exception (Project repo)", new Exception(throwables));
+            log.atError().log("Update exception (Project repo)", throwables);
+            throw new SQLException(throwables);
         }
     }
 
-    public void remove(@NotNull final String name) {
+    public void remove(@NotNull final String name) throws SQLException {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement("DELETE FROM projects WHERE projectName = ?")) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Remove exception (Project repo)", new Exception(throwables));
+            log.atError().log("Remove exception (Project repo)", throwables);
+            throw new SQLException(throwables);
         }
     }
 

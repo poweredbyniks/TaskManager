@@ -7,6 +7,7 @@ import org.niks.repository.IProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,30 +21,30 @@ public final class ProjectService implements IProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void create(@NotNull final Project project) {
+    public void create(@NotNull final Project project) throws SQLException {
         projectRepository.save(project);
     }
 
     @NotNull
-    public List<Project> list() {
+    public List<Project> list() throws SQLException {
         return projectList();
     }
 
     @NotNull
-    public List<Project> list(@NotNull final String order) {
+    public List<Project> list(@NotNull final String order) throws SQLException {
         final List<Project> projectList = projectList();
         projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
         return projectList;
     }
 
     @NotNull
-    public List<Project> list(@NotNull final ProjectSort order) {
+    public List<Project> list(@NotNull final ProjectSort order) throws SQLException {
         final List<Project> projectList = projectList();
         projectList.sort(order.getProjectComparator());
         return projectList;
     }
 
-    public void remove(@NotNull final String projectToRemove) {
+    public void remove(@NotNull final String projectToRemove) throws SQLException {
         projectRepository.remove(projectToRemove);
     }
 
@@ -52,7 +53,7 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> projectSearch(@NotNull final String source) {
+    public List<Project> projectSearch(@NotNull final String source) throws SQLException {
         final List<Project> projectList = projectList();
         return projectList
                 .stream()
@@ -61,7 +62,7 @@ public final class ProjectService implements IProjectService {
                 .collect(Collectors.toList());
     }
 
-    public Project findExactMatch(@NotNull final String name) {
+    public Project findExactMatch(@NotNull final String name) throws SQLException {
         Project project = null;
         if (projectRepository.findOne(name).isPresent()) {
             project = projectRepository.findOne(name).get();
@@ -69,13 +70,12 @@ public final class ProjectService implements IProjectService {
         return project;
     }
 
-    public void update(@NotNull final Project project) {
+    public void update(@NotNull final Project project) throws SQLException {
         projectRepository.update(project);
     }
 
     @NotNull
-    public List<Project> projectList() {
+    public List<Project> projectList() throws SQLException {
         return projectRepository.findAll();
     }
-
 }

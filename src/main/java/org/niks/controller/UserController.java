@@ -24,19 +24,19 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody final User user) {
         userService.create(user);
     }
 
     @GetMapping("/users/account/info/{userID}")
-    public User userInfo(@PathVariable("userID") long userID) {
+    public User userInfo(@PathVariable("userID") final long userID) {
         return userService.userInfo(userID);
     }
 
     @PostMapping("/users/account/password/{userID}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void passwordEdit(@PathVariable("userID") long userID, @RequestBody final String newPassword) {
+    public void passwordEdit(@PathVariable("userID") final long userID, @RequestBody final String newPassword) {
         userService.passwordEdit(userID, newPassword);
     }
 }

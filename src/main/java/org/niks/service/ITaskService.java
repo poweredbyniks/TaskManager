@@ -5,6 +5,7 @@ import org.niks.enums.TaskSort;
 import org.niks.entity.Project;
 import org.niks.entity.Task;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ITaskService {
@@ -27,7 +28,7 @@ public interface ITaskService {
     List<Task> taskSearch(@NotNull final String source);
 
     @NotNull
-    List<Project> projectList();
+    List<Project> projectList() throws SQLException;
 
     Task findExactMatch(@NotNull final String name);
 
