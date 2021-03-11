@@ -27,7 +27,7 @@ public class ProjectController {
         try {
             projectService.create(project);
         } catch (SQLException throwables) {
-            throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, "Project not created", throwables);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Project not created", throwables);
         }
     }
 
