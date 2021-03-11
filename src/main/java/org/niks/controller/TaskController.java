@@ -2,6 +2,7 @@ package org.niks.controller;
 
 import org.niks.entity.Task;
 import org.niks.service.ITaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class TaskController {
 
     private final ITaskService taskService;
 
-
+    @Autowired
     public TaskController(ITaskService taskService) {
         this.taskService = taskService;
     }

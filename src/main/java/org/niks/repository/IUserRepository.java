@@ -9,6 +9,9 @@ import java.util.Optional;
 public interface IUserRepository {
     @NotNull List<User> findAll();
 
+    @NotNull
+    Optional<User> findByID(final long userID);
+
     @NotNull Optional<User> findOne(@NotNull String name);
 
     void save(@NotNull final User user);

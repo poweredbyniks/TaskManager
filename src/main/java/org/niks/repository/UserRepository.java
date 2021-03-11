@@ -1,21 +1,20 @@
 package org.niks.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.niks.enums.AccessRoles;
 import org.niks.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.*;
 
+@Slf4j
 @Repository
 public final class UserRepository implements IUserRepository {
 
     private final HikariDataSource dataSource;
-    private final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
 
     public UserRepository(HikariDataSource dataSource) {
         this.dataSource = dataSource;
@@ -39,9 +38,31 @@ public final class UserRepository implements IUserRepository {
                 }
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindAll exception (User repo)", new Exception(throwables));
+            log.atError().log("FindAll exception (User repo)", new Exception(throwables));
         }
         return list;
+    }
+
+    @NotNull
+    public Optional<User> findByID(final long userID) {
+        User user = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement("SELECT * FROM users WHERE userID = ?")) {
+            statement.setLong(1, userID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                user = new User(
+                        AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                        resultSet.getLong("userID"),
+                        resultSet.getString("userName"),
+                        resultSet.getString("passwordHash")
+                );
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("FindOne exception (User repo)", new Exception(throwables));
+        }
+        return Optional.ofNullable(user);
     }
 
     @NotNull
@@ -61,7 +82,7 @@ public final class UserRepository implements IUserRepository {
                 );
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindOne exception (User repo)", new Exception(throwables));
+            log.atError().log("FindOne exception (User repo)", new Exception(throwables));
         }
         return Optional.ofNullable(user);
     }
@@ -76,7 +97,7 @@ public final class UserRepository implements IUserRepository {
             statement.setString(4, user.getPasswordHash());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Save exception (User repo)", new Exception(throwables));
+            log.atError().log("Save exception (User repo)", new Exception(throwables));
         }
     }
 
@@ -90,7 +111,7 @@ public final class UserRepository implements IUserRepository {
             statement.setLong(2, userID);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("PasswordUpdate exception (User repo)", new Exception(throwables));
+            log.atError().log("PasswordUpdate exception (User repo)", new Exception(throwables));
         }
     }
 
@@ -101,7 +122,7 @@ public final class UserRepository implements IUserRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Remove exception (User repo)", new Exception(throwables));
+            log.atError().log("Remove exception (User repo)", new Exception(throwables));
         }
     }
 }

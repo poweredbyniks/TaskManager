@@ -1,14 +1,13 @@
 package org.niks.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +15,12 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+@Slf4j
 @Repository
 public final class ProjectRepository implements IProjectRepository {
 
     private final IUserService userService;
     private final HikariDataSource dataSource;
-    private final Logger logger = LoggerFactory.getLogger(ProjectRepository.class);
 
     @Autowired
     public ProjectRepository(IUserService userService, HikariDataSource dataSource) {
@@ -57,7 +56,7 @@ public final class ProjectRepository implements IProjectRepository {
                 }
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindAll exception (Project repo)", new Exception(throwables));
+            log.atError().log("FindAll exception (Project repo)", new Exception(throwables));
         }
         return list;
     }
@@ -83,7 +82,7 @@ public final class ProjectRepository implements IProjectRepository {
                 );
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindOne exception (Project repo)", new Exception(throwables));
+            log.atError().log("FindOne exception (Project repo)", new Exception(throwables));
         }
 
         return Optional.ofNullable(project);
@@ -104,7 +103,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setDate(8, (Date) project.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Save exception (Project repo)", new Exception(throwables));
+            log.atError().log("Save exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -123,7 +122,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(7, project.getProjectID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Update exception (Project repo)", new Exception(throwables));
+            log.atError().log("Update exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -134,7 +133,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Remove exception (Project repo)", new Exception(throwables));
+            log.atError().log("Remove exception (Project repo)", new Exception(throwables));
         }
     }
 
@@ -145,7 +144,7 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("RemoveAll exception (Project repo)", new Exception(throwables));
+            log.atError().log("RemoveAll exception (Project repo)", new Exception(throwables));
         }
     }
 }

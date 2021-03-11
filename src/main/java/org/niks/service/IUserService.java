@@ -16,9 +16,9 @@ public interface IUserService {
     @Nullable
     User userVerify(@NotNull final String userName, @NotNull final String password);
 
-    @NotNull
-    User userInfo();
+    @Nullable
+    User userInfo(final long userID);
 
-    void passwordEdit(@NotNull final String newPassword);
+    void passwordEdit(final long userID, @NotNull final String newPassword);
 
 }

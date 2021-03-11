@@ -49,12 +49,16 @@ public final class UserService implements IUserService {
         return user;
     }
 
-    @NotNull
-    public User userInfo() {
-        return getCurrentUser();
+    @Nullable
+    public User userInfo(final long userID) {
+        User user = null;
+        if (userRepository.findByID(userID).isPresent()) {
+            user = userRepository.findByID(userID).get();
+        }
+        return user;
     }
 
-    public void passwordEdit(@NotNull final String newPassword) {
+    public void passwordEdit(final long userID, @NotNull final String newPassword) {
         final String hashPassword = hash(newPassword);
         userRepository.passwordUpdate(hashPassword, currentUser.getUserID());
     }

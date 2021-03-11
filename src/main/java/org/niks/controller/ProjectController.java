@@ -2,6 +2,7 @@ package org.niks.controller;
 
 import org.niks.entity.Project;
 import org.niks.service.IProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class ProjectController {
 
     private final IProjectService projectService;
 
-
+    @Autowired
     public ProjectController(IProjectService projectService) {
         this.projectService = projectService;
     }

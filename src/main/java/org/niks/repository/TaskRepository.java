@@ -1,14 +1,13 @@
 package org.niks.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Status;
 import org.niks.entity.Task;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +15,12 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+@Slf4j
 @Repository
 public final class TaskRepository implements ITaskRepository {
 
     private final IUserService userService;
     private final HikariDataSource dataSource;
-    private final Logger logger = LoggerFactory.getLogger(TaskRepository.class);
 
     @Autowired
     public TaskRepository(IUserService userService, HikariDataSource dataSource) {
@@ -59,7 +58,7 @@ public final class TaskRepository implements ITaskRepository {
                 }
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindAll exception (Task repo)", new Exception(throwables));
+            log.atError().log("FindAll exception (Task repo)", new Exception(throwables));
         }
         return list;
     }
@@ -87,7 +86,7 @@ public final class TaskRepository implements ITaskRepository {
                 );
             }
         } catch (SQLException throwables) {
-            logger.atError().log("FindOne exception (Task repo)", new Exception(throwables));
+            log.atError().log("FindOne exception (Task repo)", new Exception(throwables));
         }
         return Optional.ofNullable(task);
     }
@@ -109,7 +108,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setDate(10, (Date) task.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Save exception (Task repo)", new Exception(throwables));
+            log.atError().log("Save exception (Task repo)", new Exception(throwables));
         }
     }
 
@@ -129,7 +128,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setLong(8, task.getTaskID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Update exception (Task repo)", new Exception(throwables));
+            log.atError().log("Update exception (Task repo)", new Exception(throwables));
         }
     }
 
@@ -140,7 +139,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("Remove exception (Task repo)", new Exception(throwables));
+            log.atError().log("Remove exception (Task repo)", new Exception(throwables));
         }
     }
 
@@ -151,7 +150,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            logger.atError().log("RemoveAll exception (Task repo)", new Exception(throwables));
+            log.atError().log("RemoveAll exception (Task repo)", new Exception(throwables));
         }
     }
 }
