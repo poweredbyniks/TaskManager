@@ -21,30 +21,30 @@ public final class ProjectService implements IProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void create(@NotNull final Project project) throws SQLException {
+    public void create(@NotNull final Project project) {
         projectRepository.save(project);
     }
 
     @NotNull
-    public List<Project> list() throws SQLException {
+    public List<Project> list() {
         return projectList();
     }
 
     @NotNull
-    public List<Project> list(@NotNull final String order) throws SQLException {
+    public List<Project> list(@NotNull final String order) {
         final List<Project> projectList = projectList();
         projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
         return projectList;
     }
 
     @NotNull
-    public List<Project> list(@NotNull final ProjectSort order) throws SQLException {
+    public List<Project> list(@NotNull final ProjectSort order) {
         final List<Project> projectList = projectList();
         projectList.sort(order.getProjectComparator());
         return projectList;
     }
 
-    public void remove(@NotNull final String projectToRemove) throws SQLException {
+    public void remove(@NotNull final String projectToRemove) {
         projectRepository.remove(projectToRemove);
     }
 
@@ -53,7 +53,7 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> projectSearch(@NotNull final String source) throws SQLException {
+    public List<Project> projectSearch(@NotNull final String source) {
         final List<Project> projectList = projectList();
         return projectList
                 .stream()
@@ -62,7 +62,7 @@ public final class ProjectService implements IProjectService {
                 .collect(Collectors.toList());
     }
 
-    public Project findExactMatch(@NotNull final String name) throws SQLException {
+    public Project findExactMatch(@NotNull final String name) {
         Project project = null;
         if (projectRepository.findOne(name).isPresent()) {
             project = projectRepository.findOne(name).get();
@@ -70,12 +70,12 @@ public final class ProjectService implements IProjectService {
         return project;
     }
 
-    public void update(@NotNull final Project project) throws SQLException {
+    public void update(@NotNull final Project project) {
         projectRepository.update(project);
     }
 
     @NotNull
-    public List<Project> projectList() throws SQLException {
+    public List<Project> projectList() {
         return projectRepository.findAll();
     }
 }

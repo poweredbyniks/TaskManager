@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IProjectService {
-    void create(@NotNull final Project project) throws SQLException;
+    void create(@NotNull final Project project);
 
     @NotNull
     List<Project> list() throws SQLException;

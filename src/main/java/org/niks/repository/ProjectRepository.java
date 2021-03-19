@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.User;
+import org.niks.exception.CustomException;
 import org.niks.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,7 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     @NotNull
-    public List<Project> findAll() throws SQLException {
+    public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement
@@ -56,14 +57,14 @@ public final class ProjectRepository implements IProjectRepository {
                 }
             }
         } catch (SQLException throwables) {
-            log.atError().log("FindAll exception (Project repo)", throwables);
-            throw new SQLException(throwables);
+            log.error("FindAll exception (Project repo)", throwables);
+            throw new CustomException("FindAll", this.getClass().getSimpleName(), throwables);
         }
         return list;
     }
 
     @NotNull
-    public Optional<Project> findOne(@NotNull final String name) throws SQLException {
+    public Optional<Project> findOne(@NotNull final String name) {
         Project project;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
@@ -83,13 +84,13 @@ public final class ProjectRepository implements IProjectRepository {
                 );
             }
         } catch (SQLException throwables) {
-            log.atError().log("FindOne exception (Project repo)", throwables);
-            throw new SQLException(throwables);
+            log.error("FindOne exception (Project repo)", throwables);
+            throw new CustomException("FindOne", this.getClass().getName(), throwables);
         }
         return Optional.of(project);
     }
 
-    public void save(@NotNull final Project project) throws SQLException {
+    public void save(@NotNull final Project project) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(
@@ -104,12 +105,12 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setDate(8, (Date) project.getCreationDate());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Save exception (Project repo)", throwables);
-            throw new SQLException(throwables);
+            log.error("Save exception (Project repo)", throwables);
+            throw new CustomException("Save", this.getClass().getName(), throwables);
         }
     }
 
-    public void update(@NotNull final Project project) throws SQLException {
+    public void update(@NotNull final Project project) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(
@@ -124,20 +125,20 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(7, project.getProjectID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Update exception (Project repo)", throwables);
-            throw new SQLException(throwables);
+            log.error("Update exception (Project repo)", throwables);
+            throw new CustomException("Update", this.getClass().getName(), throwables);
         }
     }
 
-    public void remove(@NotNull final String name) throws SQLException {
+    public void remove(@NotNull final String name) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
                      connection.prepareStatement("DELETE FROM projects WHERE projectName = ?")) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("Remove exception (Project repo)", throwables);
-            throw new SQLException(throwables);
+            log.error("Remove exception (Project repo)", throwables);
+            throw new CustomException("Remove", this.getClass().getName(), throwables);
         }
     }
 
@@ -148,7 +149,8 @@ public final class ProjectRepository implements IProjectRepository {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.atError().log("RemoveAll exception (Project repo)", new Exception(throwables));
+            log.error("RemoveAll exception (Project repo)", new Exception(throwables));
+            throw new CustomException("RemoveAll", this.getClass().getName(), throwables);
         }
     }
 }

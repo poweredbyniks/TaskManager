@@ -24,11 +24,7 @@ public class ProjectController {
     @PostMapping("/projects")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(@RequestBody Project project) {
-        try {
-            projectService.create(project);
-        } catch (SQLException throwables) {
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Project not created", throwables);
-        }
+        projectService.create(project);
     }
 
     @GetMapping("/projects")
