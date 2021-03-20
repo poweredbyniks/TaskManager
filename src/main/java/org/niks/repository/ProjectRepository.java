@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.User;
-import org.niks.exception.CustomException;
+import org.niks.exception.RepositoryException;
 import org.niks.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,9 +37,10 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
+        final String SQL = "SELECT * FROM projects WHERE userID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement
-                     = connection.prepareStatement("SELECT * FROM projects WHERE userID = ?")) {
+                     = connection.prepareStatement(SQL)) {
             statement.setLong(1, currentUser().getUserID());
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -58,7 +59,7 @@ public final class ProjectRepository implements IProjectRepository {
             }
         } catch (SQLException throwables) {
             log.error("FindAll exception (Project repo)", throwables);
-            throw new CustomException("FindAll", this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("FindAll", this.getClass().getSimpleName(), throwables);
         }
         return list;
     }
@@ -66,9 +67,10 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public Optional<Project> findOne(@NotNull final String name) {
         Project project;
+        final String SQL = "SELECT * FROM projects WHERE projectName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement("SELECT * FROM projects WHERE projectName = ?")) {
+                     connection.prepareStatement(SQL)) {
             statement.setString(1, name);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
@@ -85,16 +87,16 @@ public final class ProjectRepository implements IProjectRepository {
             }
         } catch (SQLException throwables) {
             log.error("FindOne exception (Project repo)", throwables);
-            throw new CustomException("FindOne", this.getClass().getName(), throwables);
+            throw new RepositoryException("FindOne", this.getClass().getName(), throwables);
         }
         return Optional.of(project);
     }
 
     public void save(@NotNull final Project project) {
+        final String SQL = "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement(
-                             "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     connection.prepareStatement(SQL)) {
             statement.setLong(1, project.getProjectID());
             statement.setLong(2, project.getUserID());
             statement.setString(3, project.getProjectName());
@@ -106,16 +108,16 @@ public final class ProjectRepository implements IProjectRepository {
             statement.executeUpdate();
         } catch (SQLException throwables) {
             log.error("Save exception (Project repo)", throwables);
-            throw new CustomException("Save", this.getClass().getName(), throwables);
+            throw new RepositoryException("Save", this.getClass().getName(), throwables);
         }
     }
 
     public void update(@NotNull final Project project) {
+        final String SQL = "UPDATE projects SET projectName = ?, projectDescription = ?, startDate = ?, " +
+                "finishDate = ?, status = ?, creationDate = ? WHERE projectID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement(
-                             "UPDATE projects SET projectName = ?, projectDescription = ?, startDate = ?, " +
-                                     "finishDate = ?, status = ?, creationDate = ? WHERE projectID = ?")) {
+                     connection.prepareStatement(SQL)) {
             statement.setString(1, project.getProjectName());
             statement.setString(2, project.getProjectDescription());
             statement.setString(3, String.valueOf(project.getStartDate()));
@@ -126,31 +128,33 @@ public final class ProjectRepository implements IProjectRepository {
             statement.executeUpdate();
         } catch (SQLException throwables) {
             log.error("Update exception (Project repo)", throwables);
-            throw new CustomException("Update", this.getClass().getName(), throwables);
+            throw new RepositoryException("Update", this.getClass().getName(), throwables);
         }
     }
 
     public void remove(@NotNull final String name) {
+        final String SQL = "DELETE FROM projects WHERE projectName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement("DELETE FROM projects WHERE projectName = ?")) {
+                     connection.prepareStatement(SQL)) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
             log.error("Remove exception (Project repo)", throwables);
-            throw new CustomException("Remove", this.getClass().getName(), throwables);
+            throw new RepositoryException("Remove", this.getClass().getName(), throwables);
         }
     }
 
     public void removeAll() {
+        final String SQL = "DELETE FROM projects WHERE userID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement("DELETE FROM projects WHERE userID = ?");) {
+                     connection.prepareStatement(SQL)) {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
             log.error("RemoveAll exception (Project repo)", new Exception(throwables));
-            throw new CustomException("RemoveAll", this.getClass().getName(), throwables);
+            throw new RepositoryException("RemoveAll", this.getClass().getName(), throwables);
         }
     }
 }
