@@ -9,7 +9,6 @@ import org.niks.repository.ITaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,10 +39,8 @@ public final class TaskService implements ITaskService {
         return taskList;
     }
 
-    public @NotNull List<Task> list(@NotNull final TaskSort order) {
-        final List<Task> taskList = taskList();
-        taskList.sort(order.getTaskComparator());
-        return taskList;
+    public @NotNull List<Task> list(final long projectID) {
+        return taskRepository.findAll(projectID);
     }
 
     public void remove(@NotNull final String taskToRemove) {
@@ -78,7 +75,7 @@ public final class TaskService implements ITaskService {
     }
 
     @NotNull
-    public List<Project> projectList() throws SQLException {
+    public List<Project> projectList() {
         return projectRepository.findAll();
     }
 

@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface ITaskRepository {
     @NotNull List<Task> findAll();
 
+    List<Task> findAll(long projectID);
+
     @NotNull Optional<Task> findOne(@NotNull final String name);
 
     void save(@NotNull final Task entity);

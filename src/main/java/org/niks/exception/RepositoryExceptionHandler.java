@@ -14,7 +14,7 @@ import java.util.Map;
 public class RepositoryExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RepositoryException.class)
-    public ResponseEntity<Object> handleCustomException(RepositoryException e) {
+    public ResponseEntity<Object> handleRepositoryException(RepositoryException e) {
         Map<String, Object> details = new LinkedHashMap<>();
         details.put("timestamp", LocalDateTime.now());
         details.put("message", e.getMessage());

@@ -30,6 +30,11 @@ public class TaskController {
         return taskService.list(order);
     }
 
+    @GetMapping("/tasks/{projectID}")
+    public List<Task> list(@PathVariable long projectID) {
+        return taskService.list(projectID);
+    }
+
     @GetMapping("/tasks/{name}")
     public Task findTask(@PathVariable String name) {
         return taskService.findExactMatch(name);
