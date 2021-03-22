@@ -28,7 +28,7 @@ public final class UserRepository implements IUserRepository {
              Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery((FIND_ALL_SQL))) {
                 while (resultSet.next()) {
-                    list.add(userExtraction(resultSet).get());
+                    list.add(userExtraction(resultSet));
                 }
             }
         } catch (SQLException throwables) {
@@ -47,7 +47,7 @@ public final class UserRepository implements IUserRepository {
             statement.setLong(1, userID);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
-                user = userExtraction(resultSet).get();
+                user = userExtraction(resultSet);
             }
         } catch (SQLException throwables) {
             log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
@@ -56,14 +56,15 @@ public final class UserRepository implements IUserRepository {
         return Optional.of(user);
     }
 
-    private Optional<User> userExtraction(ResultSet resultSet) throws SQLException {
+    private User userExtraction(ResultSet resultSet) throws SQLException {
         User user = new User(
                 AccessRoles.valueOf(resultSet.getString("accessRoles")),
                 resultSet.getLong("userID"),
                 resultSet.getString("userName"),
                 resultSet.getString("passwordHash")
         );
-        return Optional.of(user);
+        user = Optional.of(user).get();
+        return user;
     }
 
     @NotNull

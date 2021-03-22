@@ -9,9 +9,11 @@ import java.util.Optional;
 public interface ITaskRepository {
     @NotNull List<Task> findAll();
 
-    List<Task> findAll(long projectID);
+    List<Task> findAllTasks(long projectID);
 
     @NotNull Optional<Task> findOne(@NotNull final String name);
+
+    @NotNull List<Task> taskSearch(@NotNull final String word);
 
     void save(@NotNull final Task entity);
 
@@ -20,5 +22,4 @@ public interface ITaskRepository {
     void remove(@NotNull final String name);
 
     void removeAll();
-
 }

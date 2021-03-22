@@ -34,64 +34,9 @@ public final class ProjectRepository implements IProjectRepository {
         return userService.getCurrentUser();
     }
 
-    @NotNull
-    public List<Project> findAll() {
-        ArrayList<Project> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement
-                     = connection.prepareStatement(FIND_ALL_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(projectExtraction(resultSet).get());
-                }
-            }
-
-        } catch (SQLException throwables) {
-            log.error("FindAll exception " + this.getClass().getSimpleName(), throwables);
-            throw new RepositoryException("FindAll", this.getClass().getSimpleName(), throwables);
-        }
-        return list;
-    }
-
-    @NotNull
-    public Optional<Project> findOne(@NotNull final String name) {
-        Project project;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(FIND_ONE_SQL)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                project = projectExtraction(resultSet).get();
-            }
-
-        } catch (SQLException throwables) {
-            log.error("FindOne exception " + this.getClass().getSimpleName(), throwables);
-            throw new RepositoryException("FindOne", this.getClass().getName(), throwables);
-        }
-        return Optional.of(project);
-    }
-
-    @NotNull
-    private Optional<Project> projectExtraction(ResultSet resultSet) throws SQLException {
-        Project project = new Project(
-                resultSet.getLong("projectID"),
-                resultSet.getLong("userID"),
-                resultSet.getString("projectName"),
-                resultSet.getString("projectDescription"),
-                resultSet.getDate("startDate"),
-                resultSet.getDate("finishDate"),
-                Status.valueOf(resultSet.getString("projectStatus")),
-                resultSet.getDate("creationDate")
-        );
-        return Optional.of(project);
-    }
-
     public void save(@NotNull final Project project) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(SAVE_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
             statement.setLong(1, project.getProjectID());
             statement.setLong(2, project.getUserID());
             statement.setString(3, project.getProjectName());
@@ -107,10 +52,97 @@ public final class ProjectRepository implements IProjectRepository {
         }
     }
 
+    @NotNull
+    public List<Project> findAll() {
+        ArrayList<Project> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL)) {
+            statement.setLong(1, currentUser().getUserID());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    list.add(projectExtraction(resultSet));
+                }
+            }
+        } catch (SQLException throwables) {
+            log.error("FindAll exception " + this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("FindAll", this.getClass().getSimpleName(), throwables);
+        }
+        return list;
+    }
+
+    @NotNull
+    public Optional<Project> findOne(@NotNull final String name) {
+        Project project;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
+            statement.setString(1, name);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                project = projectExtraction(resultSet);
+            }
+        } catch (SQLException throwables) {
+            log.error("FindOne exception " + this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("FindOne", this.getClass().getName(), throwables);
+        }
+        return Optional.of(project);
+    }
+
+    @NotNull
+    public List<Project> projectSearch(@NotNull final String word) {
+        ArrayList<Project> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(PROJECT_SEARCH_SQL)) {
+            statement.setString(1, word);
+            statement.setString(2, word);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    list.add(projectExtraction(resultSet));
+                }
+            }
+
+        } catch (SQLException throwables) {
+            log.error("ProjectSearch exception " + this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("ProjectSearch", this.getClass().getSimpleName(), throwables);
+        }
+        return list;
+    }
+
+    @NotNull
+    private Project projectExtraction(ResultSet resultSet) throws SQLException {
+        Project project = new Project(
+                resultSet.getLong("projectID"),
+                resultSet.getLong("userID"),
+                resultSet.getString("projectName"),
+                resultSet.getString("projectDescription"),
+                resultSet.getDate("startDate"),
+                resultSet.getDate("finishDate"),
+                Status.valueOf(resultSet.getString("projectStatus")),
+                resultSet.getDate("creationDate")
+        );
+        return Optional.of(project).get();
+    }
+
+    @NotNull
+    public Project findByID(final long projectID) {
+        Project project;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+            statement.setLong(1, projectID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                project = projectExtraction(resultSet);
+            }
+
+        } catch (SQLException throwables) {
+            log.error("FindByID exception " + this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("FindByID", this.getClass().getName(), throwables);
+        }
+        return Optional.of(project).get();
+    }
+
     public void update(@NotNull final Project project) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(UPDATE_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, project.getProjectName());
             statement.setString(2, project.getProjectDescription());
             statement.setString(3, String.valueOf(project.getStartDate()));
@@ -127,8 +159,7 @@ public final class ProjectRepository implements IProjectRepository {
 
     public void remove(@NotNull final String name) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(REMOVE_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -139,8 +170,7 @@ public final class ProjectRepository implements IProjectRepository {
 
     public void removeAll() {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(REMOVE_ALL_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(REMOVE_ALL_SQL)) {
             statement.setLong(1, currentUser().getUserID());
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -156,4 +186,7 @@ public final class ProjectRepository implements IProjectRepository {
             "startDate = ?, finishDate = ?, status = ?, creationDate = ? WHERE projectID = ?";
     final static String REMOVE_SQL = "DELETE FROM projects WHERE projectName = ?";
     final static String REMOVE_ALL_SQL = "DELETE FROM projects WHERE userID = ?";
+    final static String PROJECT_SEARCH_SQL = "SELECT * FROM projects " +
+            "WHERE projectName LIKE '%?%' OR projectDescription LIKE '%?%'";
+    final static String FIND_BY_ID = "SELECT * FROM projects WHERE projectID = ?";
 }

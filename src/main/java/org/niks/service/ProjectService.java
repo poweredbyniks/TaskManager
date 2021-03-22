@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public final class ProjectService implements IProjectService {
@@ -37,10 +36,8 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> list(@NotNull final ProjectSort order) {
-        final List<Project> projectList = projectList();
-        projectList.sort(order.getProjectComparator());
-        return projectList;
+    public Project findByID(final long projectID) {
+        return projectRepository.findByID(projectID);
     }
 
     public void remove(@NotNull final String projectToRemove) {
@@ -52,13 +49,8 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> projectSearch(@NotNull final String source) {
-        final List<Project> projectList = projectList();
-        return projectList
-                .stream()
-                .filter(project -> project.getProjectName().toLowerCase().contains(source.toLowerCase()) ||
-                        project.getProjectDescription().toLowerCase().contains(source.toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Project> projectSearch(@NotNull final String word) {
+        return projectRepository.projectSearch(word);
     }
 
     public Project findExactMatch(@NotNull final String name) {

@@ -35,8 +35,13 @@ public class TaskController {
         return taskService.list(projectID);
     }
 
+    @GetMapping("/tasks/{word}")
+    public List<Task> findTask(@PathVariable String word) {
+        return taskService.taskSearch(word);
+    }
+
     @GetMapping("/tasks/{name}")
-    public Task findTask(@PathVariable String name) {
+    public Task findTaskByWord(@PathVariable String name) {
         return taskService.findExactMatch(name);
     }
 

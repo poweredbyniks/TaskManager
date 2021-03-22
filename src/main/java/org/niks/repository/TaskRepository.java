@@ -42,7 +42,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setLong(1, currentUser().getUserID());
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    list.add(taskExtraction(resultSet).get());
+                    list.add(taskExtraction(resultSet));
                 }
             }
         } catch (SQLException throwables) {
@@ -53,21 +53,21 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     @NotNull
-    public List<Task> findAll(final long projectID) {
+    public List<Task> findAllTasks(final long projectID) {
         ArrayList<Task> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PROJECT_ID_SQL)) {
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_TASKS_BY_PROJECT_ID_SQL)) {
             statement.setLong(1, currentUser().getUserID());
             statement.setLong(2, projectID);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    list.add(taskExtraction(resultSet).get());
+                    list.add(taskExtraction(resultSet));
                 }
             }
         } catch (SQLException throwables) {
-            log.atError().log("FindAllInProject exception " +
+            log.atError().log("FindAllTasksInProject exception " +
                     this.getClass().getSimpleName(), new Exception(throwables));
-            throw new RepositoryException("FindAllInProject", this.getClass().getSimpleName(), throwables);
+            throw new RepositoryException("FindAllTasksInProject", this.getClass().getSimpleName(), throwables);
         }
         return list;
     }
@@ -80,7 +80,7 @@ public final class TaskRepository implements ITaskRepository {
             statement.setString(1, name);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
-                task = taskExtraction(resultSet).get();
+                task = taskExtraction(resultSet);
             }
         } catch (SQLException throwables) {
             log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
@@ -90,7 +90,27 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     @NotNull
-    private Optional<Task> taskExtraction(@NotNull final ResultSet resultSet) throws SQLException {
+    public List<Task> taskSearch(final @NotNull String word) {
+        ArrayList<Task> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(TASK_SEARCH_SQL)) {
+            statement.setString(1, word);
+            statement.setString(2, word);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    list.add(taskExtraction(resultSet));
+                }
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("TaskSearch exception " +
+                    this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("TaskSearch", this.getClass().getSimpleName(), throwables);
+        }
+        return list;
+    }
+
+    @NotNull
+    private Task taskExtraction(@NotNull final ResultSet resultSet) throws SQLException {
         Task task = new Task(
                 resultSet.getLong("taskID"),
                 resultSet.getLong("userID"),
@@ -103,7 +123,8 @@ public final class TaskRepository implements ITaskRepository {
                 Status.valueOf(resultSet.getString("taskStatus")),
                 resultSet.getDate("creationDate")
         );
-        return Optional.of(task);
+        task = Optional.of(task).get();
+        return task;
     }
 
     public void save(@NotNull final Task task) {
@@ -164,7 +185,7 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     static final String FIND_ALL_SQL = "SELECT * FROM projects WHERE userID = ?";
-    static final String FIND_ALL_PROJECT_ID_SQL = "SELECT * FROM projects WHERE userID = ? AND projectID = ?";
+    static final String FIND_ALL_TASKS_BY_PROJECT_ID_SQL = "SELECT * FROM projects WHERE userID = ? AND projectID = ?";
     static final String FIND_ONE_SQL = "SELECT * FROM task WHERE taskName = ?";
     static final String SAVE_SQL = "INSERT INTO projects VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     static final String UPDATE_SQL = "UPDATE tasks SET taskName = ?, projectName = ?" +
@@ -172,4 +193,6 @@ public final class TaskRepository implements ITaskRepository {
             "WHERE taskID = ?";
     static final String REMOVE_SQL = "DELETE FROM tasks WHERE taskName = ?";
     static final String REMOVE_ALL_SQL = "DELETE FROM tasks WHERE userID = ?";
+    final static String TASK_SEARCH_SQL = "SELECT * FROM tasks " +
+            "WHERE taskName LIKE '%?%' OR taskDescription LIKE '%?%'";
 }

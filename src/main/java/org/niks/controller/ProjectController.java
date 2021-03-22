@@ -5,9 +5,7 @@ import org.niks.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -29,39 +27,33 @@ public class ProjectController {
 
     @GetMapping("/projects")
     public List<Project> list(@RequestParam(value = "order", required = false) String order) {
-        try {
-            return projectService.list(order);
-        } catch (SQLException throwables) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Projects not found", throwables);
-        }
+        return projectService.list(order);
+    }
+
+    @GetMapping("/projects/{projectID}")
+    public Project findByID(@PathVariable long projectID) {
+        return projectService.findByID(projectID);
     }
 
     @GetMapping("/projects/{name}")
     public Project findProject(@PathVariable String name) {
-        try {
-            return projectService.findExactMatch(name);
-        } catch (SQLException throwables) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found", throwables);
-        }
+        return projectService.findExactMatch(name);
+    }
+
+    @GetMapping("/projects/{word}")
+    public List<Project> findProjectByWord(@PathVariable String word) {
+        return projectService.projectSearch(word);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("projects")
     public void update(@RequestBody Project project) {
-        try {
-            projectService.update(project);
-        } catch (SQLException throwables){
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Project update failed", throwables);
-        }
+        projectService.update(project);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/projects/{name}")
     public void remove(@PathVariable String name) {
-        try {
-            projectService.remove(name);
-        } catch (SQLException throwables){
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Project remove failed", throwables);
-        }
+        projectService.remove(name);
     }
 }
