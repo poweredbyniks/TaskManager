@@ -1,7 +1,7 @@
-#Task manager
+# Task manager
 A Simple app for managing your tasks with opportunity to create projects.
 
-#Built with
+# Built with
 * Spring Boot
 * Maven
 * PostgreSQL 
