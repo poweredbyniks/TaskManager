@@ -1,24 +1,28 @@
 package org.niks.service;
 
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.niks.AccessRoles;
 import org.niks.entity.User;
 import org.niks.repository.IUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-@RequiredArgsConstructor
+@Service
 public final class UserService implements IUserService {
+
     private final IUserRepository userRepository;
     private User currentUser;
     public static final String USER_SALT = "i(el@ku38SBFLW!kKm?h";
+
+    @Autowired
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Nullable
     public User getCurrentUser() {
@@ -29,13 +33,13 @@ public final class UserService implements IUserService {
         this.currentUser = currentUser;
     }
 
-    public boolean create(@NotNull final String userName, @NotNull final String password) throws IOException {
-        final User user = new User(AccessRoles.USER, userID(), userName, hash(password));
-        return userRepository.save(user);
+    public void create(@NotNull final User user) {
+        userRepository.save(user);
     }
 
     @Nullable
-    public User userVerify(@NotNull final String userName, @NotNull final String password) throws NoSuchElementException {
+    public User userVerify(@NotNull final String userName,
+                           @NotNull final String password) throws NoSuchElementException {
         User user = null;
         if ((userRepository.findOne(userName).isPresent())) {
             if (hash(password).equals(userRepository.findOne(userName).get().getPasswordHash())) {
@@ -45,27 +49,22 @@ public final class UserService implements IUserService {
         return user;
     }
 
-    @NotNull
-    public User userInfo() {
-        return getCurrentUser();
+    @Nullable
+    public User userInfo(final long userID) {
+        User user = null;
+        if (userRepository.findByID(userID).isPresent()) {
+            user = userRepository.findByID(userID).get();
+        }
+        return user;
     }
 
-    public void userNameEdit(@NotNull final String newUserName) {
-        userRepository.userNameUpdate(newUserName, currentUser);
-    }
-
-    public void passwordEdit(@NotNull final String newPassword) {
+    public void passwordEdit(final long userID, @NotNull final String newPassword) {
         final String hashPassword = hash(newPassword);
-        userRepository.passwordUpdate(hashPassword, currentUser);
-    }
-
-    public final long userID() {
-        final List<User> users = userRepository.findAll();
-        return users.get(users.size() - 1).getUserID() + 1;
+        userRepository.passwordUpdate(hashPassword, currentUser.getUserID());
     }
 
     @NotNull
-    public static String hash(@NotNull final String password) {
+    private static String hash(@NotNull final String password) {
         String hashPassword = "";
         try {
             final MessageDigest md = MessageDigest.getInstance("SHA-512");

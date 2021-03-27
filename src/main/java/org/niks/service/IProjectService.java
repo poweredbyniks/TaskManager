@@ -2,10 +2,8 @@ package org.niks.service;
 
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.ProjectSort;
 import org.niks.entity.Project;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface IProjectService {
@@ -15,7 +13,10 @@ public interface IProjectService {
     List<Project> list();
 
     @NotNull
-    List<Project> list(ProjectSort order);
+    List<Project> list(@NotNull final String order);
+
+    @NotNull
+    Project findByID(final long projectID);
 
     void remove(@NotNull final String projectToRemove);
 
@@ -26,7 +27,6 @@ public interface IProjectService {
 
     Project findExactMatch(@NotNull final String name);
 
-    void update(Project project);
+    void update(@NotNull final Project project);
 
-    void serialize() throws IOException;
 }

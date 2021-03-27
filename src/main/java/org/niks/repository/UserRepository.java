@@ -1,69 +1,140 @@
 package org.niks.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.niks.AccessRoles;
+import org.niks.enums.AccessRoles;
 import org.niks.entity.User;
+import org.niks.exception.RepositoryException;
+import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.IOException;
+import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public final class UserRepository extends Serialization<User> implements IUserRepository {
-    private final Map<String, User> userMap = readJSON().stream().collect(Collectors.toMap(User::getUserName, user -> user));
+@Slf4j
+@Repository
+public final class UserRepository implements IUserRepository {
+
+    private final HikariDataSource dataSource;
+
+    public UserRepository(HikariDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @NotNull
     public List<User> findAll() {
-        return new ArrayList<>(userMap.values());
-    }
-
-    @NotNull
-    public Optional<User> findOne(@NotNull final String name) throws NoSuchElementException {
-        return Optional.ofNullable(userMap.get(name));
-    }
-
-    public boolean save(@NotNull final User user) throws IOException {
-        if (!userMap.containsKey(user.getUserName())) {
-            userMap.put(user.getUserName(), user);
-            writeJSON(userMap, FilePath.USER_FILE_PATH);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public List<User> readJSON() {
-        List<User> list = new ArrayList<>();
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            list = Arrays.asList(mapper.readValue(new File(FilePath.USER_FILE_PATH), User[].class));
-        } catch (IOException e) {
-            System.out.println("No user data found");
+        ArrayList<User> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery((FIND_ALL_SQL))) {
+                    while (resultSet.next()) {
+                        list.add(userExtraction(resultSet));
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("FindAll exception " + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("FindAll", this.getClass().getSimpleName(), throwables);
         }
         return list;
     }
 
-    public boolean userNameUpdate(@NotNull final String newUserName, @NotNull final User user) {
-        final User userNameUpdateUser = new User(AccessRoles.USER, user.getUserID(), newUserName, user.getPasswordHash());
-        userMap.remove(user.getUserName());
-        userMap.put(userNameUpdateUser.getUserName(), userNameUpdateUser);
-        return true;
+    @NotNull
+    public Optional<User> findByID(final long userID) {
+        User user;
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+                statement.setLong(1, userID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    user = userExtraction(resultSet);
+                }
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("FindByID", this.getClass().getSimpleName(), throwables);
+        }
+        return Optional.of(user);
     }
 
-    public boolean passwordUpdate(@NotNull final String password, @NotNull final User user) {
-        final User passwordUpdateUser = new User(AccessRoles.USER, user.getUserID(), user.getUserName(), password);
-        userMap.remove(user.getUserName());
-        userMap.put(passwordUpdateUser.getUserName(), passwordUpdateUser);
-        return true;
+    private User userExtraction(ResultSet resultSet) throws SQLException {
+        User user = new User(
+                AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                resultSet.getLong("userID"),
+                resultSet.getString("userName"),
+                resultSet.getString("passwordHash")
+        );
+        user = Optional.of(user).get();
+        return user;
+    }
+
+    @NotNull
+    public Optional<User> findOne(@NotNull final String name) {
+        User user;
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
+                statement.setString(1, name);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    user = new User(
+                            AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                            resultSet.getLong("userID"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("passwordHash")
+                    );
+                }
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("FindOne", this.getClass().getSimpleName(), throwables);
+        }
+        return Optional.of(user);
+    }
+
+    public void save(@NotNull final User user) {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
+                statement.setString(1, String.valueOf(user.getAccessRoles()));
+                statement.setLong(2, user.getUserID());
+                statement.setString(3, user.getUserName());
+                statement.setString(4, user.getPasswordHash());
+                statement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("Save exception " + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("Save", this.getClass().getSimpleName(), throwables);
+        }
+    }
+
+    public void passwordUpdate(@NotNull final String password, final long userID) {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(PASSWORD_UPDATE_SQL)) {
+                statement.setString(1, password);
+                statement.setLong(2, userID);
+                statement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("PasswordUpdate exception" + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("PasswordUpdate", this.getClass().getSimpleName(), throwables);
+        }
     }
 
     public void remove(@NotNull final String name) {
-        userMap.remove(name);
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            log.atError().log("Remove exception " + this.getClass().getSimpleName(), new Exception(throwables));
+            throw new RepositoryException("Remove", this.getClass().getSimpleName(), throwables);
+        }
     }
 
-    public void removeAll() {
-        userMap.clear();
-    }
+    static final String FIND_ALL_SQL = "SELECT * FROM users";
+    static final String FIND_BY_ID_SQL = "SELECT * FROM users WHERE userID = ?";
+    static final String FIND_ONE_SQL = "SELECT * FROM users WHERE userName = ?";
+    static final String SAVE_SQL = "INSERT INTO users VALUES (?, ?, ?, ?)";
+    static final String PASSWORD_UPDATE_SQL = "UPDATE users SET passwordHash = ? WHERE userID = ?";
+    static final String REMOVE_SQL = "DELETE FROM users WHERE projectName = ?";
 }

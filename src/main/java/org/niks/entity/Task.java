@@ -8,10 +8,9 @@ import lombok.*;
 import java.util.Date;
 
 @Value
-
 public class Task {
-    long userID;
     long taskID;
+    long userID;
     long projectID;
     String taskName;
     String projectName;

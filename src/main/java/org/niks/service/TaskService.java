@@ -1,21 +1,24 @@
 package org.niks.service;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.niks.TaskSort;
-import org.niks.entity.Project;
+import org.niks.enums.TaskSort;
 import org.niks.entity.Task;
-import org.niks.repository.IProjectRepository;
 import org.niks.repository.ITaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@Service
 public final class TaskService implements ITaskService {
+
     private final ITaskRepository taskRepository;
-    private final IProjectRepository projectRepository;
+
+
+    @Autowired
+    public TaskService(ITaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public void create(@NotNull final Task task) {
         taskRepository.save(task);
@@ -31,10 +34,8 @@ public final class TaskService implements ITaskService {
         return taskList;
     }
 
-    public @NotNull List<Task> list(@NotNull final TaskSort order) {
-        final List<Task> taskList = taskList();
-        taskList.sort(order.getTaskComparator());
-        return taskList;
+    public @NotNull List<Task> list(final long projectID) {
+        return taskRepository.findAllTasks(projectID);
     }
 
     public void remove(@NotNull final String taskToRemove) {
@@ -46,18 +47,8 @@ public final class TaskService implements ITaskService {
     }
 
     @NotNull
-    public List<Task> taskSearch(@NotNull final String source) {
-        final List<Task> taskList = taskList();
-        return taskList
-                .stream()
-                .filter(task -> task.getTaskName().toLowerCase().contains(source.toLowerCase()) ||
-                        task.getTaskDescription().toLowerCase().contains(source.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    @NotNull
-    public List<Project> projectList() {
-        return projectRepository.findAll();
+    public List<Task> taskSearch(@NotNull final String word) {
+        return taskRepository.taskSearch(word);
     }
 
     @NotNull
@@ -73,7 +64,7 @@ public final class TaskService implements ITaskService {
         return task;
     }
 
-    public void serialize() throws IOException {
-        taskRepository.serialize();
+    public void update(@NotNull final Task task) {
+        taskRepository.update(task);
     }
 }
