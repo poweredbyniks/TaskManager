@@ -49,11 +49,6 @@
             <version>2.12.0</version>
         </dependency>
         <dependency>
-<<<<<<< HEAD
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.12.1</version>
-=======
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.19</version>
@@ -62,7 +57,6 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>4.0.2</version>
->>>>>>> dev
         </dependency>
     </dependencies>
 

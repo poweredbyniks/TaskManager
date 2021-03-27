@@ -21,20 +21,12 @@ import java.util.*;
 public final class TaskRepository implements ITaskRepository {
 
     private final IUserService userService;
-<<<<<<< HEAD
-
-    private final Map<String, Task> taskMap = readJSON().stream().collect(Collectors.toMap(Task::getTaskName, task -> task));
-
-    public TaskRepository(IUserService userService) {
-        this.userService = userService;
-=======
     private final HikariDataSource dataSource;
 
     @Autowired
     public TaskRepository(IUserService userService, HikariDataSource dataSource) {
         this.userService = userService;
         this.dataSource = dataSource;
->>>>>>> dev
     }
 
     @Nullable

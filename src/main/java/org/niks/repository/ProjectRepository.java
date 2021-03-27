@@ -1,11 +1,7 @@
 package org.niks.repository;
 
-<<<<<<< HEAD
-import com.fasterxml.jackson.databind.ObjectMapper;
-=======
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
->>>>>>> dev
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.niks.entity.Project;
