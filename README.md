@@ -5,4 +5,4 @@ A Simple app for managing your tasks with opportunity to create projects.
 * Spring Boot
 * Maven
 * PostgreSQL 
-
+* JDBC
