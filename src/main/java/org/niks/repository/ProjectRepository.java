@@ -35,17 +35,18 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     public void save(@NotNull final Project project) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
-            statement.setLong(1, project.getProjectID());
-            statement.setLong(2, project.getUserID());
-            statement.setString(3, project.getProjectName());
-            statement.setString(4, project.getProjectDescription());
-            statement.setDate(5, (Date) project.getStartDate());
-            statement.setDate(6, (Date) project.getFinishDate());
-            statement.setString(7, project.getProjectStatus().toString());
-            statement.setDate(8, (Date) project.getCreationDate());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
+                statement.setLong(1, project.getProjectID());
+                statement.setLong(2, project.getUserID());
+                statement.setString(3, project.getProjectName());
+                statement.setString(4, project.getProjectDescription());
+                statement.setDate(5, (Date) project.getStartDate());
+                statement.setDate(6, (Date) project.getFinishDate());
+                statement.setString(7, project.getProjectStatus().toString());
+                statement.setDate(8, (Date) project.getCreationDate());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.error("Save exception " + this.getClass().getSimpleName(), throwables);
             throw new RepositoryException("Save", this.getClass().getName(), throwables);
@@ -55,12 +56,13 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public List<Project> findAll() {
         ArrayList<Project> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(projectExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL)) {
+                statement.setLong(1, currentUser().getUserID());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        list.add(projectExtraction(resultSet));
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -73,12 +75,13 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public Optional<Project> findOne(@NotNull final String name) {
         Project project;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                project = projectExtraction(resultSet);
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
+                statement.setString(1, name);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    project = projectExtraction(resultSet);
+                }
             }
         } catch (SQLException throwables) {
             log.error("FindOne exception " + this.getClass().getSimpleName(), throwables);
@@ -90,16 +93,16 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public List<Project> projectSearch(@NotNull final String word) {
         ArrayList<Project> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(PROJECT_SEARCH_SQL)) {
-            statement.setString(1, word);
-            statement.setString(2, word);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(projectExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(PROJECT_SEARCH_SQL)) {
+                statement.setString(1, word);
+                statement.setString(2, word);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        list.add(projectExtraction(resultSet));
+                    }
                 }
             }
-
         } catch (SQLException throwables) {
             log.error("ProjectSearch exception " + this.getClass().getSimpleName(), throwables);
             throw new RepositoryException("ProjectSearch", this.getClass().getSimpleName(), throwables);
@@ -125,14 +128,14 @@ public final class ProjectRepository implements IProjectRepository {
     @NotNull
     public Project findByID(final long projectID) {
         Project project;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
-            statement.setLong(1, projectID);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                project = projectExtraction(resultSet);
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+                statement.setLong(1, projectID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    project = projectExtraction(resultSet);
+                }
             }
-
         } catch (SQLException throwables) {
             log.error("FindByID exception " + this.getClass().getSimpleName(), throwables);
             throw new RepositoryException("FindByID", this.getClass().getName(), throwables);
@@ -141,16 +144,17 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     public void update(@NotNull final Project project) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
-            statement.setString(1, project.getProjectName());
-            statement.setString(2, project.getProjectDescription());
-            statement.setString(3, String.valueOf(project.getStartDate()));
-            statement.setString(4, String.valueOf(project.getFinishDate()));
-            statement.setString(5, String.valueOf(project.getProjectStatus()));
-            statement.setString(6, String.valueOf(project.getCreationDate()));
-            statement.setLong(7, project.getProjectID());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+                statement.setString(1, project.getProjectName());
+                statement.setString(2, project.getProjectDescription());
+                statement.setString(3, String.valueOf(project.getStartDate()));
+                statement.setString(4, String.valueOf(project.getFinishDate()));
+                statement.setString(5, String.valueOf(project.getProjectStatus()));
+                statement.setString(6, String.valueOf(project.getCreationDate()));
+                statement.setLong(7, project.getProjectID());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.error("Update exception " + this.getClass().getSimpleName(), throwables);
             throw new RepositoryException("Update", this.getClass().getName(), throwables);
@@ -158,10 +162,11 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     public void remove(@NotNull final String name) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
-            statement.setString(1, name);
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.error("Remove exception " + this.getClass().getSimpleName(), throwables);
             throw new RepositoryException("Remove", this.getClass().getName(), throwables);
@@ -169,10 +174,11 @@ public final class ProjectRepository implements IProjectRepository {
     }
 
     public void removeAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REMOVE_ALL_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_ALL_SQL)) {
+                statement.setLong(1, currentUser().getUserID());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.error("RemoveAll exception " + this.getClass().getSimpleName(), new Exception(throwables));
             throw new RepositoryException("RemoveAll", this.getClass().getName(), throwables);

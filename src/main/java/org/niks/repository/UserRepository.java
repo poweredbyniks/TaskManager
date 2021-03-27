@@ -24,11 +24,12 @@ public final class UserRepository implements IUserRepository {
     @NotNull
     public List<User> findAll() {
         ArrayList<User> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
-            try (ResultSet resultSet = statement.executeQuery((FIND_ALL_SQL))) {
-                while (resultSet.next()) {
-                    list.add(userExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery((FIND_ALL_SQL))) {
+                    while (resultSet.next()) {
+                        list.add(userExtraction(resultSet));
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -41,13 +42,13 @@ public final class UserRepository implements IUserRepository {
     @NotNull
     public Optional<User> findByID(final long userID) {
         User user;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(FIND_BY_ID_SQL)) {
-            statement.setLong(1, userID);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                user = userExtraction(resultSet);
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+                statement.setLong(1, userID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    user = userExtraction(resultSet);
+                }
             }
         } catch (SQLException throwables) {
             log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
@@ -70,18 +71,18 @@ public final class UserRepository implements IUserRepository {
     @NotNull
     public Optional<User> findOne(@NotNull final String name) {
         User user;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(FIND_ONE_SQL)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                user = new User(
-                        AccessRoles.valueOf(resultSet.getString("accessRoles")),
-                        resultSet.getLong("userID"),
-                        resultSet.getString("userName"),
-                        resultSet.getString("passwordHash")
-                );
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
+                statement.setString(1, name);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    user = new User(
+                            AccessRoles.valueOf(resultSet.getString("accessRoles")),
+                            resultSet.getLong("userID"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("passwordHash")
+                    );
+                }
             }
         } catch (SQLException throwables) {
             log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
@@ -92,13 +93,13 @@ public final class UserRepository implements IUserRepository {
 
     public void save(@NotNull final User user) {
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement =
-                    connection.prepareStatement(SAVE_SQL);
-            statement.setString(1, String.valueOf(user.getAccessRoles()));
-            statement.setLong(2, user.getUserID());
-            statement.setString(3, user.getUserName());
-            statement.setString(4, user.getPasswordHash());
-            statement.executeUpdate();
+            try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
+                statement.setString(1, String.valueOf(user.getAccessRoles()));
+                statement.setLong(2, user.getUserID());
+                statement.setString(3, user.getUserName());
+                statement.setString(4, user.getPasswordHash());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("Save exception " + this.getClass().getSimpleName(), new Exception(throwables));
             throw new RepositoryException("Save", this.getClass().getSimpleName(), throwables);
@@ -106,12 +107,12 @@ public final class UserRepository implements IUserRepository {
     }
 
     public void passwordUpdate(@NotNull final String password, final long userID) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(PASSWORD_UPDATE_SQL)) {
-
-            statement.setString(1, password);
-            statement.setLong(2, userID);
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(PASSWORD_UPDATE_SQL)) {
+                statement.setString(1, password);
+                statement.setLong(2, userID);
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("PasswordUpdate exception" + this.getClass().getSimpleName(), new Exception(throwables));
             throw new RepositoryException("PasswordUpdate", this.getClass().getSimpleName(), throwables);
@@ -119,10 +120,11 @@ public final class UserRepository implements IUserRepository {
     }
 
     public void remove(@NotNull final String name) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
-            statement.setString(1, name);
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("Remove exception " + this.getClass().getSimpleName(), new Exception(throwables));
             throw new RepositoryException("Remove", this.getClass().getSimpleName(), throwables);
@@ -135,5 +137,4 @@ public final class UserRepository implements IUserRepository {
     static final String SAVE_SQL = "INSERT INTO users VALUES (?, ?, ?, ?)";
     static final String PASSWORD_UPDATE_SQL = "UPDATE users SET passwordHash = ? WHERE userID = ?";
     static final String REMOVE_SQL = "DELETE FROM users WHERE projectName = ?";
-
 }

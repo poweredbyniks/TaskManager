@@ -37,12 +37,13 @@ public final class TaskRepository implements ITaskRepository {
     @NotNull
     public List<Task> findAll() {
         ArrayList<Task> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(taskExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_SQL)) {
+                statement.setLong(1, currentUser().getUserID());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        list.add(taskExtraction(resultSet));
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -55,13 +56,14 @@ public final class TaskRepository implements ITaskRepository {
     @NotNull
     public List<Task> findAllTasks(final long projectID) {
         ArrayList<Task> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_TASKS_BY_PROJECT_ID_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            statement.setLong(2, projectID);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(taskExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_TASKS_BY_PROJECT_ID_SQL)) {
+                statement.setLong(1, currentUser().getUserID());
+                statement.setLong(2, projectID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        list.add(taskExtraction(resultSet));
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -75,12 +77,13 @@ public final class TaskRepository implements ITaskRepository {
     @NotNull
     public Optional<Task> findOne(@NotNull final String name) {
         Task task;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                task = taskExtraction(resultSet);
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(FIND_ONE_SQL)) {
+                statement.setString(1, name);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    task = taskExtraction(resultSet);
+                }
             }
         } catch (SQLException throwables) {
             log.atError().log("FindOne exception " + this.getClass().getSimpleName(), new Exception(throwables));
@@ -92,13 +95,14 @@ public final class TaskRepository implements ITaskRepository {
     @NotNull
     public List<Task> taskSearch(final @NotNull String word) {
         ArrayList<Task> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TASK_SEARCH_SQL)) {
-            statement.setString(1, word);
-            statement.setString(2, word);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    list.add(taskExtraction(resultSet));
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(TASK_SEARCH_SQL)) {
+                statement.setString(1, word);
+                statement.setString(2, word);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        list.add(taskExtraction(resultSet));
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -128,19 +132,20 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void save(@NotNull final Task task) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
-            statement.setLong(1, task.getTaskID());
-            statement.setLong(2, task.getUserID());
-            statement.setLong(3, task.getProjectID());
-            statement.setString(4, task.getTaskName());
-            statement.setString(5, task.getProjectName());
-            statement.setString(6, task.getTaskDescription());
-            statement.setDate(7, (Date) task.getStartDate());
-            statement.setDate(8, (Date) task.getFinishDate());
-            statement.setString(9, task.getTaskStatus().toString());
-            statement.setDate(10, (Date) task.getCreationDate());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
+                statement.setLong(1, task.getTaskID());
+                statement.setLong(2, task.getUserID());
+                statement.setLong(3, task.getProjectID());
+                statement.setString(4, task.getTaskName());
+                statement.setString(5, task.getProjectName());
+                statement.setString(6, task.getTaskDescription());
+                statement.setDate(7, (Date) task.getStartDate());
+                statement.setDate(8, (Date) task.getFinishDate());
+                statement.setString(9, task.getTaskStatus().toString());
+                statement.setDate(10, (Date) task.getCreationDate());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("Save exception " + this.getClass().getSimpleName(), new Exception(throwables));
             throw new RepositoryException("Save ", this.getClass().getSimpleName(), throwables);
@@ -148,37 +153,40 @@ public final class TaskRepository implements ITaskRepository {
     }
 
     public void update(@NotNull final Task task) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
-            statement.setString(1, task.getTaskName());
-            statement.setString(2, task.getProjectName());
-            statement.setString(3, task.getTaskDescription());
-            statement.setDate(4, (Date) task.getStartDate());
-            statement.setDate(5, (Date) task.getFinishDate());
-            statement.setString(6, String.valueOf(task.getTaskStatus()));
-            statement.setDate(7, (Date) task.getCreationDate());
-            statement.setLong(8, task.getTaskID());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+                statement.setString(1, task.getTaskName());
+                statement.setString(2, task.getProjectName());
+                statement.setString(3, task.getTaskDescription());
+                statement.setDate(4, (Date) task.getStartDate());
+                statement.setDate(5, (Date) task.getFinishDate());
+                statement.setString(6, String.valueOf(task.getTaskStatus()));
+                statement.setDate(7, (Date) task.getCreationDate());
+                statement.setLong(8, task.getTaskID());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("Update exception " + this.getClass().getSimpleName(), new Exception(throwables));
         }
     }
 
     public void remove(@NotNull final String name) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
-            statement.setString(1, name);
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_SQL)) {
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("Remove exception " + this.getClass().getSimpleName(), new Exception(throwables));
         }
     }
 
     public void removeAll() {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REMOVE_ALL_SQL)) {
-            statement.setLong(1, currentUser().getUserID());
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(REMOVE_ALL_SQL)) {
+                statement.setLong(1, currentUser().getUserID());
+                statement.executeUpdate();
+            }
         } catch (SQLException throwables) {
             log.atError().log("RemoveAll exception " + this.getClass().getSimpleName(), new Exception(throwables));
         }
