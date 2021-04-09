@@ -31,18 +31,18 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{projectID}")
-    public List<Task> list(@PathVariable long projectID) {
+    public List<Task> list(@PathVariable Long projectID) {
         return taskService.list(projectID);
+    }
+
+    @GetMapping("/tasks/{taskID}")
+    public Task findByID(@PathVariable Long taskID) {
+        return taskService.findByID(taskID);
     }
 
     @GetMapping("/tasks/{word}")
     public List<Task> findTask(@PathVariable String word) {
         return taskService.taskSearch(word);
-    }
-
-    @GetMapping("/tasks/{name}")
-    public Task findTaskByWord(@PathVariable String name) {
-        return taskService.findExactMatch(name);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -52,8 +52,8 @@ public class TaskController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/tasks/{name}")
-    public void remove(@PathVariable String name) {
-        taskService.remove(name);
+    @DeleteMapping("/tasks/{ID}")
+    public void remove(@PathVariable Long ID) {
+        taskService.remove(ID);
     }
 }

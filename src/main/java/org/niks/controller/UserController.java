@@ -17,11 +17,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public User userVerify(@RequestHeader(value = "userName") final String userName,
-                           @RequestHeader(value = "password") final String password) {
-        return userService.userVerify(userName, password);
-    }
+//    @GetMapping("/user")
+//    public User userVerify(@RequestHeader(value = "userName") final String userName,
+//                           @RequestHeader(value = "password") final String password) {
+//        return userService.userVerify(userName, password);
+//    }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,6 +37,6 @@ public class UserController {
     @PostMapping("/users/account/password/{userID}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void passwordEdit(@PathVariable("userID") final long userID, @RequestBody final String newPassword) {
-        userService.passwordEdit(userID, newPassword);
+        userService.passwordEdit(newPassword, userID);
     }
 }

@@ -20,7 +20,6 @@ public class Task {
     @ManyToOne
     Project project;
     String taskName;
-    String projectName;
     String taskDescription;
     Date startDate;
     Date finishDate;

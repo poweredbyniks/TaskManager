@@ -37,7 +37,7 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public Project findByID(final Long projectId) {
+    public Project findByID(@NotNull  final Long projectId) {
                 return projectRepository.findById(projectId).orElseThrow(() ->
                         new RepositoryException("findByID", "ProjectRepository"));
     }
@@ -52,7 +52,7 @@ public final class ProjectService implements IProjectService {
 
     @NotNull
     public List<Project> projectSearch(@NotNull final String word) {
-        return projectRepository.findAllByProjectNameAndProjectDescription();
+        return projectRepository.findAllByProjectNameContainingAndAndProjectDescriptionContaining(word);
     }
 
     public void update(@NotNull final Project project) {

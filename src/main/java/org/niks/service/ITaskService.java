@@ -16,14 +16,15 @@ public interface ITaskService {
 
     @NotNull List<Task> list(final long projectID);
 
-    void remove(@NotNull final String taskToRemove);
+    @NotNull
+    Task findByID(@NotNull final Long taskID);
+
+    void remove(@NotNull final Long taskID);
 
     void clear();
 
     @NotNull
     List<Task> taskSearch(@NotNull final String source);
-
-    Task findExactMatch(@NotNull final String name);
 
     void update(@NotNull final Task task);
 

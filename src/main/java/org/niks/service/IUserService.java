@@ -6,19 +6,10 @@ import org.niks.entity.User;
 
 public interface IUserService {
 
-    @Nullable
-    User getCurrentUser();
-
-    void setCurrentUser(@Nullable final User currentUser);
-
     void create(@NotNull final User user);
 
     @Nullable
-    User userVerify(@NotNull final String userName, @NotNull final String password);
+    User userInfo(final Long userID);
 
-    @Nullable
-    User userInfo(final long userID);
-
-    void passwordEdit(final long userID, @NotNull final String newPassword);
-
+    void passwordEdit(@NotNull final String newPassword, @NotNull final Long userID);
 }

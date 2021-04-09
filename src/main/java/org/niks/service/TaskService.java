@@ -3,7 +3,8 @@ package org.niks.service;
 import org.jetbrains.annotations.NotNull;
 import org.niks.enums.TaskSort;
 import org.niks.entity.Task;
-import org.niks.repository.ITaskRepository;
+import org.niks.exception.RepositoryException;
+import org.niks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,10 @@ import java.util.List;
 @Service
 public final class TaskService implements ITaskService {
 
-    private final ITaskRepository taskRepository;
-
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskService(ITaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
@@ -34,21 +34,27 @@ public final class TaskService implements ITaskService {
         return taskList;
     }
 
-    public @NotNull List<Task> list(final long projectID) {
-        return taskRepository.findAllTasks(projectID);
+    @NotNull
+    public Task findByID(@NotNull final Long taskID) {
+        return taskRepository.findById(taskID).orElseThrow(() ->
+                new RepositoryException("findByID" , "TaskRepository"));
     }
 
-    public void remove(@NotNull final String taskToRemove) {
-        taskRepository.remove(taskToRemove);
+    public @NotNull List<Task> list(final long taskID) {
+        return taskRepository.findAllByProject(taskID);
+    }
+
+    public void remove(@NotNull final Long taskID) {
+        taskRepository.deleteById(taskID);
     }
 
     public void clear() {
-        taskRepository.removeAll();
+        taskRepository.deleteAll();
     }
 
     @NotNull
     public List<Task> taskSearch(@NotNull final String word) {
-        return taskRepository.taskSearch(word);
+        return taskRepository.findAllByTaskNameContainingAndTaskDescriptionContaining(word);
     }
 
     @NotNull
@@ -56,15 +62,8 @@ public final class TaskService implements ITaskService {
         return taskRepository.findAll();
     }
 
-    public Task findExactMatch(@NotNull final String name) {
-        Task task = null;
-        if (taskRepository.findOne(name).isPresent()) {
-            task = taskRepository.findOne(name).get();
-        }
-        return task;
-    }
-
     public void update(@NotNull final Task task) {
-        taskRepository.update(task);
+        taskRepository.update(task.getTaskName(), task.getTaskDescription(), task.getStartDate(),
+                task.getFinishDate(), task.getTaskStatus(), task.getTaskID());
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "projects")
@@ -25,4 +26,6 @@ public class Project {
     Date finishDate;
     Status projectStatus;
     Date creationDate;
+    @OneToMany
+    Set<Task> tasks;
 }
