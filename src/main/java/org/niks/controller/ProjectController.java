@@ -31,13 +31,8 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{projectID}")
-    public Project findByID(@PathVariable long projectID) {
+    public Project findByID(@PathVariable Long projectID) {
         return projectService.findByID(projectID);
-    }
-
-    @GetMapping("/projects/{name}")
-    public Project findProject(@PathVariable String name) {
-        return projectService.findExactMatch(name);
     }
 
     @GetMapping("/projects/{word}")
@@ -52,8 +47,8 @@ public class ProjectController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/projects/{name}")
-    public void remove(@PathVariable String name) {
-        projectService.remove(name);
+    @DeleteMapping("/projects/{projectID}")
+    public void remove(@PathVariable Long projectID) {
+        projectService.remove(projectID);
     }
 }

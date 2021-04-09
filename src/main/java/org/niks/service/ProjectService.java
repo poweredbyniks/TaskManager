@@ -3,7 +3,8 @@ package org.niks.service;
 import org.jetbrains.annotations.NotNull;
 import org.niks.enums.ProjectSort;
 import org.niks.entity.Project;
-import org.niks.repository.IProjectRepository;
+import org.niks.exception.RepositoryException;
+import org.niks.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import java.util.List;
 @Service
 public final class ProjectService implements IProjectService {
 
-    private final IProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
-    public ProjectService(IProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
@@ -36,33 +37,27 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public Project findByID(final long projectID) {
-        return projectRepository.findByID(projectID);
+    public Project findByID(final Long projectId) {
+                return projectRepository.findById(projectId).orElseThrow(() ->
+                        new RepositoryException("findByID", "ProjectRepository"));
     }
 
-    public void remove(@NotNull final String projectToRemove) {
-        projectRepository.remove(projectToRemove);
+    public void remove(@NotNull final Long projectId) {
+        projectRepository.deleteById(projectId);
     }
 
     public void clear() {
-        projectRepository.removeAll();
+        projectRepository.deleteAll();
     }
 
     @NotNull
     public List<Project> projectSearch(@NotNull final String word) {
-        return projectRepository.projectSearch(word);
-    }
-
-    public Project findExactMatch(@NotNull final String name) {
-        Project project = null;
-        if (projectRepository.findOne(name).isPresent()) {
-            project = projectRepository.findOne(name).get();
-        }
-        return project;
+        return projectRepository.findAllByProjectNameAndProjectDescription();
     }
 
     public void update(@NotNull final Project project) {
-        projectRepository.update(project);
+        projectRepository.update(project.getProjectName(), project.getProjectDescription(), project.getStartDate(),
+                project.getFinishDate(), project.getProjectStatus(), project.getProjectID());
     }
 
     @NotNull

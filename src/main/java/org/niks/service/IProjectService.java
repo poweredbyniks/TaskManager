@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProjectService {
     void create(@NotNull final Project project);
@@ -16,16 +17,15 @@ public interface IProjectService {
     List<Project> list(@NotNull final String order);
 
     @NotNull
-    Project findByID(final long projectID);
+    Project findByID(final Long projectID);
 
-    void remove(@NotNull final String projectToRemove);
+    void remove(@NotNull final Long projectId);
 
     void clear();
 
     @NotNull
     List<Project> projectSearch(@NotNull final String source);
 
-    Project findExactMatch(@NotNull final String name);
 
     void update(@NotNull final Project project);
 

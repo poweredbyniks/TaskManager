@@ -1,25 +1,21 @@
 package org.niks.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Value;
+import lombok.*;
 import org.niks.enums.AccessRoles;
 
-@Value
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long userID;
     AccessRoles accessRoles;
-    long userID;
     String userName;
     String passwordHash;
-
-    @JsonCreator
-    public User(@JsonProperty("accessRoles") AccessRoles accessRoles,
-                @JsonProperty("userID") long userID,
-                @JsonProperty("userName") String userName,
-                @JsonProperty("passwordHash") String passwordHash) {
-        this.accessRoles = accessRoles;
-        this.userID = userID;
-        this.userName = userName;
-        this.passwordHash = passwordHash;
-    }
 }
