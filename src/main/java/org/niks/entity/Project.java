@@ -16,16 +16,33 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
     Long userID;
+
+
     Long projectID;
+
+
     String projectName;
+
+
     String projectDescription;
+
+
     Date startDate;
+
+
     Date finishDate;
+
+
     Status projectStatus;
+
+
     Date creationDate;
+
     @OneToMany
     Set<Task> tasks;
 }

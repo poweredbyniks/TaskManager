@@ -2,13 +2,14 @@ package org.niks.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.With;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.User;
 import org.niks.enums.AccessRoles;
 
 @Value
-@AllArgsConstructor
 public class UserDto {
+    @With
     Long userID;
     AccessRoles accessRoles;
     String userName;

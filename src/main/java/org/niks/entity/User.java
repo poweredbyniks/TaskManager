@@ -12,10 +12,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long userID;
     AccessRoles accessRoles;
+
     String userName;
+
     String passwordHash;
+
 }

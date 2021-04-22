@@ -2,6 +2,7 @@ package org.niks.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.With;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
@@ -11,8 +12,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Value
-@AllArgsConstructor
 public class ProjectDto {
+    @With
     Long userID;
     Long projectID;
     String projectName;

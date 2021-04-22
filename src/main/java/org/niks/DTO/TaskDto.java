@@ -2,6 +2,7 @@ package org.niks.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.With;
 import org.jetbrains.annotations.NotNull;
 import org.niks.entity.Project;
 import org.niks.entity.Status;
@@ -12,8 +13,8 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Value
-@AllArgsConstructor
 public class TaskDto {
+    @With
     Long taskID;
     @ManyToOne
     User user;

@@ -3,10 +3,11 @@ package org.niks.assembler;
 import org.jetbrains.annotations.NotNull;
 import org.niks.DTO.TaskDto;
 import org.niks.entity.Task;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class TaskAssembler {
+
 
     public Task fromDto(@NotNull final TaskDto dto) {
         return new Task(

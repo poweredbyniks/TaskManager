@@ -3,9 +3,9 @@ package org.niks.assembler;
 import org.jetbrains.annotations.NotNull;
 import org.niks.DTO.UserDto;
 import org.niks.entity.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserAssembler {
 
     public User fromDto(@NotNull final UserDto dto) {
