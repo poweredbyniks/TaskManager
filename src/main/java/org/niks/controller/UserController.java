@@ -1,5 +1,7 @@
 package org.niks.controller;
 
+import org.niks.DTO.UserDto;
+import org.niks.assembler.UserAssembler;
 import org.niks.entity.User;
 import org.niks.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final IUserService userService;
+    private final UserAssembler userAssembler;
 
     @Autowired
-    public UserController(IUserService userService) {
+    public UserController(IUserService userService, UserAssembler userAssembler) {
         this.userService = userService;
+        this.userAssembler = userAssembler;
     }
 
-//    @GetMapping("/user")
+    //    @GetMapping("/user")
 //    public User userVerify(@RequestHeader(value = "userName") final String userName,
 //                           @RequestHeader(value = "password") final String password) {
 //        return userService.userVerify(userName, password);
@@ -25,13 +29,13 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody final User user) {
-        userService.create(user);
+    public void create(@RequestBody final UserDto userDto) {
+        userService.create(userAssembler.fromDto(userDto));
     }
 
     @GetMapping("/users/account/info/{userID}")
-    public User userInfo(@PathVariable("userID") final long userID) {
-        return userService.userInfo(userID);
+    public UserDto userInfo(@PathVariable("userID") final long userID) {
+        return UserDto.fromDomain(userService.userInfo(userID));
     }
 
     @PostMapping("/users/account/password/{userID}")

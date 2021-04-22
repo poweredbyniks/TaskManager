@@ -22,8 +22,7 @@ public final class UserService implements IUserService {
         userRepository.save(user);
     }
 
-
-    @Nullable
+    @NotNull
     public User userInfo(final Long userID) {
         return userRepository.findById(userID).orElseThrow(() ->
                 new RepositoryException("findByID", "UserRepository"));
