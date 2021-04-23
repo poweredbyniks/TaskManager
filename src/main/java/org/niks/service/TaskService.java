@@ -27,7 +27,7 @@ public final class TaskService implements ITaskService {
 
     @NotNull
     public  List<Task> listByProjectId(@NotNull final Long projectID) {
-        return new ArrayList<>(); //check
+        return taskRepository.findByProjectId(projectID);
     }
 
     @NotNull

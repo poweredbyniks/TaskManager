@@ -13,13 +13,15 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-//    @Query("SELECT t FROM tasks as t WHERE t.taskid = ?1")
-//    List<Task> findAllByTaskID(@Param("projectID") @NotNull final Long projectID);
+    @NotNull
+    @Query(value = "SELECT * FROM tasks t WHERE t.project_id = :projectId", nativeQuery = true)
+    List<Task> findByProjectId(@Param("projectId") Long projectId);
 
+    @NotNull
     List<Task> findAllByTaskNameContains(@NotNull final String word);
 
     @Modifying
-    @Query("UPDATE Task SET taskName = ?1, taskDescription = ?2, startDate = ?3, finishDate = ?4, " +
+    @Query(value = "UPDATE Task SET taskName = ?1, taskDescription = ?2, startDate = ?3, finishDate = ?4, " +
             "taskStatus = ?5 WHERE taskID = ?6")
     void update(@NotNull final String taskName, @NotNull final String taskDescription,
                 @NotNull final Date startDate, @NotNull final Date finishDate, @NotNull final Status status,

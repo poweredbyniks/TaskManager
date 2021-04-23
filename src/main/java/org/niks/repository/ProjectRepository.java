@@ -15,12 +15,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findAllByProjectNameContaining(@NotNull final String word);
 
     @Modifying
-    @Query("UPDATE Project SET projectName = ?1, projectDescription = ?2, startDate = ?3, finishDate = ?4, " +
+    @Query(value = "UPDATE Project SET projectName = ?1, projectDescription = ?2, startDate = ?3, finishDate = ?4, " +
             "projectStatus = ?5 WHERE projectID = ?6")
     void update(@NotNull final String projectName, @NotNull final String projectDescription,
                 @NotNull final Date startDate, @NotNull final Date finishDate, @NotNull final Status status,
                 @NotNull final Long projectID);
-
-
-
 }
