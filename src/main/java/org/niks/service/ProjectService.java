@@ -52,7 +52,7 @@ public final class ProjectService implements IProjectService {
 
     @NotNull
     public List<Project> projectSearch(@NotNull final String word) {
-        return projectRepository.findAllByProjectNameContainingAndAndProjectDescriptionContaining(word);
+        return projectRepository.findAllByProjectNameContaining(word);
     }
 
     public void update(@NotNull final Project project) {

@@ -19,7 +19,6 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-
     Long userID;
 
 

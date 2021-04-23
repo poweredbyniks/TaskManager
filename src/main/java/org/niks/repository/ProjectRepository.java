@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    List<Project> findAllByProjectNameContainingAndAndProjectDescriptionContaining(@NotNull final String word);
+    List<Project> findAllByProjectNameContaining(@NotNull final String word);
 
     @Modifying
     @Query("UPDATE Project SET projectName = ?1, projectDescription = ?2, startDate = ?3, finishDate = ?4, " +

@@ -17,7 +17,6 @@ public class ProjectController {
     private final IProjectService projectService;
     private final ProjectAssembler projectAssembler;
 
-
     @Autowired
     public ProjectController(IProjectService projectService, ProjectAssembler projectAssembler) {
         this.projectService = projectService;

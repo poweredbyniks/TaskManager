@@ -9,12 +9,9 @@ public interface ITaskService {
     void create(@NotNull final Task task);
 
     @NotNull
-    List<Task> list();
-
-    @NotNull
     List<Task> list(@NotNull final String order);
 
-    @NotNull List<Task> list(final long projectID);
+    @NotNull List<Task> listByProjectId(@NotNull final Long projectID);
 
     @NotNull
     Task findByID(@NotNull final Long taskID);

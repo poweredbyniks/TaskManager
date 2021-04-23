@@ -6,16 +6,17 @@ import org.niks.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @Query("SELECT * FROM projects WHERE projectID = ?1")
-    List<Task> findAllByProject(@NotNull final Long projectID);
+//    @Query("SELECT t FROM tasks as t WHERE t.taskid = ?1")
+//    List<Task> findAllByTaskID(@Param("projectID") @NotNull final Long projectID);
 
-    List<Task> findAllByTaskNameContainingAndTaskDescriptionContaining(@NotNull final String word);
+    List<Task> findAllByTaskNameContains(@NotNull final String word);
 
     @Modifying
     @Query("UPDATE Task SET taskName = ?1, taskDescription = ?2, startDate = ?3, finishDate = ?4, " +

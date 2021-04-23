@@ -40,7 +40,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{projectID}")
     public List<TaskDto> list(@PathVariable Long projectID) {
-        return taskService.list(projectID)
+        return taskService.listByProjectId(projectID)
                 .stream()
                 .map(TaskDto::fromDomain)
                 .collect(Collectors.toList());

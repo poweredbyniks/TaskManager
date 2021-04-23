@@ -1,6 +1,5 @@
 package org.niks.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.With;
 import org.jetbrains.annotations.NotNull;

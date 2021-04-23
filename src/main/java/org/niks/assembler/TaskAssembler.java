@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskAssembler {
 
-
     public Task fromDto(@NotNull final TaskDto dto) {
         return new Task(
                 dto.getTaskID(),

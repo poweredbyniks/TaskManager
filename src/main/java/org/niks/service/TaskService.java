@@ -8,6 +8,7 @@ import org.niks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,12 +25,14 @@ public final class TaskService implements ITaskService {
         taskRepository.save(task);
     }
 
-    public @NotNull List<Task> list() {
-        return taskList();
+    @NotNull
+    public  List<Task> listByProjectId(@NotNull final Long projectID) {
+        return new ArrayList<>(); //check
     }
 
-    public @NotNull List<Task> list(@NotNull final String order) {
-        final List<Task> taskList = taskList();
+    @NotNull
+    public  List<Task> list(@NotNull final String order) {
+        final List<Task> taskList = findAll();
         taskList.sort(TaskSort.valueOf(order).getTaskComparator());
         return taskList;
     }
@@ -37,11 +40,7 @@ public final class TaskService implements ITaskService {
     @NotNull
     public Task findByID(@NotNull final Long taskID) {
         return taskRepository.findById(taskID).orElseThrow(() ->
-                new RepositoryException("findByID" , "TaskRepository"));
-    }
-
-    public @NotNull List<Task> list(final long taskID) {
-        return taskRepository.findAllByProject(taskID);
+                new RepositoryException("findByID", "TaskRepository"));
     }
 
     public void remove(@NotNull final Long taskID) {
@@ -54,11 +53,11 @@ public final class TaskService implements ITaskService {
 
     @NotNull
     public List<Task> taskSearch(@NotNull final String word) {
-        return taskRepository.findAllByTaskNameContainingAndTaskDescriptionContaining(word);
+        return taskRepository.findAllByTaskNameContains(word);
     }
 
     @NotNull
-    public List<Task> taskList() {
+    public List<Task> findAll() {
         return taskRepository.findAll();
     }
 
