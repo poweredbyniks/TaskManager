@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/tasks-management")
+@RequestMapping("/task-management")
 public class TaskController {
 
     private final ITaskService taskService;

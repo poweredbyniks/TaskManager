@@ -17,7 +17,7 @@ public class RepositoryExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleRepositoryException(RepositoryException e) {
         Map<String, Object> details = new LinkedHashMap<>();
         details.put("timestamp", LocalDateTime.now());
-        details.put("message", e.getMessage());
+        details.put("message", "ass");
 
         return new ResponseEntity<>(details, HttpStatus.NOT_FOUND);
     }

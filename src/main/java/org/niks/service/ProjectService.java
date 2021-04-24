@@ -30,14 +30,14 @@ public final class ProjectService implements IProjectService {
     }
 
     @NotNull
-    public List<Project> list(@NotNull final String order) {
+    public List<Project> list(final String order) {
         final List<Project> projectList = projectList();
-        projectList.sort(ProjectSort.valueOf(order).getProjectComparator());
+        projectList.sort(ProjectSort.valueOf(order.toUpperCase()).getProjectComparator());
         return projectList;
     }
 
     @NotNull
-    public Project findByID(@NotNull  final Long projectId) {
+    public Project findByID(@NotNull final Long projectId) {
                 return projectRepository.findById(projectId).orElseThrow(() ->
                         new RepositoryException("findByID", "ProjectRepository"));
     }

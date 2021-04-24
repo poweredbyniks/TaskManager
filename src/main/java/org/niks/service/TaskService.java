@@ -33,7 +33,7 @@ public final class TaskService implements ITaskService {
     @NotNull
     public  List<Task> list(@NotNull final String order) {
         final List<Task> taskList = findAll();
-        taskList.sort(TaskSort.valueOf(order).getTaskComparator());
+        taskList.sort(TaskSort.valueOf(order.toUpperCase()).getTaskComparator());
         return taskList;
     }
 

@@ -17,11 +17,11 @@ import java.util.Set;
 @AllArgsConstructor
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
     Long userID;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "project_id")
     Long projectID;
 

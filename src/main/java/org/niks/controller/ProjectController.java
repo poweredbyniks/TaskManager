@@ -30,7 +30,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public List<ProjectDto> list(@RequestParam(value = "order", required = false) String order) {
+    public List<ProjectDto> list(@RequestParam(value = "order") String order) {
         return projectService.list(order)
                 .stream()
                 .map(ProjectDto::fromDomain)
@@ -51,7 +51,7 @@ public class ProjectController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("projects")
+    @PutMapping("/projects")
     public void update(@RequestBody ProjectDto projectDto) {
         projectService.update(projectAssembler.fromDto(projectDto));
     }

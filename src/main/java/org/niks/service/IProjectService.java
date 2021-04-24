@@ -13,7 +13,7 @@ public interface IProjectService {
     List<Project> list();
 
     @NotNull
-    List<Project> list(@NotNull final String order);
+    List<Project> list(final String order);
 
     @NotNull
     Project findByID(final Long projectID);
