@@ -2,12 +2,9 @@ package org.niks.DTO;
 
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
-import org.niks.entity.Project;
 import org.niks.entity.Status;
 import org.niks.entity.Task;
-import org.niks.entity.User;
 
-import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -16,10 +13,8 @@ import java.util.Date;
 public class TaskDto {
     @With
     Long taskID;
-    @ManyToOne
-    User user;
-    @ManyToOne
-    Project project;
+    Long userID;
+    Long projectID;
     String taskName;
     String taskDescription;
     Date startDate;
@@ -31,8 +26,8 @@ public class TaskDto {
     public static TaskDto fromDomain(@NotNull final Task domain) {
         return new TaskDto(
                 domain.getTaskID(),
-                domain.getUser(),
-                domain.getProject(),
+                domain.getUser().getUserID(),
+                domain.getProject().getProjectID(),
                 domain.getTaskName(),
                 domain.getTaskDescription(),
                 domain.getStartDate(),

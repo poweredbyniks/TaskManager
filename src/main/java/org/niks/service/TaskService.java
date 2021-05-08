@@ -1,14 +1,13 @@
 package org.niks.service;
 
 import org.jetbrains.annotations.NotNull;
-import org.niks.enums.TaskSort;
 import org.niks.entity.Task;
+import org.niks.enums.TaskSort;
 import org.niks.exception.RepositoryException;
 import org.niks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

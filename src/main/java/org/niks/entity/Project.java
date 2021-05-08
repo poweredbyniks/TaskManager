@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,6 +46,10 @@ public class Project {
     Date creationDate;
 
     @OneToMany
-    @JoinColumn(name = "tasks")
-    Set<Task> tasks;
+    Set<Task> tasks = new HashSet<>();
+
+    public Project(Long userID, Long projectID) {
+        this.userID = userID;
+        this.projectID = projectID;
+    }
 }

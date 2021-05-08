@@ -28,4 +28,7 @@ public class User {
     @Column(name = "password")
     String passwordHash;
 
+    public User(Long userID) {
+        this.userID = userID;
+    }
 }
